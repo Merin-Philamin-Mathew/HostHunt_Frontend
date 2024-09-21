@@ -19,12 +19,32 @@ const LoginForm = () => {
         },
       });
       const userData = await userInfo.json();
-      console.log(userData, 'userdata');
-
-
-      api.post('/user/google-login/', userData).then((res)=>{
+      const data = {
+        'name':userData.name,
+        'email':userData.email
+      }
+    
+      api.post('/user/google-login/', data).then(res=>{
+        console.log('blass');
         
-      })
+        console.log('login data',res.data);
+        const {access, refresh} = res.data;
+        localStorage.setItem('access_token',access)
+        localStorage.setItem('refresh_token',refresh)
+          navigate('/')
+        })
+        .catch(error=>{
+          console.log(error.response.data, 'error');
+
+          if (error.response && error.response.data && error.response.data.error) {
+            setmainError(error.response.data.error); // Display the error message (email or password error)
+            toast.error(error.reponse.data)
+          } else {
+            setmainError('An unknown error occurred. Please try again.');
+          }
+        })
+      
+      
     
     }
     
@@ -54,11 +74,7 @@ const LoginForm = () => {
           const {access, refresh} = res.data;
           localStorage.setItem('access_token',access)
           localStorage.setItem('refresh_token',refresh)
-            // if (res.data.isAdmin){
-            //     navigate('/admin');
-            // }else{
-            //     navigate('/')
-            // }
+            navigate('/')
           })
           .catch(error=>{
             console.log(error.response.data, 'error');

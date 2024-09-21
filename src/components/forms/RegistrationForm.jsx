@@ -28,8 +28,8 @@ const RegistrationForm = () => {
       confirmPassword: ''
     },
     validationSchema: Yup.object({
-      // full_name: Yup.string()
-      //   .required('Name is required'),
+      name: Yup.string()
+        .required('Name is required'),
       // dob: Yup.date()
       //   .required('Date of birth is required')
       //   .max(new Date(), 'Date of birth cannot be in the future'),
@@ -69,10 +69,10 @@ const RegistrationForm = () => {
       <p className="text-gray-400 mb-6 text-sm">Sign up to agree to the use of your information.</p>
 
       <form onSubmit={formik.handleSubmit}>
-        {/* <div className="mb-4">
+        <div className="mb-4">
           <input
             type="text"
-            name="full_name"
+            name="name"
             placeholder="Full Name"
             className="w-full px-4 py-2 rounded-full bg-white text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
             onChange={formik.handleChange}
@@ -83,7 +83,7 @@ const RegistrationForm = () => {
             <div className="text-red-500 text-sm">{formik.errors.Name}</div>
           ) : null}
         </div>
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <input
             type="date"
             name="dob"
@@ -96,7 +96,7 @@ const RegistrationForm = () => {
           {formik.touched.dob && formik.errors.dob ? (
             <div className="text-red-500 text-sm">{formik.errors.dob}</div>
           ) : null}
-        </div> */}
+        </div>  */}
 
         <div className="mb-4">
           <input
