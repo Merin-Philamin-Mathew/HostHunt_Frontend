@@ -4,9 +4,12 @@ import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../axios';
 import { useGoogleLogin } from '@react-oauth/google';
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from '../../redux/userSlice';
 
 const LoginForm = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const go_to_signup = ()=> navigate('/signup')
 
@@ -71,9 +74,12 @@ const LoginForm = () => {
           console.log('blass');
           
           console.log('login data',res.data);
-          const {access, refresh} = res.data;
+          const {access, refresh,data} = res.data;
+          console.log("lllll",data,access,refresh)
           localStorage.setItem('access_token',access)
           localStorage.setItem('refresh_token',refresh)
+          localStorage.setItem('user_data',JSON.stringify(data))
+          dispatch(login(JSON.stringify(data)))
             navigate('/')
           })
           .catch(error=>{
