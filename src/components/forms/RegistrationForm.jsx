@@ -3,7 +3,7 @@ import { toast } from 'react-toastify'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {Link, useNavigate} from 'react-router-dom'
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; // Import eye icons
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; 
 import { api } from '../../axios';
 
 

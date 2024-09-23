@@ -1,20 +1,52 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react';
+import Banner from '../../components/user/Banner';
+import CategoryCard from '../../components/user/CategoryCard';
+import ReviewCard from '../../components/user/ReviewCard';
+import Footer from '../../components/user/partials/Footer';
+import Header from '../../components/user/partials/header';
+import Container from '../../components/utils/Container';
 
-function Home() {
-  const userDetails = useSelector((state)=>
-    state.user.userDetails
-  )
+const Home = () => {
+  const categories = [
+    { title: 'Rentals', description: 'Find affordable rentals', image: '/property_details/categories/Rental_homes.jpg' },
+    { title: 'PG', description: 'Best Paying Guest accommodations', image: '/property_details/categories/PG.jpg' },
+    { title: 'Hostels', description: 'Explore top hostels in Kerala', image: '/property_details/categories/hostel.jpg' },
+    { title: 'Appartments', description: 'Find affordable appartments', image: '/property_details/categories/appartments.jpg' },
+  ];
+
+  const reviews = [
+    { name: 'John Doe', role: 'Accountant', review: 'Great experience!', image: '/user1.jpg' },
+    { name: 'Jane Smith', role: 'Doctor', review: 'Loved the stay!', image: '/user2.jpg' },
+    { name: 'Tom Bell', role: 'Designer', review: 'Highly recommend!', image: '/user3.jpg' },
+  ];
+
   return (
     <div>
-       <h1>User Details:</h1>
-      {userDetails ? (
-        <div>{JSON.stringify(userDetails)}</div> // Display user details as a string
-      ) : (
-        <p>No user details available</p>
-      )}
+      <Header />
+      <Container>
+        {/* <br></br> */}
+      <Banner />
+      <section className="py-8 w-full">
+        <h2 className="text-2xl font-bold text-center">Uncover the Best Stays</h2>
+        <div className="mt-6 grid sm:grid-cols-2 grid-cols-1  lg:grid-cols-4 gap-4 ">
+          {categories.map((category, index) => (
+            <CategoryCard key={index} {...category} />
+          ))}
+        </div>
+      </section>
+
+      <section className="py-8 bg-gray-100">
+        <h2 className="text-2xl font-bold text-center">Hosteller's Experiences</h2>
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 container mx-auto">
+          {reviews.map((review, index) => (
+            <ReviewCard key={index} {...review} />
+          ))}
+        </div>
+      </section>
+          </Container>
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

@@ -79,7 +79,7 @@ const LoginForm = () => {
           localStorage.setItem('access_token',access)
           localStorage.setItem('refresh_token',refresh)
           localStorage.setItem('user_data',JSON.stringify(data))
-          dispatch(login(JSON.stringify(data)))
+          dispatch(setUserDetails(JSON.stringify(data)))
             navigate('/')
           })
           .catch(error=>{

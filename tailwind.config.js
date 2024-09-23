@@ -6,16 +6,16 @@ export default {
   ],
   theme: {
     extend: {
-      // colors: {
-      //   themeColor: '#e76608',  // orange for major_buttons, highlights, logo 
-      //   themeColor2: '#00172c', //  Dark navy for headers, footer, highlights and buttons
-      //   bar_color1: '#4b9499',    // for bars
-      //   bar_color2: '#F2C94C',    // second bars
+      colors: {
+        themeColor: '#e76608',  // orange for major_buttons, highlights, logo 
+        themeColor2: '#00172c', //  Dark navy for headers, footer, highlights and buttons
+        bar_color1: '#4b9499',    // for bars
+        bar_color2: '#F2C94C',    // second bars
 
-      //   main_bg: '#ffffff',     // White color for text and backgrounds
-      //   muted_bg: '#e3e3e3',     // Light grey for backgrounds 
+        main_bg: '#ffffff',     // White color for text and backgrounds
+        muted_bg: '#e3e3e3',     // Light grey for backgrounds 
        
-      // },
+      },
       // textColor: {
       //   head: '#00050a', // dark for main headings, icons, buttons
       //   body: '#000000', // dark for body
