@@ -4,7 +4,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {Link, useNavigate} from 'react-router-dom'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; 
-import { api } from '../../axios';
+import { api } from '../../../apis/axios';
+import { RegForm_Data } from '../data';
 
 
 const RegistrationForm = () => {    
@@ -17,32 +18,12 @@ const RegistrationForm = () => {
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
     const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
-    const go_to_login = ()=> navigate('/login')
+    // navigate
+    const go_to_PO_login = ()=> navigate('/property-owner/login')
 
   const formik = useFormik({
-    initialValues: {
-      full_name: '',
-      dob: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    },
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .required('Name is required'),
-      // dob: Yup.date()
-      //   .required('Date of birth is required')
-      //   .max(new Date(), 'Date of birth cannot be in the future'),
-      email: Yup.string()
-        .email('Invalid email address')
-        .required('Email is required'),
-      password: Yup.string()
-        .min(6, 'Password must be at least 6 characters long')
-        .required('Password is required'),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Confirm password is required')
-    }),
+    initialValues: RegForm_Data.INITIAL_VALUES,
+    validationSchema: RegForm_Data.VALIDATION_SCHEMA,
     onSubmit: async (values) => {
       try {
         const response = await api.post(`/user/signup`, { values });
@@ -62,9 +43,9 @@ const RegistrationForm = () => {
     }
     },
   });
-
+1
   return (
-    <div className="bg-black bg-opacity-80 rounded-2xl p-16 shadow-md w-full max-w-md mx-auto">
+    <div className="bg-[#4d6681ba] bg-opacity-80 rounded-2xl p-16 shadow-md w-full max-w-md mx-auto">
       <h2 className="text-white text-3xl font-bold mb-4">Sign Up to HostHunt!</h2>
       <p className="text-gray-400 mb-6 text-sm">Sign up to agree to the use of your information.</p>
 
@@ -157,7 +138,7 @@ const RegistrationForm = () => {
         </button>
 
         <p className="text-gray-400 text-sm mt-4 text-center">
-          Already Have An Account? <Link onClick={go_to_login} className="text-blue-400">Login</Link>
+          Already Have An Account? <Link onClick={go_to_PO_login} className="text-blue-400">Login</Link>
         </p>
       </form>
     </div>

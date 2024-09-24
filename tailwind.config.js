@@ -33,11 +33,11 @@ export default {
       //   body: ['16px', '24px'], // Default body text
       //   small: ['14px', '20px'], // Small text for footnotes or muted text
       // },
-      // fontFamily: {
-      //   sans: ['Roboto', 'sans-serif'], // For general body text
-      //   heading: ['Poppins', 'sans-serif'], // For headings
-      //   accent: ['Lato', 'sans-serif'], // For buttons or highlights
-      // }
+      fontFamily: {
+        sans: ['Roboto', 'sans-serif'], // For general body text
+        heading: ['Poppins', 'sans-serif'], // For headings
+        accent: ['Lato', 'sans-serif'], // For buttons or highlights
+      }
       
     },
   },

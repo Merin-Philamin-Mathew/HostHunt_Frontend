@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000/';
+const BASE_URL = import.meta.env.VITE_BASEURL
 const api = axios.create({
     baseURL: BASE_URL,
     headers: {
@@ -8,10 +8,9 @@ const api = axios.create({
     },
 });
 
-// Adding an interceptor to include Authorization headers where necessary
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('access_token'); // or wherever you store the token
+        const token = localStorage.getItem('user_access_token'); // or wherever you store the token
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }

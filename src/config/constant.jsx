@@ -1,9 +1,12 @@
 // import { Outlet } from 'react-router-dom';
-import OTPVerificationForm from '../components/forms/OTPVerificationForm';
+import { Outlet } from 'react-router';
+import OTPVerificationForm from '../components/forms/property-owner/OTPVerificationForm';
 import Home from '../pages/users/Home';
 import LoginPage from '../pages/users/LoginPage';
-import OTPVerificationPage from '../pages/users/OTPVerificationPage';
 import RegisterPage from '../pages/users/RegisterPage';
+import AuthOutlet from '../components/property_owner/partials/AuthOutlet';
+import LoginForm from '../components/forms/property-owner/LoginForm';
+import RegistrationForm from '../components/forms/property-owner/RegistrationForm';
 
 
 let const_data = {
@@ -23,7 +26,7 @@ let const_data = {
         },
         {
             path: "/otp-verification",
-            element: <OTPVerificationPage/>
+            element: <OTPVerificationForm/>
         },
         {
             path: "/admin",
@@ -34,9 +37,23 @@ let const_data = {
             element: <></>
         },
         {
-            path: "/signup",
-            element: <></>
-        },
+            path: "/property-owner",
+            element: <AuthOutlet><Outlet/></AuthOutlet>,
+            children: [
+                {
+                    path: "/property-owner/login",
+                    element: <LoginForm/>
+                },
+                {
+                    path: "/property-owner/signup",
+                    element: <RegistrationForm/>
+                },
+                {
+                    path: "/property-owner/otp-verification",
+                    element: <OTPVerificationForm/>
+                },
+            ]
+        }
         // {
         //     path: "/admin/student",
         //     element: <><Container><Outlet /></Container></>,
@@ -49,9 +66,6 @@ let const_data = {
         // }
   
     ],
-    PATH: [
-       
-    ]
 }
 
 

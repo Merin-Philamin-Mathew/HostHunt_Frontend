@@ -2,11 +2,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 let user_data = JSON.parse(localStorage.getItem('user_data'))
+console.log('user',user_data)
 
 const initialState = {
-  isLoggedIn: false,
   user: user_data || null,
   profilePicture: null,
+  isLoggedIn:  false
 };
 
 const userSlice = createSlice({
@@ -14,16 +15,19 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUserDetails: (state, action) => {
-      state.isLoggedIn = true;
       state.user = action.payload;
+      state.isLoggedIn = true
     },
     updateUserProfilePicture: (state, action) => {
       state.profilePicture = action.payload;
     },
     logout: (state) => {
-      state.isLoggedIn = false;
       state.user = null;
+      state.isLoggedIn = false
       state.profilePicture = null;
+      localStorage.removeItem('user_data')
+      localStorage.removeItem('user_access_token')
+      localStorage.removeItem('user_refresh_token')
     },
   },
 });

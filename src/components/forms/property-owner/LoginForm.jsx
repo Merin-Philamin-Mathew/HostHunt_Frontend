@@ -1,72 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
-import { api } from '../../axios';
-import { useGoogleLogin } from '@react-oauth/google';
+import { api } from '../../../apis/axios';
 import { useDispatch } from 'react-redux';
-import { setUserDetails } from '../../redux/userSlice';
+import { setUserDetails } from '../../../redux/userSlice';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { LogForm_Data } from '../data';
 
 const LoginForm = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const go_to_signup = ()=> navigate('/signup')
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-  const login = useGoogleLogin({
-    onSuccess: async  tokenResponse => {
-      console.log(tokenResponse)
-      const userInfo = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: {
-          Authorization: `Bearer ${tokenResponse.access_token}`,
-        },
-      });
-      const userData = await userInfo.json();
-      const data = {
-        'name':userData.name,
-        'email':userData.email
-      }
-    
-      api.post('/user/google-login/', data).then(res=>{
-        console.log('blass');
-        
-        console.log('login data',res.data);
-        const {access, refresh} = res.data;
-        localStorage.setItem('access_token',access)
-        localStorage.setItem('refresh_token',refresh)
-          navigate('/')
-        })
-        .catch(error=>{
-          console.log(error.response.data, 'error');
-
-          if (error.response && error.response.data && error.response.data.error) {
-            setmainError(error.response.data.error); // Display the error message (email or password error)
-            toast.error(error.reponse.data)
-          } else {
-            setmainError('An unknown error occurred. Please try again.');
-          }
-        })
-      
-      
-    
-    }
-    
-  });
+  const go_to_signup = ()=> navigate('/property-owner/signup')
 
   // Formik hook to handle form state and validation
   const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: ''
-    },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .email('Invalid email address')
-        .required('Required'),
-      password: Yup.string()
-        .min(6, 'Password must be at least 6 characters')
-        .required('Required')
-    }),
+    initialValues: LogForm_Data.INITIAL_VALUES,
+    validationSchema: LogForm_Data.VALIDATION_SCHEMA,
     onSubmit: (values) => {
       console.log('submiting login form',values);
 
@@ -97,9 +51,9 @@ const LoginForm = () => {
   });
 
   return (
-    <div className="bg-black bg-opacity-80 rounded-2xl p-16 shadow-md w-full max-w-md mx-auto">
-      <h2 className="text-white text-4xl font-bold mb-4">Welcome!</h2>
-      <p className="text-gray-400 text-sm mb-6">Get a new cot or stay connected—log in to explore your options!</p>
+    <div className="bg-[#4d6681ba] bg-opacity-80 rounded-2xl p-16 shadow-md w-full max-w-md mx-auto">
+      <h2 className="text-white text-4xl font-bold mb-4">Welcome  to HostHunt!</h2>
+      <p className="text-gray-300 text-sm mb-6">Sign in to manage your property!</p>
 
       <form onSubmit={formik.handleSubmit}>
         <div className="mb-4">
@@ -117,9 +71,9 @@ const LoginForm = () => {
           ) : null}
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 relative">
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Enter Password"
             className="w-full px-4 py-2 rounded-full bg-white text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -127,6 +81,9 @@ const LoginForm = () => {
             onBlur={formik.handleBlur}
             value={formik.values.password}
           />
+          <span onClick={togglePasswordVisibility} className="absolute right-3 top-3 cursor-pointer">
+          {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+        </span>
           {formik.touched.password && formik.errors.password ? (
             <div className="text-red-500 text-sm">{formik.errors.password}</div>
           ) : null}
@@ -143,24 +100,11 @@ const LoginForm = () => {
           Continue with email
         </button>
 
-        <div className="flex items-center justify-center mt-4">
-          <div className="h-px bg-gray-600 w-full"></div>
-          <span className="mx-2 text-gray-400">or</span>
-          <div className="h-px bg-gray-600 w-full"></div>
-        </div>
 
-        <button
-          type="button"
-          onClick={() => login()}
-          className="w-full bg-white text-black font-semibold py-2 px-4 rounded-full flex items-center justify-center mt-4"
-        >
-          <img src="\icons\icons8-google.svg" alt="Google" className="w-6 h-6 mr-2" />
-          Continue with Google
-        </button>
       </form>
 
-      <p className="text-gray-400 text-sm mt-4 text-center">
-        Don’t Have an Account? <Link onClick={go_to_signup} className="text-blue-400">Sign Up</Link>
+      <p className="text-gray-300 text-sm mt-4 text-center">
+        Don’t Have an Account? <Link onClick={go_to_signup} className="text-blue-400">Create a property Account</Link>
       </p>
     </div>
   );

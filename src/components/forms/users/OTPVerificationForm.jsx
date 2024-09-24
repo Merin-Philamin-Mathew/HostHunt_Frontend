@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { api } from '../../axios';
+import { api } from '../../../apis/axios';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router';
+import { OTP_Form_Data } from '../data';
 
 const OTPVerificationForm = ({ onSubmit }) => {
 
@@ -34,16 +35,8 @@ const OTPVerificationForm = ({ onSubmit }) => {
   };
 
   const formik = useFormik({
-    initialValues: {
-      otp: ['', '', '', '', '', ''], // 6-digit OTP fields
-    },
-    validationSchema: Yup.object({
-      otp: Yup.array().of(
-        Yup.string()
-          .matches(/^[0-9]$/, 'Must be a number')
-          .required('OTP is required')
-      ),
-    }),
+    initialValues: OTP_Form_Data.INITIAL_VALUES,
+    validationSchema:OTP_Form_Data.VALIDATION_SCHEMA,
     onSubmit:async (values) => {
       const otpCode = values.otp.join('');
       try{
@@ -89,7 +82,7 @@ const OTPVerificationForm = ({ onSubmit }) => {
   };
 
   return (
-    <div className="bg-black bg-opacity-75 rounded-2xl p-8 shadow-lg w-full max-w-md mx-auto">
+    <div className="bg-black bg-opacity-75 rounded-2xl p-16 shadow-lg w-full max-w-md mx-auto">
       <h2 className="text-white text-3xl font-bold mb-4">Check your email!</h2>
       <p className="text-gray-300  mb-8 ">We have sent an OTP to your email. Enter the OTP below to verify your account.</p>
 

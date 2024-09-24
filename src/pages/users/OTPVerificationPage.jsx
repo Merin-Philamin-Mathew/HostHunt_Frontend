@@ -1,5 +1,5 @@
 import React from 'react';
-import OTPVerificationForm from '../../components/forms/OTPVerificationForm';
+import OTPVerificationForm from '../../components/forms/users/OTPVerificationForm';
 
 const OTPVerificationPage = () => {
   const handleOTPSubmit = (otpCode) => {
