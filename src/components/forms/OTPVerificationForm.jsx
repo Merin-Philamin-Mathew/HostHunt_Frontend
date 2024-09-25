@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { api } from '../../../apis/axios';
+import { api } from '../../apis/axios';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router';
-import { OTP_Form_Data } from '../data';
+import { OTP_Form_Data } from './data';
+import URLS from '../../apis/urls';
 
-const OTPVerificationForm = ({ onSubmit }) => {
+const OTPVerificationForm = ({ user_type='property-owner' }) => {
 
   const location = useLocation();
   const registered_data = location.state
@@ -36,15 +36,16 @@ const OTPVerificationForm = ({ onSubmit }) => {
 
   const formik = useFormik({
     initialValues: OTP_Form_Data.INITIAL_VALUES,
-    validationSchema:OTP_Form_Data.VALIDATION_SCHEMA,
+    validationSchema:  OTP_Form_Data.VALIDATION_SCHEMA,
     onSubmit:async (values) => {
       const otpCode = values.otp.join('');
       try{
-        const response = await api.post(`/user/otp-verification`, { 'otp':otpCode , 'registered_data':registered_data});
+        const response = await api.post(URLS.AUTHENTICATION['otp'], { 'otp':otpCode , 'registered_data':registered_data, 'user_type':user_type});
         console.log('22222222222222222222');
         
         console.log("Response data:", response.data);
-        navigate('/login')
+        user_type === 'user' ? navigate('/login',{state:response.data['data']}) 
+                             : navigate('/property-owner/login',{state:response.data['data']});
         toast.success('Registration successful! Please log in to continue.')
       }
       catch(error){
@@ -82,8 +83,10 @@ const OTPVerificationForm = ({ onSubmit }) => {
   };
 
   return (
-    <div className="bg-black bg-opacity-75 rounded-2xl p-16 shadow-lg w-full max-w-md mx-auto">
-      <h2 className="text-white text-3xl font-bold mb-4">Check your email!</h2>
+    <div className={`${
+      user_type === 'property_owner' ? ' bg-[#4d6681ba]' : 'bg-black'} 
+     bg-opacity-75 rounded-2xl p-16 shadow-lg w-full max-w-md mx-auto`}>
+      <h2 className="text-white text-4xl font-bold mb-4">Check your email!</h2>
       <p className="text-gray-300  mb-8 ">We have sent an OTP to your email. Enter the OTP below to verify your account.</p>
 
       <form onSubmit={formik.handleSubmit}>

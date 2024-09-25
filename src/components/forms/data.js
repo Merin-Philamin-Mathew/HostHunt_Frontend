@@ -20,8 +20,7 @@ let LogForm_Data = {
 
 let RegForm_Data = {
     INITIAL_VALUES : {
-      full_name: '',
-      dob: '',
+      name: '',
       email: '',
       password: '',
       confirmPassword: ''

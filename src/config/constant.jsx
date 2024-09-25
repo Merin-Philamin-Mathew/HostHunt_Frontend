@@ -1,12 +1,14 @@
 // import { Outlet } from 'react-router-dom';
 import { Outlet } from 'react-router';
-import OTPVerificationForm from '../components/forms/property-owner/OTPVerificationForm';
+import OTPVerificationForm from '../components/forms/OTPVerificationForm';
 import Home from '../pages/users/Home';
 import LoginPage from '../pages/users/LoginPage';
 import RegisterPage from '../pages/users/RegisterPage';
 import AuthOutlet from '../components/property_owner/partials/AuthOutlet';
 import LoginForm from '../components/forms/property-owner/LoginForm';
-import RegistrationForm from '../components/forms/property-owner/RegistrationForm';
+import RegistrationForm from '../components/forms/RegistrationForm';
+// import U_OTPVerificationForm from '../components/forms/users/U_OTPVerificationForm';
+import OTPVerificationPage from '../pages/users/OTPVerificationPage';
 
 
 let const_data = {
@@ -26,7 +28,7 @@ let const_data = {
         },
         {
             path: "/otp-verification",
-            element: <OTPVerificationForm/>
+            element: <OTPVerificationPage/>
         },
         {
             path: "/admin",
@@ -34,6 +36,10 @@ let const_data = {
         },
         {
             path: "/admin/login",
+            element: <></>
+        },
+        {
+            path: "/property-owner/dashboard",
             element: <></>
         },
         {
@@ -46,7 +52,7 @@ let const_data = {
                 },
                 {
                     path: "/property-owner/signup",
-                    element: <RegistrationForm/>
+                    element: <RegistrationForm />
                 },
                 {
                     path: "/property-owner/otp-verification",

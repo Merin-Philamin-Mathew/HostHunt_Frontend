@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../../apis/axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
-import { setUserDetails } from '../../../redux/userSlice';
 import { toast } from 'react-toastify';
 import { LogForm_Data } from '../data';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
@@ -15,6 +13,8 @@ const LoginForm = () => {
   const dispatch = useDispatch()
 
   const go_to_signup = ()=> navigate('/signup')
+  const go_to_PO_signup = ()=> navigate('/property-owner/signup')
+
 
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -56,9 +56,6 @@ const LoginForm = () => {
             setmainError('An unknown error occurred. Please try again.');
           }
         })
-      
-      
-    
     }
     
   });

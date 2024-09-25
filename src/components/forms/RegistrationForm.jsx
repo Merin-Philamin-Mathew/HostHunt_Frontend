@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify'
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import {Link, useNavigate} from 'react-router-dom'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; 
-import { api } from '../../../apis/axios';
-import { RegForm_Data } from '../data';
+import { api } from '../../apis/axios';
+import { RegForm_Data } from './data';
+import URLS from '../../apis/urls';
 
 
-const RegistrationForm = () => {    
+const RegistrationForm = ({user_type='property_owner'}) => {    
 
     const navigate = useNavigate()
 
@@ -20,13 +20,16 @@ const RegistrationForm = () => {
 
     // navigate
     const go_to_PO_login = ()=> navigate('/property-owner/login')
+    const go_to_login = ()=> navigate('/login')
 
   const formik = useFormik({
     initialValues: RegForm_Data.INITIAL_VALUES,
     validationSchema: RegForm_Data.VALIDATION_SCHEMA,
     onSubmit: async (values) => {
       try {
-        const response = await api.post(`/user/signup`, { values });
+        console.log('values of register',values);
+        
+        const response = await api.post(URLS.AUTHENTICATION['register'], { ...values, user_type: user_type });
         console.log("Response data:", response.data);
 
         if (response.data['email']) {
@@ -35,7 +38,8 @@ const RegistrationForm = () => {
             console.log(response.data['data']);
             
             toast.success('OTP sent to your email');
-            navigate('/otp-verification',{state:response.data['data']});
+            user_type === 'user' ? navigate('/otp-verification',{state:response.data['data']}) 
+                                 : navigate('/property-owner/otp-verification',{state:response.data['data']});
         }
     } catch (error) {
           console.log("Error:", error);
@@ -45,9 +49,11 @@ const RegistrationForm = () => {
   });
 1
   return (
-    <div className="bg-[#4d6681ba] bg-opacity-80 rounded-2xl p-16 shadow-md w-full max-w-md mx-auto">
+    <div className={`${
+      user_type === 'property_owner' ? ' bg-[#4d6681ba]' : 'bg-black'} 
+     bg-opacity-80 rounded-2xl p-16 shadow-md w-full max-w-md mx-auto`}>
       <h2 className="text-white text-3xl font-bold mb-4">Sign Up to HostHunt!</h2>
-      <p className="text-gray-400 mb-6 text-sm">Sign up to agree to the use of your information.</p>
+      <p className="text-gray-300 mb-6 text-sm">Sign up to agree to the use of your information.</p>
 
       <form onSubmit={formik.handleSubmit}>
         <div className="mb-4">
@@ -58,26 +64,12 @@ const RegistrationForm = () => {
             className="w-full px-4 py-2 rounded-full bg-white text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            value={formik.values.Name}
+            value={formik.values.name}
           />
-          {formik.touched.Name && formik.errors.Name ? (
-            <div className="text-red-500 text-sm">{formik.errors.Name}</div>
+          {formik.touched.name && formik.errors.name ? (
+            <div className="text-red-500 text-sm">{formik.errors.name}</div>
           ) : null}
         </div>
-        {/* <div className="mb-4">
-          <input
-            type="date"
-            name="dob"
-            placeholder="Date of Birth"
-            className="w-full px-4 py-2 rounded-full bg-white text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.dob}
-          />
-          {formik.touched.dob && formik.errors.dob ? (
-            <div className="text-red-500 text-sm">{formik.errors.dob}</div>
-          ) : null}
-        </div>  */}
 
         <div className="mb-4">
           <input
@@ -137,8 +129,10 @@ const RegistrationForm = () => {
           Register
         </button>
 
-        <p className="text-gray-400 text-sm mt-4 text-center">
-          Already Have An Account? <Link onClick={go_to_PO_login} className="text-blue-400">Login</Link>
+        <p className="text-gray-300 text-sm mt-4 text-center">
+          Already Have An Account? 
+          <Link onClick={user_type === 'user'? go_to_login : go_to_PO_login} 
+                className="text-blue-400">Login</Link>
         </p>
       </form>
     </div>

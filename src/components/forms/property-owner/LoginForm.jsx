@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../../apis/axios';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../../../redux/userSlice';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { LogForm_Data } from '../data';
+import URLS from '../../../apis/urls';
 
 const LoginForm = () => {
   const navigate = useNavigate()
@@ -24,7 +24,7 @@ const LoginForm = () => {
     onSubmit: (values) => {
       console.log('submiting login form',values);
 
-        api.post('/user/login/',values).then(res=>{
+        api.post(URLS.AUTHENTICATION['login'],values).then(res=>{
           console.log('blass');
           
           console.log('login data',res.data);
@@ -34,7 +34,7 @@ const LoginForm = () => {
           localStorage.setItem('refresh_token',refresh)
           localStorage.setItem('user_data',JSON.stringify(data))
           dispatch(setUserDetails(JSON.stringify(data)))
-            navigate('/')
+            navigate('/property-owner/dashboard')
           })
           .catch(error=>{
             console.log(error.response.data, 'error');
