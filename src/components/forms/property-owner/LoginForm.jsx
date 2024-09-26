@@ -8,7 +8,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { LogForm_Data } from '../data';
 import URLS from '../../../apis/urls';
 
-const LoginForm = () => {
+const LoginForm = ({user_type='property_owner'}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -24,16 +24,15 @@ const LoginForm = () => {
     onSubmit: (values) => {
       console.log('submiting login form',values);
 
-        api.post(URLS.AUTHENTICATION['login'],values).then(res=>{
+        api.post(URLS.AUTHENTICATION['login'],{...values, user_type:user_type}).then(res=>{
           console.log('blass');
           
           console.log('login data',res.data);
           const {access, refresh,data} = res.data;
           console.log("lllll",data,access,refresh)
-          localStorage.setItem('access_token',access)
-          localStorage.setItem('refresh_token',refresh)
-          localStorage.setItem('user_data',JSON.stringify(data))
-          dispatch(setUserDetails(JSON.stringify(data)))
+          localStorage.setItem('owner_access_token',access)
+          localStorage.setItem('owner_refresh_token',refresh)
+          localStorage.setItem('owner_data',JSON.stringify(data))
             navigate('/property-owner/dashboard')
           })
           .catch(error=>{

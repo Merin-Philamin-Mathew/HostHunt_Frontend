@@ -84,7 +84,7 @@ const OTPVerificationForm = ({ user_type='property-owner' }) => {
 
   return (
     <div className={`${
-      user_type === 'property_owner' ? ' bg-[#4d6681ba]' : 'bg-black'} 
+      user_type === 'property-owner' ? ' bg-[#4d6681ba]' : 'bg-black'} 
      bg-opacity-75 rounded-2xl p-16 shadow-lg w-full max-w-md mx-auto`}>
       <h2 className="text-white text-4xl font-bold mb-4">Check your email!</h2>
       <p className="text-gray-300  mb-8 ">We have sent an OTP to your email. Enter the OTP below to verify your account.</p>

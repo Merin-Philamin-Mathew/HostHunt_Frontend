@@ -3,14 +3,13 @@ import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../../apis/axios';
 import { useGoogleLogin } from '@react-oauth/google';
-import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { LogForm_Data } from '../data';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import URLS from '../../../apis/urls';
 
-const LoginForm = () => {
+const LoginForm = ({user_type='property_owner'}) => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const go_to_signup = ()=> navigate('/signup')
   const go_to_PO_signup = ()=> navigate('/property-owner/signup')
@@ -67,7 +66,7 @@ const LoginForm = () => {
     onSubmit: (values) => {
       console.log('submiting login form',values);
 
-        api.post('/user/login/',values).then(res=>{
+      api.post(URLS.AUTHENTICATION['login'],{...values, user_type:user_type}).then(res=>{
           console.log('blass');
           
           console.log('login data',res.data);
@@ -76,7 +75,8 @@ const LoginForm = () => {
           localStorage.setItem('user_access_token',access)
           localStorage.setItem('user_refresh_token',refresh)
           localStorage.setItem('user_data',JSON.stringify(data))
-            navigate('/')
+          user_type === 'user' ? navigate('/')
+                               : navigate('/property_owner_dashboard')
           })
           .catch(error=>{
             console.log(error.response.data, 'errorr');
