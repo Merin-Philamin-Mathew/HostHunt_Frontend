@@ -19,7 +19,7 @@ const RegistrationForm = ({user_type='property_owner'}) => {
     const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
     // navigate
-    const go_to_PO_login = ()=> navigate('/property-owner/login')
+    const go_to_PO_login = ()=> navigate('/host/login')
     const go_to_login = ()=> navigate('/login')
 
   const formik = useFormik({
@@ -39,7 +39,7 @@ const RegistrationForm = ({user_type='property_owner'}) => {
             
             toast.success('OTP sent to your email');
             user_type === 'user' ? navigate('/otp-verification',{state:response.data['data']}) 
-                                 : navigate('/property-owner/otp-verification',{state:response.data['data']});
+                                 : navigate('/host/otp-verification',{state:response.data['data']});
         }
     } catch (error) {
           console.log("Error:", error);
@@ -61,7 +61,7 @@ const RegistrationForm = ({user_type='property_owner'}) => {
             type="text"
             name="name"
             placeholder="Full Name"
-            className="w-full px-4 py-2 rounded-full bg-white text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="w-full px-4 py-2 rounded-full bg-white text-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 capitalize"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.name}

@@ -1,12 +1,14 @@
 // redux/ownerSlice.js
 import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-let owner_data = JSON.parse(localStorage.getItem('owner_data'))
-console.log('owner',owner_data)
+// let owner_data = JSON.parse(localStorage.getItem('owner_data'))
+// console.log('owner',owner_data)
 
 const initialState = {
   owner: owner_data || null,
-  profilePicture: null,
+  // owner_name : owner_data['name'] || null,
+  ownerproPic: null,
   isLoggedIn:  false
 };
 
@@ -18,13 +20,13 @@ const ownerSlice = createSlice({
       state.owner = action.payload;
       state.isLoggedIn = true
     },
-    updateownerProfilePicture: (state, action) => {
-      state.profilePicture = action.payload;
+    updateownerownerproPic: (state, action) => {
+      state.ownerproPic = action.payload;
     },
-    logout: (state) => {
+    logoutOwner: (state) => {
       state.owner = null;
       state.isLoggedIn = false
-      state.profilePicture = null;
+      state.ownerproPic = null;
       localStorage.removeItem('owner_data')
       localStorage.removeItem('owner_access_token')
       localStorage.removeItem('owner_refresh_token')
@@ -32,6 +34,6 @@ const ownerSlice = createSlice({
   },
 });
 
-export const { setownerDetails, updateownerProfilePicture, logout } = ownerSlice.actions;
+export const { setownerDetails, updateownerownerproPic, logoutOwner } = ownerSlice.actions;
 
 export default ownerSlice.reducer;

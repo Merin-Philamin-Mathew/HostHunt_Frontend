@@ -5,8 +5,8 @@ import { FaBuilding, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { BsBuildingAdd } from "react-icons/bs";
 import Dropdown from '../../utils/Dropdown';
 import { AiFillMessage } from 'react-icons/ai';
-import { handleDropdownAction } from '../../utils/logic';
 import { setUserDetails } from '../../../redux/userSlice';
+import { handleDropdownAction } from '../../utils/logic';
 
 const Header = () => {
   const { user, isLoggedIn } = useSelector((state) => state.user);
@@ -57,7 +57,7 @@ const Header = () => {
         <div className="flex items-center space-x-5 px-2">
           <button className="flex space-x-1 items-center hover:bg-gray-100 py-2 px-3 border border-gray-400 rounded-full ">
             <BsBuildingAdd />
-            <Link to="/property-owner/login" className="text-black hover:text-black">List Your Property</Link>
+            <Link to="/host/login" className="text-black hover:text-black">List Your Property</Link>
           </button>
 
           { user ?    (

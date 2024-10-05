@@ -58,4 +58,16 @@ let OTP_Form_Data = {
     
 }
 
-export {LogForm_Data,RegForm_Data ,OTP_Form_Data}
+let PropertyDetails_data = {
+  INITIAL_VALUES:{
+    property_name: '',
+    property_type: '',
+    city: '',
+    address: '',
+    postcode: '',
+    thumbnail_image: null,
+    total_bed_rooms: '',
+    no_of_beds: '',
+  }
+}
+export {LogForm_Data,RegForm_Data ,OTP_Form_Data, PropertyDetails_data}

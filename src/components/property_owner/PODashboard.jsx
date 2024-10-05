@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Dashboard() {
+function PODashboard() {
   return (
     <div className='h-full'>
-      manage your listings
+      Dashboard
     </div>
   )
 }
 
-export default Dashboard
+export default PODashboard

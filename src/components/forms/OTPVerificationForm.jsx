@@ -45,7 +45,7 @@ const OTPVerificationForm = ({ user_type='property-owner' }) => {
         
         console.log("Response data:", response.data);
         user_type === 'user' ? navigate('/login',{state:response.data['data']}) 
-                             : navigate('/property-owner/login',{state:response.data['data']});
+                             : navigate('/host/login',{state:response.data['data']});
         toast.success('Registration successful! Please log in to continue.')
       }
       catch(error){

@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import { api } from '../../../apis/axios';
-import { useDispatch } from 'react-redux';
-import { setUserDetails } from '../../../redux/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import { LogForm_Data } from '../data';
-import URLS from '../../../apis/urls';
-
-const LoginForm = ({user_type='property_owner'}) => {
+import URLS from '../../apis/urls';
+import { api } from '../../apis/axios';
+import { LogForm_Data } from './data';
+const POLoginForm = ({user_type='property_owner'}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-  const go_to_signup = ()=> navigate('/property-owner/signup')
+  const go_to_signup = ()=> navigate('/host/signup')
+
 
   // Formik hook to handle form state and validation
   const formik = useFormik({
@@ -33,7 +32,7 @@ const LoginForm = ({user_type='property_owner'}) => {
           localStorage.setItem('owner_access_token',access)
           localStorage.setItem('owner_refresh_token',refresh)
           localStorage.setItem('owner_data',JSON.stringify(data))
-            navigate('/property-owner/dashboard')
+            navigate('/host/dashboard')
           })
           .catch(error=>{
             console.log(error.response.data, 'error');
@@ -109,4 +108,4 @@ const LoginForm = ({user_type='property_owner'}) => {
   );
 };
 
-export default LoginForm;
+export default POLoginForm;

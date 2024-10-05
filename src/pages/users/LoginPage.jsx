@@ -1,6 +1,6 @@
 // LoginPage.js
 import React from 'react';
-import LoginForm from '../../components/forms/users/LoginForm';
+import LoginForm from '../../components/forms/LoginForm';
 
 const LoginPage = () => {
   const props = {

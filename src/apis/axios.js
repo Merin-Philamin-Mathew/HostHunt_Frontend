@@ -3,6 +3,14 @@ import axios from 'axios';
 const BASE_URL = import.meta.env.VITE_BASEURL
 const api = axios.create({
     baseURL: BASE_URL,
+    withCredentials: true,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+const owner_api = axios.create({
+    baseURL: BASE_URL,
+    withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -12,6 +20,7 @@ api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('user_access_token'); // or wherever you store the token
         if (token) {
+            console.log('normal_user_api_haaha');
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
         return config;
@@ -21,6 +30,24 @@ api.interceptors.request.use(
     }
 );
 
+owner_api.interceptors.request.use(
+    (config) => {
+        console.log('owner_api_haaha');
+        
+        const token = localStorage.getItem('owner_access_token'); // or wherever you store the token
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
+        }
+        console.log('Request config:', config);  // Check if Authorization header is being set correctly
+
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+export { BASE_URL, api, owner_api };
 
 
 
@@ -45,4 +72,3 @@ api.interceptors.request.use(
 // );
 
 
-export { BASE_URL, api };

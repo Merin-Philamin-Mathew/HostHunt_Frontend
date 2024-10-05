@@ -1,15 +1,27 @@
-// import { Outlet } from 'react-router-dom';
 import { Outlet } from 'react-router';
-import OTPVerificationForm from '../components/forms/OTPVerificationForm';
 import Home from '../pages/users/Home';
-import LoginPage from '../pages/users/LoginPage';
-import RegisterPage from '../pages/users/RegisterPage';
-import AuthOutlet from '../components/property_owner/partials/AuthOutlet';
-import LoginForm from '../components/forms/property-owner/LoginForm';
-import RegistrationForm from '../components/forms/RegistrationForm';
-// import U_OTPVerificationForm from '../components/forms/users/U_OTPVerificationForm';
-import OTPVerificationPage from '../pages/users/OTPVerificationPage';
 
+import AuthOutlet from '../components/Layouts/AuthOutlet';
+import LoginPage from '../pages/users/LoginPage';
+import POLoginForm from '../components/forms/POLoginForm';
+import RegisterPage from '../pages/users/RegisterPage';
+import RegistrationForm from '../components/forms/RegistrationForm';
+import OTPVerificationPage from '../pages/users/OTPVerificationPage';
+import OTPVerificationForm from '../components/forms/OTPVerificationForm';
+
+
+import DashboardLayout from '../components/Layouts/DashboardLayout';
+import PODashboard from '../components/property_owner/PODashboard';
+import POManageListings from '../components/property_owner/POMangeListings';
+import POReviews from '../components/property_owner/POReviews';
+import POMessages from '../components/property_owner/POMessages';
+import POBookings from '../components/property_owner/POBookings';
+import PONotifications from '../components/property_owner/PONotifications';
+
+
+import ListPropertySteps from '../components/property_owner/new_listings/ListPropertySteps';
+import PropertyLayout from '../components/Layouts/PropertyLayout';
+import PropertyDetailsForm from '../components/property_owner/new_listings/PropertyDetailsForm';
 
 let const_data = {
 
@@ -39,27 +51,78 @@ let const_data = {
             element: <></>
         },
         {
-            path: "/property-owner/dashboard",
-            element: <></>
-        },
-        {
-            path: "/property-owner",
+            path: "/host",
             element: <AuthOutlet><Outlet/></AuthOutlet>,
             children: [
                 {
-                    path: "/property-owner/login",
-                    element: <LoginForm/>
+                    path: "/host/login",
+                    element: <POLoginForm/>                                              
                 },
                 {
-                    path: "/property-owner/signup",
+                    path: "/host/signup",
                     element: <RegistrationForm />
                 },
                 {
-                    path: "/property-owner/otp-verification",
+                    path: "/host/otp-verification",
                     element: <OTPVerificationForm/>
                 },
             ]
-        }
+        },
+        {
+            path: 'host/new-listing',
+            element: <ListPropertySteps/>
+        },
+        {
+            path: `host`,
+            element: <DashboardLayout><Outlet/></DashboardLayout>,
+            children: [
+                {
+                    path: "/host/dashboard",
+                    element: <PODashboard/>
+                },
+                {
+                    path: "/host/listings",
+                    element: <POManageListings/>
+                },
+                {
+                    path: "/host/reviews",
+                    element: <POReviews/>
+                },
+                {
+                    path: "/host/messages",
+                    element: <POMessages/>
+                },
+                {
+                    path: "/host/notifications",
+                    element: <PONotifications/>
+                },
+                {
+                    path: "/host/bookings",
+                    element: <POBookings/>
+                },
+               
+            ]
+        },
+        {
+            path: "host/new-listing",
+            element: <PropertyLayout><Outlet/></PropertyLayout>,
+            children: [
+                
+                      { path: "property-details", element: <PropertyDetailsForm/>},
+                      { path: "documents", element: <></>},
+                      { path: "basic-info", element: <></> },
+                      { path: "policies&services", element: <></>},
+                      { path: "facilities", element: <></>},
+                      { path: "finish", element: <></> }
+                    
+               
+            ]
+        },
+        {
+            path: "host/",
+            element: <AuthOutlet><POLoginForm/></AuthOutlet>
+        },
+        
         // {
         //     path: "/admin/student",
         //     element: <><Container><Outlet /></Container></>,

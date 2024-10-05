@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import { api } from '../../../apis/axios';
+import { api } from '../../apis/axios';
 import { useGoogleLogin } from '@react-oauth/google';
 import { toast } from 'react-toastify';
-import { LogForm_Data } from '../data';
+import { LogForm_Data } from './data';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
-import URLS from '../../../apis/urls';
+import URLS from '../../apis/urls';
 
 const LoginForm = ({user_type='property_owner'}) => {
   const navigate = useNavigate()
@@ -35,7 +35,7 @@ const LoginForm = ({user_type='property_owner'}) => {
         'email':userData.email
       }
     
-      api.post('/user/google-login/', data).then(res=>{
+      api.post(URLS.AUTHENTICATION['google-login'], data).then(res=>{
         console.log('blass');
         
         console.log('login data',res.data);
@@ -75,6 +75,7 @@ const LoginForm = ({user_type='property_owner'}) => {
           localStorage.setItem('user_access_token',access)
           localStorage.setItem('user_refresh_token',refresh)
           localStorage.setItem('user_data',JSON.stringify(data))
+      
           user_type === 'user' ? navigate('/')
                                : navigate('/property_owner_dashboard')
           })
@@ -93,8 +94,8 @@ const LoginForm = ({user_type='property_owner'}) => {
   });
 
   return (
-    <div className="bg-black bg-opacity-80 rounded-2xl p-16 shadow-md w-full max-w-md mx-auto">
-      <h2 className="text-white text-4xl font-bold mb-4">Welcome!</h2>
+    <div className="bg-black bg-opacity-80 rounded-2xl p-16 shadow-md w-full max-w-md mx-auto">      
+     <h2 className="text-white text-4xl font-bold mb-4">Welcome!</h2>
       <p className="text-gray-400 text-sm mb-6">Get a new cot or stay connected—log in to explore your options!</p>
 
       <form onSubmit={formik.handleSubmit}>

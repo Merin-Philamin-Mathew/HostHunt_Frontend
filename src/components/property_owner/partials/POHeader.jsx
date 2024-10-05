@@ -5,11 +5,11 @@ import { FaBuilding, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { BsBuildingAdd } from "react-icons/bs";
 import Dropdown from '../../utils/Dropdown';
 import { AiFillMessage } from 'react-icons/ai';
-import { handleDropdownAction } from '../../utils/logic';
 import { setUserDetails } from '../../../redux/userSlice';
+import {  handleDropdownActionOwner } from '../../utils/logic';
 
-const PO_Header = () => {
-  const { user, isLoggedIn } = useSelector((state) => state.user);
+const POHeader = () => {
+  const { owner, isLoggedIn } = useSelector((state) => state.owner);
   console.log(isLoggedIn);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,19 +18,18 @@ const PO_Header = () => {
   const [dropdownPosition, setDropdownPosition] = useState({ left: 0, top: 0 });
 
   useEffect(() => {
-    if (!user) {
-      const user_data = JSON.parse(localStorage.getItem('user_data'));  // Fetch from local storage
-      if (user_data) {
-        dispatch(setUserDetails(user_data));  // Set user data in Redux
+    if (!owner) {
+      const owner_data = JSON.parse(localStorage.getItem('owner_data'));  // Fetch from local storage
+      if (owner_data) {
+        dispatch(setUserDetails(owner_data));  // Set user data in Redux
       }
     }
-  }, [user, dispatch]);
+  }, [owner, dispatch]);
 
   // Dropdown items
   const dropdownItems = [
     { title: 'Manage account', icon: <FaUser/> },
-    { title: 'My Stays', icon: <FaBuilding/> },
-    { title: 'Messages', icon: <AiFillMessage/>},
+    { title: 'Manage Listings', icon: <FaBuilding/> },
     { title: 'Sign out', icon: <FaSignOutAlt/>}
   ];
 
@@ -48,27 +47,23 @@ const PO_Header = () => {
   };
 
   return (
-    <header className="w-full py-3 bg-white shadow-xl mb-2 relative">
-      <div className="flex justify-between items-center mx-auto lessThan404 max-w-[1440px] px-10">
+    <header className="w-full py-3 bg-themeColor2 shadow-xl shadow-white relative">
+      <div className="flex justify-between items-center mx- auto lessThan404 px-6 ">
         <div className="flex items-center space-x-1">
-          <img src="/logo/Orange.png" className="w-10" alt="Logo"/>
+          <img src="/logo/white_invert.png" className="w-12 bg-orange-600 py-1 rounded-md" alt="Logo"/>
           <div className="text-2xl font-extrabold text-orange-600">HOSTHUNT</div>
         </div>
         <div className="flex items-center space-x-5 px-2">
-          <button className="flex space-x-1 items-center hover:bg-gray-100 py-2 px-3 border border-gray-400 rounded-full ">
-            <BsBuildingAdd />
-            <Link to="/property-owner/login" className="text-black hover:text-black">List Your Property</Link>
-          </button>
 
-          { user ?    (
+          { owner ?    (
   <div className="relative">
     <div onClick={toggleDropdown} className="flex items-center space-x-4 cursor-pointer">
-      {user.profilePic ? (
-        <img src={user.profilePic} alt="Profile" className="w-9 h-9 rounded-full" />
+      {owner.profilePic ? (
+        <img src={owner.profilePic} alt="Profile" className="w-9 h-9 rounded-full" />
       ) : (
-        <button className="w-9 h-9 bg-gray-700 text-slate-300 rounded-full flex items-center outline outline-offset-1 outline-1  outline-themeColor2 justify-center">
+        <button className="w-9 h-9 bg-gray-300 text-slate-900 rounded-full flex items-center outline outline-offset-1 outline-1  outline-gray-200 justify-center">
           <span className="text-base font-semibold">
-            {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || ''}
+            {owner?.name?.charAt(0).toUpperCase() || owner?.email?.charAt(0).toUpperCase() || ''}
           </span>
         </button>
       )}
@@ -76,7 +71,7 @@ const PO_Header = () => {
     </div>
   </div>
 ) : (
-  <Link to="/login">
+  <Link to="/host/login">
     <FaUser />
   </Link>
 )}
@@ -89,7 +84,7 @@ const PO_Header = () => {
           items={dropdownItems}
           onClick={(itemName) => {
             console.log(`${itemName} clicked`);
-            handleDropdownAction(itemName, dispatch, navigate);
+            handleDropdownActionOwner(itemName, dispatch, navigate);
             setDropdownOpen(false); 
           }}
           position={dropdownPosition} // Pass calculated position
@@ -99,4 +94,4 @@ const PO_Header = () => {
   );
 };
 
-export default PO_Header;
+export default POHeader;
