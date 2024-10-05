@@ -1,13 +1,13 @@
 // redux/userSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
-let user_data = JSON.parse(localStorage.getItem('user_data'))
-console.log('user',user_data)
+// let user_data = JSON.parse(localStorage.getItem('user_data'))
+// console.log('user',user_data)
 
 const initialState = {
-  user: user_data || null,
-  userproPic: null,
-  isLoggedIn:  false
+  user:  null,
+  userProPic: null,
+  userLoggedIn:  false,
 };
 
 const userSlice = createSlice({
@@ -16,22 +16,19 @@ const userSlice = createSlice({
   reducers: {
     setUserDetails: (state, action) => {
       state.user = action.payload;
-      state.isLoggedIn = true
+      state.userLoggedIn = true
     },
-    updateUseruserproPic: (state, action) => {
-      state.userproPic = action.payload;
+    updateUseruserProPic: (state, action) => {
+      state.userProPic = action.payload;
     },
-    logout: (state) => {
+    logoutUser: (state) => {
       state.user = null;
-      state.isLoggedIn = false
-      state.userproPic = null;
-      localStorage.removeItem('user_data')
-      localStorage.removeItem('user_access_token')
-      localStorage.removeItem('user_refresh_token')
+      state.userLoggedIn = false
+      state.userProPic = null;
     },
   },
 });
 
-export const { setUserDetails, updateUseruserproPic, logout } = userSlice.actions;
+export const { setUserDetails, updateUseruserProPic, logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;

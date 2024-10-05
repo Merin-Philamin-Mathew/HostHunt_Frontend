@@ -7,10 +7,13 @@ import { toast } from 'react-toastify';
 import { LogForm_Data } from './data';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import URLS from '../../apis/urls';
+import { useDispatch } from 'react-redux';
+import { setUserDetails } from '../../redux/userSlice';
 
 const LoginForm = ({user_type='property_owner'}) => {
   const navigate = useNavigate()
-
+  const dispatch = useDispatch()  
+  
   const go_to_signup = ()=> navigate('/signup')
   const go_to_PO_signup = ()=> navigate('/property-owner/signup')
 
@@ -40,10 +43,8 @@ const LoginForm = ({user_type='property_owner'}) => {
         
         console.log('login data',res.data);
         const {access, refresh,data} = res.data;
-        localStorage.setItem('user_access_token',access)
-        localStorage.setItem('user_refresh_token',refresh)
-        localStorage.setItem('user_data',JSON.stringify(data))
-          navigate('/')
+      
+        navigate('/')
         })
         .catch(error=>{
           console.log(error.response.data, 'error');
@@ -72,10 +73,7 @@ const LoginForm = ({user_type='property_owner'}) => {
           console.log('login data',res.data);
           const {access, refresh,data} = res.data;
           console.log("lllll",data,access,refresh)
-          localStorage.setItem('user_access_token',access)
-          localStorage.setItem('user_refresh_token',refresh)
-          localStorage.setItem('user_data',JSON.stringify(data))
-      
+          dispatch(setUserDetails(data))
           user_type === 'user' ? navigate('/')
                                : navigate('/property_owner_dashboard')
           })

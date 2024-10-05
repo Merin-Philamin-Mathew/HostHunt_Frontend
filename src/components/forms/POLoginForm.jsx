@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import URLS from '../../apis/urls';
 import { api } from '../../apis/axios';
 import { LogForm_Data } from './data';
+import { setownerDetails } from '../../redux/ownerSlice';
+
+
 const POLoginForm = ({user_type='property_owner'}) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -29,10 +32,8 @@ const POLoginForm = ({user_type='property_owner'}) => {
           console.log('login data',res.data);
           const {access, refresh,data} = res.data;
           console.log("lllll",data,access,refresh)
-          localStorage.setItem('owner_access_token',access)
-          localStorage.setItem('owner_refresh_token',refresh)
-          localStorage.setItem('owner_data',JSON.stringify(data))
-            navigate('/host/dashboard')
+          dispatch(setownerDetails(data))
+          navigate('/host/dashboard')
           })
           .catch(error=>{
             console.log(error.response.data, 'error');

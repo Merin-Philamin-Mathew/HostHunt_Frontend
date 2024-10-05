@@ -22,6 +22,13 @@ const RegistrationForm = ({user_type='property_owner'}) => {
     const go_to_PO_login = ()=> navigate('/host/login')
     const go_to_login = ()=> navigate('/login')
 
+    const toTitleCase = (str) => {
+      return str.replace(/\w\S*/g, (txt) => {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+    };
+
+
   const formik = useFormik({
     initialValues: RegForm_Data.INITIAL_VALUES,
     validationSchema: RegForm_Data.VALIDATION_SCHEMA,
@@ -45,6 +52,15 @@ const RegistrationForm = ({user_type='property_owner'}) => {
           console.log("Error:", error);
         toast.error('An error occurred. Please try again.');
     }
+    },
+    validateOnChange: true,
+    validateOnBlur: true,
+    handleChange: (e) => {
+      if (e.target.name === 'name') {
+        formik.setFieldValue(e.target.name, toTitleCase(e.target.value));
+      } else {
+        formik.handleChange(e);
+      }
     },
   });
 1

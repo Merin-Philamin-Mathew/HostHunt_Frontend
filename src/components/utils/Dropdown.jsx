@@ -1,9 +1,13 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-function Dropdown({ username, profileIcon, items = [], onClick, position }) {
-    const { owner } = useSelector((state) => state.owner);
-   
+function Dropdown({ user_type = 'property_owner', profileIcon, items = [], onClick, position }) {
+  // Determine user based on the user_type
+  const owner = useSelector((state) => state.owner.owner);
+  const regularUser = useSelector((state) => state.user.user);
+  
+  const user = user_type === 'user' ? regularUser : owner;
+
   return (
     <div
       className="absolute z-50 w-56 bg-gray-100 rounded-lg shadow-2xl"
@@ -20,13 +24,13 @@ function Dropdown({ username, profileIcon, items = [], onClick, position }) {
         ) : (
           <div className="w-10 h-10 bg-themeColor text-white rounded-full flex items-center justify-center">
             <span className="text-lg font-bold">
-              {owner?.name?.charAt(0).toUpperCase() || owner?.email.charAt(0).toUpperCase()}
+              {user?.name?.charAt(0).toUpperCase() || user?.email.charAt(0).toUpperCase()}
             </span>
           </div>
         )}
         {/* Username */}
         <div>
-          <div className="text-lg font-bold text-gray-900">{owner?.name || 'User Name'}</div>
+          <div className="text-lg font-bold text-gray-900">{user?.name || 'User Name'}</div>
         </div>
       </div>
 

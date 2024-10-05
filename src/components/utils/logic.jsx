@@ -1,4 +1,4 @@
-import { logout } from "../../redux/userSlice";
+import { logoutUser } from "../../redux/userSlice";
 import { logoutOwner } from "../../redux/ownerSlice";
 
 // logic.js
@@ -9,10 +9,10 @@ export const handleDropdownAction = (itemName, dispatch, navigate) => {
       case 'Sign out':
   
         // Dispatch Redux logout action
-        dispatch(logout());
+        dispatch(logoutUser());
   
         // Navigate to login page
-        navigate('/host/login');
+        navigate('/');
         break;
   
       case 'account':

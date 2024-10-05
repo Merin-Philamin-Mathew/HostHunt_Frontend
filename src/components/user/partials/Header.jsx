@@ -9,22 +9,13 @@ import { setUserDetails } from '../../../redux/userSlice';
 import { handleDropdownAction } from '../../utils/logic';
 
 const Header = () => {
-  const { user, isLoggedIn } = useSelector((state) => state.user);
-  console.log(isLoggedIn);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ left: 0, top: 0 });
 
-  useEffect(() => {
-    if (!user) {
-      const user_data = JSON.parse(localStorage.getItem('user_data'));  // Fetch from local storage
-      if (user_data) {
-        dispatch(setUserDetails(user_data));  // Set user data in Redux
-      }
-    }
-  }, [user, dispatch]);
 
   // Dropdown items
   const dropdownItems = [
@@ -63,8 +54,8 @@ const Header = () => {
           { user ?    (
   <div className="relative">
     <div onClick={toggleDropdown} className="flex items-center space-x-4 cursor-pointer">
-      {user.profilePic ? (
-        <img src={user.profilePic} alt="Profile" className="w-9 h-9 rounded-full" />
+      {user.userProPic ? (
+        <img src={user.userProPic} alt="Profile" className="w-9 h-9 rounded-full" />
       ) : (
         <button className="w-9 h-9 bg-gray-700 text-slate-300 rounded-full flex items-center outline outline-offset-1 outline-1  outline-themeColor2 justify-center">
           <span className="text-base font-semibold">
@@ -86,6 +77,7 @@ const Header = () => {
 
       {dropdownOpen && (
         <Dropdown
+        user_type={'user'}
           items={dropdownItems}
           onClick={(itemName) => {
             console.log(`${itemName} clicked`);

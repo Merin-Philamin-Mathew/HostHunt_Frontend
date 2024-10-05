@@ -1,13 +1,11 @@
 import React from 'react';
 import HostelCard from '../cards/HostelCard';
-import { useSelector } from 'react-redux';
 import SubHeader from '../utils/SubHeader';
 import Button from '../utils/Button';
 import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 
 const POManageListings = () => {
-  const { owner_name } = useSelector((state) => state.owner);
   const navigate = useNavigate();
 
 
