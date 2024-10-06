@@ -30,8 +30,9 @@ const POLoginForm = ({user_type='property_owner'}) => {
           console.log('blass');
           
           console.log('login data',res.data);
-          const {access, refresh,data} = res.data;
-          console.log("lllll",data,access,refresh)
+          const data = res.data;
+          // const {access, refresh,data} = res.data;
+          // console.log("lllll",data,access,refresh)
           dispatch(setownerDetails(data))
           navigate('/host/dashboard')
           })

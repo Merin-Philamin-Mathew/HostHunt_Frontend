@@ -63,7 +63,7 @@ const RegistrationForm = ({user_type='property_owner'}) => {
       }
     },
   });
-1
+
   return (
     <div className={`${
       user_type === 'property_owner' ? ' bg-[#4d6681ba]' : 'bg-black'} 

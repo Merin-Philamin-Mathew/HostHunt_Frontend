@@ -42,8 +42,10 @@ const LoginForm = ({user_type='property_owner'}) => {
         console.log('blass');
         
         console.log('login data',res.data);
-        const {access, refresh,data} = res.data;
-      
+        const data = res.data
+        // const {access, refresh,data} = res.data;
+        dispatch(setUserDetails(data))
+
         navigate('/')
         })
         .catch(error=>{
@@ -71,8 +73,9 @@ const LoginForm = ({user_type='property_owner'}) => {
           console.log('blass');
           
           console.log('login data',res.data);
-          const {access, refresh,data} = res.data;
-          console.log("lllll",data,access,refresh)
+          const data = res.data
+          // const {access, refresh,data} = res.data;
+          // console.log("lllll",data,access,refresh)
           dispatch(setUserDetails(data))
           user_type === 'user' ? navigate('/')
                                : navigate('/property_owner_dashboard')

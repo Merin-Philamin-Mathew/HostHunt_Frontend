@@ -3,28 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBuilding, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { BsBuildingAdd } from "react-icons/bs";
-import Dropdown from '../../utils/Dropdown';
+import Dropdown from '../../utils/Dropdown';   
 import { AiFillMessage } from 'react-icons/ai';
 import { setUserDetails } from '../../../redux/userSlice';
 import {  handleDropdownActionOwner } from '../../utils/logic';
 
 const POHeader = () => {
-  const { owner, isLoggedIn } = useSelector((state) => state.owner);
-  console.log(isLoggedIn);
+  const { owner } = useSelector((state) => state.owner);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ left: 0, top: 0 });
 
-  useEffect(() => {
-    if (!owner) {
-      const owner_data = JSON.parse(localStorage.getItem('owner_data'));  // Fetch from local storage
-      if (owner_data) {
-        dispatch(setUserDetails(owner_data));  // Set user data in Redux
-      }
-    }
-  }, [owner, dispatch]);
 
   // Dropdown items
   const dropdownItems = [
@@ -58,12 +49,12 @@ const POHeader = () => {
           { owner ?    (
   <div className="relative">
     <div onClick={toggleDropdown} className="flex items-center space-x-4 cursor-pointer">
-      {owner.profilePic ? (
+      {owner?.profilePic ? (
         <img src={owner.profilePic} alt="Profile" className="w-9 h-9 rounded-full" />
       ) : (
         <button className="w-9 h-9 bg-gray-300 text-slate-900 rounded-full flex items-center outline outline-offset-1 outline-1  outline-gray-200 justify-center">
           <span className="text-base font-semibold">
-            {owner?.name?.charAt(0).toUpperCase() || owner?.email?.charAt(0).toUpperCase() || ''}
+            {owner?.data?.name?.charAt(0).toUpperCase() || owner?.data?.email?.charAt(0).toUpperCase() || ''}
           </span>
         </button>
       )}

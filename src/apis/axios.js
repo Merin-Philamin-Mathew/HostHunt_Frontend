@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '../redux/store';
 
 const BASE_URL = import.meta.env.VITE_BASEURL
 const api = axios.create({
@@ -18,11 +19,13 @@ const owner_api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('user_access_token'); // or wherever you store the token
+        const token = store.getState()?.user?.user?.access;
         if (token) {
             console.log('normal_user_api_haaha');
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
+        console.log('normaluser Request config:', config);  // Check if Authorization header is being set correctly
+
         return config;
     },
     (error) => {
@@ -34,11 +37,13 @@ owner_api.interceptors.request.use(
     (config) => {
         console.log('owner_api_haaha');
         
-        const token = localStorage.getItem('owner_access_token'); // or wherever you store the token
+        const token = store.getState()?.owner?.owner?.access;
+        console.log('seetha',token);
+        
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
-        console.log('Request config:', config);  // Check if Authorization header is being set correctly
+        console.log('owner Request config:', config);  // Check if Authorization header is being set correctly
 
         return config;
     },

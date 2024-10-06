@@ -24,13 +24,13 @@ function Dropdown({ user_type = 'property_owner', profileIcon, items = [], onCli
         ) : (
           <div className="w-10 h-10 bg-themeColor text-white rounded-full flex items-center justify-center">
             <span className="text-lg font-bold">
-              {user?.name?.charAt(0).toUpperCase() || user?.email.charAt(0).toUpperCase()}
+              {user?.data?.name?.charAt(0).toUpperCase() || user?.data?.email.charAt(0).toUpperCase()}
             </span>
           </div>
         )}
         {/* Username */}
         <div>
-          <div className="text-lg font-bold text-gray-900">{user?.name || 'User Name'}</div>
+          <div className="text-lg font-bold text-gray-900">{user?.data?.name || 'User Name'}</div>
         </div>
       </div>
 

@@ -5,8 +5,7 @@ import { FaPlus } from "react-icons/fa6";
 function SubHeader() {
     const { owner } = useSelector((state) => state.owner);
     
-    const name = owner.name
-
+    const name = owner?.data?.name.split(' ')[0]
     return (
         <div>
             <header className=" mb-8 pr-3">

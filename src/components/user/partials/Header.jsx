@@ -5,7 +5,6 @@ import { FaBuilding, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { BsBuildingAdd } from "react-icons/bs";
 import Dropdown from '../../utils/Dropdown';
 import { AiFillMessage } from 'react-icons/ai';
-import { setUserDetails } from '../../../redux/userSlice';
 import { handleDropdownAction } from '../../utils/logic';
 
 const Header = () => {
@@ -59,7 +58,7 @@ const Header = () => {
       ) : (
         <button className="w-9 h-9 bg-gray-700 text-slate-300 rounded-full flex items-center outline outline-offset-1 outline-1  outline-themeColor2 justify-center">
           <span className="text-base font-semibold">
-            {user?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || ''}
+            {user?.data?.name?.charAt(0).toUpperCase() || user?.data?.email?.charAt(0).toUpperCase() || ''}
           </span>
         </button>
       )}
