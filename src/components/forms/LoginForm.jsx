@@ -77,7 +77,7 @@ const LoginForm = ({user_type='property_owner'}) => {
           // const {access, refresh,data} = res.data;
           // console.log("lllll",data,access,refresh)
           dispatch(setUserDetails(data))
-          user_type === 'user' ? navigate('/')
+          user_type === 'user' ? navigate('/',{replace:true})
                                : navigate('/property_owner_dashboard')
           })
           .catch(error=>{

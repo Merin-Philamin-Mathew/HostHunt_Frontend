@@ -6,7 +6,8 @@ function Dropdown({ user_type = 'property_owner', profileIcon, items = [], onCli
   const owner = useSelector((state) => state.owner.owner);
   const regularUser = useSelector((state) => state.user.user);
   
-  const user = user_type === 'user' ? regularUser : owner;
+  // const user = user_type === 'user' ? regularUser : owner;
+  const user = regularUser
 
   return (
     <div

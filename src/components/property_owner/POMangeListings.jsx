@@ -16,8 +16,9 @@ const POManageListings = () => {
     { imageUrl: '/images/hostel3.jpg', name: 'Select Beach House', location: 'Junction, Townside', listingDate: '26 February 2024' }
   ];
   const handleAddListing = () => {
-    // Navigate to the page for adding new listings
-    navigate('/host/new-listing'); // change the path to your target route
+    localStorage.setItem('property_status','in_progress')
+    localStorage.setItem('property_docs',0)
+    navigate('/host/new-listing'); 
   };
   const buttonProps = {
     title: 'Add Listings',

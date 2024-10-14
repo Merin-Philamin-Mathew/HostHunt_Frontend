@@ -8,7 +8,7 @@ import { AiFillMessage } from 'react-icons/ai';
 import { handleDropdownAction } from '../../utils/logic';
 
 const Header = () => {
-  const { user } = useSelector((state) => state.user);
+  const { user,userLoggedIn } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -47,10 +47,12 @@ const Header = () => {
         <div className="flex items-center space-x-5 px-2">
           <button className="flex space-x-1 items-center hover:bg-gray-100 py-2 px-3 border border-gray-400 rounded-full ">
             <BsBuildingAdd />
-            <Link to="/host/login" className="text-black hover:text-black">List Your Property</Link>
+            {/* <Link to="/host/login" className="text-black hover:text-black">List Your Property</Link> */}
+            <Link to={user ? "/host/listings" : "/login"} 
+            className="text-black hover:text-black">List Your Property</Link>
           </button>
 
-          { user ?    (
+          { userLoggedIn ?    (
   <div className="relative">
     <div onClick={toggleDropdown} className="flex items-center space-x-4 cursor-pointer">
       {user.userProPic ? (
@@ -63,12 +65,17 @@ const Header = () => {
         </button>
       )}
       <i className="fa fa-bell text-xl"></i>
+     
     </div>
   </div>
 ) : (
-  <Link to="/login">
+  <div className='flex justify-center'>
+  <Link to="/login" className='flex items-center space-x-2'>
     <FaUser />
+    <div>Login</div>
   </Link>
+</div>
+  
 )}
 
         </div>

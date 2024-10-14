@@ -6,31 +6,34 @@ import { Outlet } from 'react-router-dom';
 import POHeader from '../property_owner/partials/POHeader';
 
 function PropertyLayout() {
+  const isPropertyDetailsComplete = !!localStorage.getItem('property_details');  // If property details are in local storage
+  const propertyDocs = parseInt(localStorage.getItem('property_docs'), 10);  // Convert the stored value to an integer
+  const isDocumentsComplete = propertyDocs > 0;  // Check if it's greater than zero
+  
   const sidebarItems = [
-    { title: 'Property Details', link: '/host/new-listing/property-details', icon: <FaBuilding /> },
-    { title: 'Documents', link: '/host/new-listing/documents', icon: <FaFile /> },
-    // { title: 'Basic Information', link: '/host/new-listing/basic-info', icon: <FaInfo /> },
-    { title: 'Policies & Services', link: '/host/new-listing/policies', icon: <FaShieldAlt />   },
-    { title: 'Facilities', link: '/host/new-listing/policies', icon: <FaBed />  },
-    { title: 'Finish', link: '/host/new-listing/finish', icon: <FaCheckCircle /> }
+    { title: 'Property Details', link: '/host/new-listing/property-details', icon: <FaBuilding />, disabled: false  },
+    { title: 'Documents', link: '/host/new-listing/documents', icon: <FaFile />,disabled: !isPropertyDetailsComplete   },
+    // { title: 'Policies & Services', link: '/host/new-listing/policies&services', icon: <FaShieldAlt />   },
+    // { title: 'Facilities', link: '/host/new-listing/facilities', icon: <FaBed />  },
+    { title: 'Finish', link: '/host/new-listing/finish', icon: <FaCheckCircle />,disabled: !isDocumentsComplete    }
   ];
 
   return (
     <div className="relative min-h-screen flex flex-col bg-gray-100">
-      {/* Header */}
+
       <div className="sticky top-0 z-50">
         <POHeader/>
       </div>
 
       <div className="flex flex-grow py-8 bg-muted_bg">
-        {/* Sidebar */}
+
         <aside className="relative p-6">
           <div className="sticky top-[100px] py-3 px-1 rounded-3xl bg-white shadow-xl">
             <Sidebar items={sidebarItems} />
           </div>
         </aside>
 
-        {/* Main Content Area */}
+
         <main className="flex-grow p-6 overflow-y-auto md:pr-16 lg:pr-24 ">
           <Outlet />
         </main>

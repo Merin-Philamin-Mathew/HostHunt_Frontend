@@ -7,10 +7,15 @@ const Sidebar = ({ items = [] }) => {
       <ul className="space-y-1">
         {items.map((item, index) => (
           <li key={index}>
-            <Link
-                to={item.link}
-                className="flex items-center py-2 pl-2 md:pl-3  md:pr-7 hover:bg-gray-200 rounded-full transition"
-              >
+             <Link
+              to={item.disabled ? '#' : item.link}  // Disable link navigation if the item is disabled
+              className={`flex items-center py-2 pl-2 md:pl-3  md:pr-7 ${
+                item.disabled
+                  ? ' text-gray-400 cursor-not-allowed rounded-full transition'
+                  : 'hover:bg-gray-200 rounded-full transition'
+              }`}
+              aria-disabled={item.disabled}
+            >
                 <span className="mr-3">{item.icon}</span>
                 <span className="hidden sm:inline">{item.title}</span>
               </Link>

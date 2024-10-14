@@ -22,10 +22,20 @@ import PONotifications from '../components/property_owner/PONotifications';
 import ListPropertySteps from '../components/property_owner/new_listings/ListPropertySteps';
 import PropertyLayout from '../components/Layouts/PropertyLayout';
 import PropertyDetailsForm from '../components/property_owner/new_listings/PropertyDetailsForm';
+import DocumentsForm from '../components/property_owner/new_listings/DocumentsForm';
+import PoliciesServicesForm from '../components/property_owner/new_listings/PoliciesServicesForm';
+import ReviewAndSubmit from '../components/property_owner/new_listings/ReviewAndSubmit';
+
+
+import AdminLogin from '../pages/admin/AdminLogin';
+import AdminLayout from '../components/Layouts/AdminLayout';
+import PropertyList from '../pages/admin/PropertyList';
+import ProtectedRoute from './ProtectedRoute';
 
 let const_data = {
-
     REACT_ROUTER_PATH: [
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // USER SIDE AND AUTHENTICATION PATHS
         {
             path: "/",
             element: <Home/>
@@ -40,102 +50,78 @@ let const_data = {
         },
         {
             path: "/otp-verification",
-            element: <OTPVerificationPage/>
-        },
-        {
-            path: "/admin",
-            element: <></>
-        },
-        {
-            path: "/admin/login",
-            element: <></>
-        },
+            element: <OTPVerificationPage/>},
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // OWNER SIDE PATHS
         {
             path: "/host",
             element: <AuthOutlet><Outlet/></AuthOutlet>,
             children: [
-                {
-                    path: "/host/login",
-                    element: <POLoginForm/>                                              
-                },
-                {
-                    path: "/host/signup",
-                    element: <RegistrationForm />
-                },
-                {
-                    path: "/host/otp-verification",
-                    element: <OTPVerificationForm/>
-                },
+                {path: "/host/login",element: <POLoginForm/>},
+                {path: "/host/signup",element: <RegistrationForm />},
+                {path: "/host/otp-verification",element: <OTPVerificationForm/>},
             ]
         },
         {
             path: 'host/new-listing',
-            element: <ListPropertySteps/>
+            element: <ProtectedRoute roleRequired={'user'}>
+                <ListPropertySteps/>
+                </ProtectedRoute>
         },
         {
             path: `host`,
-            element: <DashboardLayout><Outlet/></DashboardLayout>,
+            element: <ProtectedRoute>
+                <DashboardLayout><Outlet/></DashboardLayout>
+                    </ProtectedRoute>,
             children: [
-                {
-                    path: "/host/dashboard",
-                    element: <PODashboard/>
-                },
-                {
-                    path: "/host/listings",
-                    element: <POManageListings/>
-                },
-                {
-                    path: "/host/reviews",
-                    element: <POReviews/>
-                },
-                {
-                    path: "/host/messages",
-                    element: <POMessages/>
-                },
-                {
-                    path: "/host/notifications",
-                    element: <PONotifications/>
-                },
-                {
-                    path: "/host/bookings",
-                    element: <POBookings/>
-                },
-               
+                {path: "/host/dashboard",element: <PODashboard/>},
+                {path: "/host/listings",element: <POManageListings/> },
+                {path: "/host/reviews",element: <POReviews/> },
+                {path: "/host/messages",element: <POMessages/> },
+                {path: "/host/notifications",element: <PONotifications/> },
+                {path: "/host/bookings",element: <POBookings/> },
             ]
         },
         {
             path: "host/new-listing",
-            element: <PropertyLayout><Outlet/></PropertyLayout>,
+            element:<ProtectedRoute roleRequired={'user'}>
+                <PropertyLayout><Outlet/></PropertyLayout>
+                    </ProtectedRoute> ,
             children: [
-                
-                      { path: "property-details", element: <PropertyDetailsForm/>},
-                      { path: "documents", element: <></>},
-                      { path: "basic-info", element: <></> },
-                      { path: "policies&services", element: <></>},
-                      { path: "facilities", element: <></>},
-                      { path: "finish", element: <></> }
-                    
-               
+                { path: "property-details", element: <PropertyDetailsForm/>},
+                { path: "documents", element: <DocumentsForm/>},
+                { path: "policies&services", element: <PoliciesServicesForm/>},
+                { path: "facilities", element: <></>},
+                { path: "finish", element: <ReviewAndSubmit/> }
             ]
         },
         {
             path: "host/",
             element: <AuthOutlet><POLoginForm/></AuthOutlet>
         },
-        
-        // {
-        //     path: "/admin/student",
-        //     element: <><Container><Outlet /></Container></>,
-        //     children: [
-        //         {
-        //             path: "/admin/student/add",
-        //             element: <></>
-        //         }
-        //     ]
-        // }
-  
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // ADMIN SIDE PATHS
+        {
+            path: "/admin/login",
+            element: <AdminLogin/>
+        },
+        {
+            path: "/admin/",
+            element: <AdminLogin/>
+        },
+        {
+            path: "/admin",
+            element: <ProtectedRoute roleRequired={'admin'}>
+                <AdminLayout><Outlet/></AdminLayout>
+                    </ProtectedRoute>,
+            children: [
+                {path: "/admin/dashboard",element: <></>},
+                {path: "/admin/bookings",element: <></>},
+                {path: "/admin/properties",element: <PropertyList/>},
+                {path: "/admin/users",element: <></>}
+            ]
+        },
     ],
 }
-
 
 export default const_data 

@@ -6,10 +6,10 @@ import { BsBuildingAdd } from "react-icons/bs";
 import Dropdown from '../../utils/Dropdown';   
 import { AiFillMessage } from 'react-icons/ai';
 import { setUserDetails } from '../../../redux/userSlice';
-import {  handleDropdownActionOwner } from '../../utils/logic';
+import {  handleDropdownAction, handleDropdownActionOwner } from '../../utils/logic';
 
 const POHeader = () => {
-  const { owner } = useSelector((state) => state.owner);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -46,15 +46,15 @@ const POHeader = () => {
         </div>
         <div className="flex items-center space-x-5 px-2">
 
-          { owner ?    (
+          { user ?    (
   <div className="relative">
     <div onClick={toggleDropdown} className="flex items-center space-x-4 cursor-pointer">
-      {owner?.profilePic ? (
-        <img src={owner.profilePic} alt="Profile" className="w-9 h-9 rounded-full" />
+      {user?.profilePic ? (
+        <img src={user.profilePic} alt="Profile" className="w-9 h-9 rounded-full" />
       ) : (
         <button className="w-9 h-9 bg-gray-300 text-slate-900 rounded-full flex items-center outline outline-offset-1 outline-1  outline-gray-200 justify-center">
           <span className="text-base font-semibold">
-            {owner?.data?.name?.charAt(0).toUpperCase() || owner?.data?.email?.charAt(0).toUpperCase() || ''}
+            {user?.data?.name?.charAt(0).toUpperCase() || user?.data?.email?.charAt(0).toUpperCase() || ''}
           </span>
         </button>
       )}
@@ -72,10 +72,11 @@ const POHeader = () => {
 
       {dropdownOpen && (
         <Dropdown
+        user_type={'user'}
           items={dropdownItems}
           onClick={(itemName) => {
             console.log(`${itemName} clicked`);
-            handleDropdownActionOwner(itemName, dispatch, navigate);
+            handleDropdownAction(itemName, dispatch, navigate);
             setDropdownOpen(false); 
           }}
           position={dropdownPosition} // Pass calculated position
