@@ -115,7 +115,7 @@ let const_data = {
                 <AdminLayout><Outlet/></AdminLayout>
                     </ProtectedRoute>,
             children: [
-                {path: "/admin/dashboard",element: <></>},
+                {path: "/admin/dashboard",element: <PropertyList></PropertyList>},
                 {path: "/admin/bookings",element: <></>},
                 {path: "/admin/properties",element: <PropertyList/>},
                 {path: "/admin/users",element: <></>}

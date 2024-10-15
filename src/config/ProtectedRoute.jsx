@@ -5,7 +5,7 @@ const ProtectedRoute = ({ children, roleRequired }) => {
   const { user, owner, admin } = useSelector((state) => state);
   
   // Role-based route protection (admin, owner, or user)
-  if (roleRequired === 'admin' && !user.userLoggedIn) {
+  if (roleRequired === 'admin' && !admin.adminAToken) {
     return <Navigate to="/admin/login" replace />;
   }
 
