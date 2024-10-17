@@ -5,3 +5,8 @@ export const loginAdminService = (data)=>{
     return admin_api.post(URLS.AUTHENTICATION.login,data)
 }
 
+export const adminGetPropertiesService = ({propStatus='',page=''}) =>{
+    return admin_api.get(URLS.ADMINMANAGEMENT.all_properties,
+        {params: { propStatus, page}}
+    )
+}

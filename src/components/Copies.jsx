@@ -1,105 +1,47 @@
 import React, { useState } from 'react';
-import { FiHome, FiUsers, FiKey, FiBriefcase, FiMessageSquare, FiCalendar, FiLogOut, FiBell, FiSettings, FiSearch, FiChevronLeft, FiChevronRight, FiMenu, FiX } from 'react-icons/fi';
+import { FiSearch, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
-const Sidebar = ({ isOpen, toggleSidebar }) => (
-  <div className={`${isOpen ? 'translate-x-0' : '-translate-x-full'} transform transition-transform duration-300 ease-in-out fixed inset-y-0 left-0 z-30 w-64 bg-gray-900 text-white overflow-y-auto lg:translate-x-0 lg:static lg:inset-0`}>
-    <div className="p-4 flex justify-between items-center">
-      <h1 className="text-2xl font-bold">HostHunt</h1>
-      <button className="lg:hidden text-white" onClick={toggleSidebar}>
-        <FiX className="h-6 w-6" />
-      </button>
-    </div>
-    <nav className="mt-8">
-      <SidebarItem icon={<FiHome />} text="Dashboard" />
-      <SidebarItem icon={<FiUsers />} text="Users" />
-      <SidebarItem icon={<FiKey />} text="Property Owners" />
-      <SidebarItem icon={<FiBriefcase />} text="Properties" active />
-      <SidebarItem icon={<FiMessageSquare />} text="Communication" />
-      <SidebarItem icon={<FiCalendar />} text="Bookings" />
-    </nav>
-    <div className="absolute bottom-0 p-4">
-      <SidebarItem icon={<FiLogOut />} text="Logout" />
-    </div>
-  </div>
+const FilterButton = ({ label, isActive, onClick }) => (
+  <button
+    className={`px-4 py-2 rounded-md ${
+      isActive ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+    }`}
+    onClick={onClick}
+  >
+    {label}
+  </button>
 );
 
-const SidebarItem = ({ icon, text, active }) => (
-  <div className={`flex items-center p-4 ${active ? 'bg-gray-800' : 'hover:bg-gray-800'}`}>
-    {icon}
-    <span className="ml-4">{text}</span>
-  </div>
-);
-
-const Header = ({ toggleSidebar }) => (
-  <div className="flex justify-between items-center p-4 bg-gray-800">
-    <div className="flex items-center">
-      <button className="mr-2 lg:hidden text-white" onClick={toggleSidebar}>
-        <FiMenu className="h-6 w-6" />
-      </button>
-      <h2 className="text-xl font-semibold text-white">Properties</h2>
-    </div>
-    <div className="flex items-center space-x-4">
-      <button className="text-white">
-        <FiBell className="h-5 w-5" />
-      </button>
-      <button className="text-white">
-        <FiSettings className="h-5 w-5" />
-      </button>
-      <div className="bg-yellow-500 rounded-full w-8 h-8 flex items-center justify-center">
-        <span className="text-gray-900 font-semibold">A</span>
-      </div>
-    </div>
-  </div>
-);
-
-const FilterButtons = () => (
-  <div className="flex flex-wrap gap-2 mb-4">
-    <button className="bg-blue-500 text-white px-4 py-2 rounded">Verified</button>
-    <button className="bg-gray-700 text-white px-4 py-2 rounded">In review</button>
-    <button className="bg-gray-700 text-white px-4 py-2 rounded">Rejected</button>
-  </div>
-);
-
-const SearchBar = () => (
-  <div className="relative mb-4">
-    <FiSearch className="absolute left-3 top-3 text-gray-400" />
+const SearchBar = ({ onSearch }) => (
+  <div className="relative">
+    <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
     <input
       type="text"
       placeholder="Search by ID, product, or others..."
       className="w-full pl-10 pr-4 py-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      onChange={(e) => onSearch(e.target.value)}
     />
   </div>
 );
 
-const PropertyTable = ({ properties }) => (
+const Table = ({ data, columns }) => (
   <div className="overflow-x-auto">
-    <table className="min-w-full bg-gray-800 text-white">
+    <table className="min-w-full  text-white">
       <thead>
-        <tr className="border-b border-gray-700">
-          <th className="py-3 px-4 text-left">Name</th>
-          <th className="py-3 px-4 text-left">Property type</th>
-          <th className="py-3 px-4 text-left">E-mail</th>
-          <th className="py-3 px-4 text-left">Phone</th>
-          <th className="py-3 px-4 text-left">Action</th>
+        <tr>
+          {columns.map((column) => (
+            <th key={column.key} className="py-3 px-4 text-left">{column.label}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
-        {properties.map((property, index) => (
-          <tr key={index} className="border-b border-gray-700">
-            <td className="py-3 px-4">{property.name}</td>
-            <td className="py-3 px-4">{property.type}</td>
-            <td className="py-3 px-4">{property.email}</td>
-            <td className="py-3 px-4">{property.phone}</td>
-            <td className="py-3 px-4">
-              <div className="flex items-center space-x-2">
-                <button className="text-red-500">
-                  <FiSearch className="h-4 w-4" />
-                </button>
-                <button className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
-                  1
-                </button>
-              </div>
-            </td>
+        {data.map((row, index) => (
+          <tr key={index} className="border-t border-gray-700">
+            {columns.map((column) => (
+              <td key={column.key} className="py-3 px-4">
+                {column.render ? column.render(row) : row[column.key]}
+              </td>
+            ))}
           </tr>
         ))}
       </tbody>
@@ -107,48 +49,114 @@ const PropertyTable = ({ properties }) => (
   </div>
 );
 
-const Pagination = () => (
+const Pagination = ({ currentPage, totalPages, onPageChange }) => (
   <div className="flex justify-center items-center space-x-2 mt-4">
-    <button className="text-gray-400">
-      <FiChevronLeft className="h-4 w-4" />
+    <button
+      className="text-gray-400 disabled:opacity-50"
+      onClick={() => onPageChange(currentPage - 1)}
+      disabled={currentPage === 1}
+    >
+      <FiChevronLeft className="h-5 w-5" />
     </button>
-    <button className="px-3 py-1 rounded bg-gray-700 text-white">1</button>
-    <button className="px-3 py-1 rounded bg-blue-500 text-white">2</button>
-    <button className="px-3 py-1 rounded bg-gray-700 text-white">3</button>
-    <button className="px-3 py-1 rounded bg-gray-700 text-white">4</button>
-    <span className="text-gray-400">...</span>
-    <button className="px-3 py-1 rounded bg-gray-700 text-white">20</button>
-    <button className="text-gray-400">
-      <FiChevronRight className="h-4 w-4" />
+    {[...Array(totalPages)].map((_, i) => (
+      <button
+        key={i}
+        className={`px-3 py-1 rounded ${
+          currentPage === i + 1 ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300'
+        }`}
+        onClick={() => onPageChange(i + 1)}
+      >
+        {i + 1}
+      </button>
+    ))}
+    <button
+      className="text-gray-400 disabled:opacity-50"
+      onClick={() => onPageChange(currentPage + 1)}
+      disabled={currentPage === totalPages}
+    >
+      <FiChevronRight className="h-5 w-5" />
     </button>
   </div>
 );
 
-export default function PropertyList() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+const PropertyList = () => {
+  const [filter, setFilter] = useState('verified');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
-  const properties = [
-    { name: 'La Mer Inn', type: 'Street 1 New Delhi', email: 'ajith@gmail.com', phone: '1234567890' },
-    { name: 'Kochin inn', type: 'Kochi', email: 'SS@gmail.com', phone: '9876543234' },
-    { name: 'New Enclave', type: 'BB street Bangalore', email: 'ayesh@gmail.com', phone: '6545678900' },
-    { name: 'ABC inn', type: 'Allappey', email: 'asds@gmail.com', phone: '9876787657' },
-    { name: 'New Castle', type: 'Alwaye', email: 'vinayak@gmail.com', phone: '9857689755' },
-    { name: 'Apples Inn', type: 'Kolkata', email: 'clint@gmail.com', phone: '9245778886' },
+  const allProperties = [
+    { id: 1, name: 'La Mer Inn', type: 'Street 1 New Delhi', email: 'ajith@gmail.com', phone: '1234567890', status: 'verified' },
+    { id: 2, name: 'Kochin inn', type: 'Kochi', email: 'SS@gmail.com', phone: '9876543234', status: 'in_review' },
+    { id: 3, name: 'New Enclave', type: 'BB street Bangalore', email: 'ayesh@gmail.com', phone: '6545678900', status: 'rejected' },
+    { id: 11, name: 'La Mer Inn', type: 'Street 1 New Delhi', email: 'ajith@gmail.com', phone: '1234567890', status: 'verified' },
+    { id: 21, name: 'Kochin inn', type: 'Kochi', email: 'SS@gmail.com', phone: '9876543234', status: 'in_review' },
+    { id: 31, name: 'New Enclave', type: 'BB street Bangalore', email: 'ayesh@gmail.com', phone: '6545678900', status: 'rejected' },
+    { id: 10, name: 'La Mer Inn', type: 'Street 1 New Delhi', email: 'ajith@gmail.com', phone: '1234567890', status: 'verified' },
+    { id: 2, name: 'Kochin inn', type: 'Kochi', email: 'SS@gmail.com', phone: '9876543234', status: 'in_review' },
+    { id: 3, name: 'New Enclave', type: 'BB street Bangalore', email: 'ayesh@gmail.com', phone: '6545678900', status: 'rejected' },
+    { id: 1, name: 'La Mer Inn', type: 'Street 1 New Delhi', email: 'ajith@gmail.com', phone: '1234567890', status: 'verified' },
+    { id: 2, name: 'Kochin inn', type: 'Kochi', email: 'SS@gmail.com', phone: '9876543234', status: 'in_review' },
+    { id: 3, name: 'New Enclave', type: 'BB street Bangalore', email: 'ayesh@gmail.com', phone: '6545678900', status: 'rejected' },
+    { id: 4, name: 'ABC inn', type: 'Allappey', email: 'asds@gmail.com', phone: '9876787657', status: 'verified' },
+    { id: 5, name: 'New Castle', type: 'Alwaye', email: 'vinayak@gmail.com', phone: '9857689755', status: 'in_review' },
+    { id: 6, name: 'Apples Inn', type: 'Kolkata', email: 'clint@gmail.com', phone: '9245778886', status: 'verified' },
+    // Add more properties as needed
+  ];
+
+  const filteredProperties = allProperties
+    .filter(property => property.status === filter)
+    .filter(property => 
+      Object.values(property).some(value => 
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+
+  const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
+  const paginatedProperties = filteredProperties.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const columns = [
+    { key: 'name', label: 'Name' },
+    { key: 'type', label: 'Property type' },
+    { key: 'email', label: 'E-mail' },
+    { key: 'phone', label: 'Phone' },
+    { 
+      key: 'action', 
+      label: 'Action',
+      render: (row) => (
+        <div className="flex items-center space-x-2">
+          <button className="text-red-500">
+            <FiSearch className="h-4 w-4" />
+          </button>
+          <button className="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center">
+            1
+          </button>
+        </div>
+      )
+    },
   ];
 
   return (
-    <div className="flex bg-gray-900 text-white min-h-screen">
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className="flex-1 flex flex-col">
-        <Header toggleSidebar={toggleSidebar} />
-        <div className="p-4 md:p-8 overflow-auto">
-          <FilterButtons />
-          <SearchBar />
-          <PropertyTable properties={properties} />
-          <Pagination />
-        </div>
+    <>
+      <div className="mb-6 flex flex-wrap gap-4">
+        <FilterButton label="Verified" isActive={filter === 'verified'} onClick={() => setFilter('verified')} />
+        <FilterButton label="In review" isActive={filter === 'in_review'} onClick={() => setFilter('in_review')} />
+        <FilterButton label="Rejected" isActive={filter === 'rejected'} onClick={() => setFilter('rejected')} />
       </div>
-    </div>
+      <div className="mb-6">
+        <SearchBar onSearch={setSearchTerm} />
+      </div>
+      <Table data={paginatedProperties} columns={columns} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+    </>
   );
-}
+};
+
+export default PropertyList;

@@ -2,9 +2,18 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { FiLogOut, FiX } from 'react-icons/fi';
+import { useDispatch } from 'react-redux';
+import { logoutAdmin } from '../../../redux/admin/adminSlice';
 
 
-const AdminSidebar = ({ isOpen, toggleSidebar, activeItem, setActiveItem, sidebarItems }) => (
+const AdminSidebar = ({ isOpen, toggleSidebar, activeItem, setActiveItem, sidebarItems }) => {
+  const dispatch = useDispatch();
+
+  const handleAdminLogout = ()=>{
+    dispatch(logoutAdmin());
+    // dispatch(adminLogout())
+  }
+ return (
     <div className={`${isOpen ? 'translate-x-0' : '-translate-x-full'} transform transition-transform duration-300 ease-in-out fixed inset-y-0 left-0 z-30 w-64 bg-slate-900 text-white overflow-y-auto lg:translate-x-0 lg:static lg:inset-0`}>
       <div className="p-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold">HostHunt</h1>
@@ -26,11 +35,12 @@ const AdminSidebar = ({ isOpen, toggleSidebar, activeItem, setActiveItem, sideba
         ))}
       </nav>
       <div className="absolute bottom-0 p-4">
-        <SidebarItem icon={<FiLogOut />} text="Logout" />
+        <SidebarItem onClick={handleAdminLogout} icon={<FiLogOut />} text="Logout" />
       </div>
     </div>
-  );
   
+      )
+}
   const SidebarItem = ({ icon, text, active, onClick, link }) => (
     <Link to = {link}
       className={`flex items-center p-4 cursor-pointer ${

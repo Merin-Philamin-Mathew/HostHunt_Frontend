@@ -12,7 +12,7 @@ function DashboardLayout({ children }) {
     { title: 'Messages', link: '/host/messages', icon: <FaCommentDots /> },
     { title: 'Bookings', link: '/host/bookings', icon: <FaClipboardList /> },
     { title: 'Notifications', link: '/host/notifications', icon: <FaBell /> },
-    { title: 'Sign out', link: '/', icon: <FaSignOutAlt /> }
+    { title: 'Sign out', link: '/', icon: <FaSignOutAlt /> },
   ];
 
   return (

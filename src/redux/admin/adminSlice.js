@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import { adminLogin } from "./adminActions";
+import { adminGetProperties, adminLogin } from "./adminActions";
 
 
 const initialState = {
@@ -56,7 +56,7 @@ const adminSlice = createSlice({
         .addCase(adminLogin.rejected,(state,action)=>{
             console.log('adminloginrejected',action);
             state.loading = false
-            state.error = action.payload?.reasons
+            state.error = action.payload
         })
       
         // // logout
@@ -89,20 +89,20 @@ const adminSlice = createSlice({
         //     state.loading = false
         // })
         // // getproperties
-        // .addCase(adminGetProperties.fulfilled,(state,action)=>{
-        //     console.log('getpropertiesfull',action);
-        //     state.propertiesData = action.payload
-        //     state.loading = false
-        // })
-        // .addCase(adminGetProperties.pending, (state)=>{
-        //     state.loading = true
-        // })
-        // .addCase(adminGetProperties.rejected, (state,action)=>{
-        //     console.log('getPropertiesReject',action)
-        //     // state.error = action.payload?.reasons
-        //     // console and complete
-        //     state.loading = false
-        // })
+        .addCase(adminGetProperties.fulfilled,(state,action)=>{
+            console.log('getpropertiesfull',action);
+            state.propertiesData = action.payload
+            state.loading = false
+        })
+        .addCase(adminGetProperties.pending, (state)=>{
+            state.loading = true
+        })
+        .addCase(adminGetProperties.rejected, (state,action)=>{
+            console.log('getPropertiesReject',action)
+            // state.error = action.payload?.reasons
+            // console and complete
+            state.loading = false
+        })
     }
 })
 

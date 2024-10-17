@@ -1,9 +1,9 @@
 import React from 'react';
-import HostelCard from '../cards/HostelCard';
 import SubHeader from '../utils/SubHeader';
 import Button from '../utils/Button';
 import { FaPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
+import HostelCard from '../utils/cards/HostelCard';
 
 const POManageListings = () => {
   const navigate = useNavigate();

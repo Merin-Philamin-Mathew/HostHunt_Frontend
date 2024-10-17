@@ -27,9 +27,9 @@ import PoliciesServicesForm from '../components/property_owner/new_listings/Poli
 import ReviewAndSubmit from '../components/property_owner/new_listings/ReviewAndSubmit';
 
 
-import AdminLogin from '../pages/admin/AdminLogin';
+import AdminLogin from '../pages/admin/Login/AdminLogin';
 import AdminLayout from '../components/Layouts/AdminLayout';
-import PropertyList from '../pages/admin/PropertyList';
+import PropertyList from '../pages/admin/Properties/PropertyList';
 import ProtectedRoute from './ProtectedRoute';
 
 let const_data = {

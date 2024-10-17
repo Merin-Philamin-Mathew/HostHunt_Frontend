@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { loginAdminService } from "./adminService";
-import { logoutAdmin, setAdminsData } from "./adminSlice";
-import { toast } from "react-toastify";
+import { adminGetPropertiesService, loginAdminService } from "./adminService";
+import {  setAdminsData } from "./adminSlice";
 
 export const adminLogin = createAsyncThunk('adminLogin', async({email,password,user_type}, thunkAPI)=>{
     try{
@@ -11,20 +10,18 @@ export const adminLogin = createAsyncThunk('adminLogin', async({email,password,u
         return response.data;
     }catch (error){
         console.log(error.response.data.error,'//adminloginAction//',error.message,error.response);
-            // if (e.response) {
-            //         const { status } = e.response;
-            //         if (status === 403) {
-            //             toast.error('Access Denied: User is not an admin.');
-            //         } else if (status === 404) {
-            //             toast.error('User not found.');
-            //         } else if (status === 401) {
-            //             toast.error('Incorrect password.');
-            //         } else {
-            //             toast.error('An error occurred. Please try again.');
-            //         }
-            //     } else {
-            //         toast.error('An unexpected error occurred. Please try again later.');
-            //     }
+        return thunkAPI.rejectWithValue(error.response.data.error)
+    }
+})
+
+
+
+export const adminGetProperties = createAsyncThunk('adminGetUsers',async (thunkAPI) =>{
+    try {
+        const response = await adminGetPropertiesService();
+        console.log('adminGetProperties:responsethunk...',response.data);
+        return response.data;
+    } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data.error)
     }
 })

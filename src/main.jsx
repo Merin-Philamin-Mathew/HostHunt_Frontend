@@ -8,7 +8,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import store, { persistor } from './redux/store.js';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <GoogleOAuthProvider 
       clientId="885489626025-i725tkjcmt11rkmb8jk27ep03tthkmsm.apps.googleusercontent.com"
       >
@@ -18,5 +18,5 @@ createRoot(document.getElementById('root')).render(
           </PersistGate>
         </Provider>
     </GoogleOAuthProvider>
-  </StrictMode>
+  // </StrictMode>
 )

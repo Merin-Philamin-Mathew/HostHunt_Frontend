@@ -23,19 +23,21 @@ const navigate = useNavigate()
 
 useEffect(()=>{
   console.log('adminLOGFORM useEffect');
-  if(adminAToken){
-    console.log('adminatoken',adminAToken);
-    navigate('/admin/dashboard',{replace:true})
-    return
-  }
   if(message){
     console.log('message',message);
     toast.success(message)
     dispatch(resetAdminActions())
     return
   }
+  if(adminAToken){
+    console.log('adminatoken',adminAToken);
+    navigate('/admin/dashboard',{replace:true})
+    return
+  }
   if(error){
     console.log('error',error);
+    toast.error(error)
+    dispatch(resetAdminActions())
   }
 },[adminAToken,error,message])
 
