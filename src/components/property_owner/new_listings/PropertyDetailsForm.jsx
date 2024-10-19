@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
 import { api } from '../../../apis/axios';
 import URLS from '../../../apis/urls';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { PropertyDetailsSchema } from './new_listing_data';
+import { ownerAddPropertyDetails, ownerUpdatePropertyDetails } from '../../../features/Property/PropertyServices';
 
 const PropertyDetailsForm = () => {
   const navigate = useNavigate();
 
-  // State for initial form values
   const [initialValues, setInitialValues] = useState({
-    property_name: '',
     property_type: '',
+    property_name: '',
     city: '',
     address: '',
     postcode: '',
@@ -29,10 +29,9 @@ const PropertyDetailsForm = () => {
     if (storedPropertyDetails) {
       const propertyDetails = JSON.parse(storedPropertyDetails);
 
-      console.log('dfsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsdsd',propertyDetails);
+      console.log('property details from localstorage',propertyDetails);
       
 
-      // Update initial values with fetched data from local storage
       setInitialValues({
         property_name: propertyDetails.property_name || '',
         property_type: propertyDetails.property_type || '',
@@ -41,21 +40,11 @@ const PropertyDetailsForm = () => {
         postcode: propertyDetails.postcode || '',
         total_bed_rooms: propertyDetails.total_bed_rooms || '',
         no_of_beds: propertyDetails.no_of_beds || '',
-        thumbnail_image: propertyDetails.thumbnail_image || '', // Load the image path
+        thumbnail_image: propertyDetails.thumbnail_image_url || '', 
       });
     }
   }, []);
 
-  const PropertyDetailsSchema = Yup.object().shape({
-    property_name: Yup.string().required('Property Name is required'),
-    property_type: Yup.string().required('Property Type is required'),
-    city: Yup.string().required('City is required'),
-    address: Yup.string().required('Address is required'),
-    postcode: Yup.number().required('Postcode is required').integer('Invalid postcode'),
-    thumbnail_image: Yup.mixed().required('Thumbnail Image is required'),
-    total_bed_rooms: Yup.number().required('Total Bedrooms is required').integer(),
-    no_of_beds: Yup.number().required('Number of Beds is required').integer(),
-  });
 
   return (
     <Formik
@@ -68,7 +57,6 @@ const PropertyDetailsForm = () => {
           const storedPropertyId = localStorage.getItem('property_id');
           const formData = new FormData();
           
-          // Append all fields to formData including the image file
           for (const key in values) {
             formData.append(key, values[key]);
           }
@@ -77,23 +65,17 @@ const PropertyDetailsForm = () => {
           if (storedPropertyId) {
             // Update existing property
             console.log('====================================');
-            
-            response = await api.put(`${URLS.NEWLISTING['property_details']}/${storedPropertyId}/`, formData, {
-              headers: { 'Content-Type': 'multipart/form-data' },
-            });
+            response = await ownerUpdatePropertyDetails(storedPropertyId,formData)
           } else {
             console.log('//////////////////////////////');
             // Create new property
-            response = await api.post(URLS.NEWLISTING['property_details'], formData, {
-              headers: { 'Content-Type': 'multipart/form-data' },
-            });
+            response = await ownerAddPropertyDetails(formData)
           }
     
           console.log('Response data:', response.data);
           
           const thumbnailFilename = response?.data?.data?.thumbnail_image
-    
-          // Save the property details with the image filename
+
           const updatedPropertyDetails = {
             ...values,
             thumbnail_image: thumbnailFilename
@@ -107,31 +89,25 @@ const PropertyDetailsForm = () => {
           console.log('error', e);
         
           if (e.response && e.response.data) {
-            // Check for non-field errors (general errors not tied to a specific field)
             if (e.response.data.non_field_errors) {
               toast.error(e.response.data.non_field_errors[0]);
             }
             
-            // Check for thumbnail image errors
             else if (e.response.data.thumbnail_image) {
               toast.error('Please upload a valid image file.');
             }
         
-            // Handle other field-specific errors
             else {
-              // Get the first field that has an error
               const errorField = Object.keys(e.response.data)[0];
         
               // If there are any errors for that field, toast the first error message
               if (e.response.data[errorField] && e.response.data[errorField].length > 0) {
                 toast.error(`Error with ${errorField}: ${e.response.data[errorField][0]}`);
               } else {
-                // Fallback for unexpected errors
                 toast.error('An unexpected error occurred. Please try again later.');
               }
             }
           } else {
-            // If no response data is available, toast a generic error message
             toast.error('An unexpected error occurred. Please try again later.');
           }
         }
