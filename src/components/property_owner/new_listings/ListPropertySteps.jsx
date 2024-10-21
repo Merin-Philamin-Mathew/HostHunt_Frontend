@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCheck, FaLock, FaSpinner } from 'react-icons/fa';
-import POHeader from '../partials/POHeader';
-import { IoReturnDownBackOutline } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
-import { owner_api } from '../../../apis/axios';
 import URLS from '../../../apis/urls';
+import POHeader from '../partials/POHeader';
 
 const stepsData = [
   { title: 'List and Verify Property', description: 'Submit your property documentation.', status: 'pending' },
@@ -27,6 +25,9 @@ const ListPropertySteps = () => {
       case 'in_review':
         setCurrentStep(1);
         break;
+      case 'verified':
+        setCurrentStep(2);
+        break;
       case 'completed':
         setCurrentStep(3);
         break;
@@ -36,6 +37,7 @@ const ListPropertySteps = () => {
   }, []);
 
   const handleNextStep = () => {
+    
     if (currentStep < stepsData.length - 1) {
       setCurrentStep(currentStep + 1);
     }
@@ -59,22 +61,8 @@ const ListPropertySteps = () => {
     }
   };
 
-  const handleAddListing = () => {
-    // Set initial step to 0
-    localStorage.setItem('property_status', 'in_progress');
-    navigate('/host/new-listing'); // change the path to your target route
-  };
 
-  const testapi = async () => {
-      try {
-        const response = await api.post(URLS.AUTHENTICATION['login'], { ...values, user_type: 'admin' });
-        console.log(response.data);
-        toast.success('Admin logged in successfully!');
-      }
-      catch(e){
 
-      }
-  }
 
   return (
     <>
@@ -88,7 +76,6 @@ const ListPropertySteps = () => {
             List Your Property - Step by Step
           </h1>
         </div>
-          <button className='p-3 bg-black text-white' onClick={testapi}>blah</button>
         <div className="w-full max-w-3xl">
           {stepsData.map((step, index) => (
             <div
@@ -100,27 +87,35 @@ const ListPropertySteps = () => {
                 {getStatusIcon(index)}
               </div>
 
-              {/* Step Content */}
               <div className={`ml-4 flex-grow ${index > currentStep ? 'text-gray-400' : ''}`}>
                 <h3 className="text-lg">{step.title}</h3>
                 <p className="text-sm">{step.description}</p>
               </div>
 
-              {/* Step Action Button */}
               {index === currentStep && (
-                <Link to='/host/new-listing/property-details'>
+                <>
                   
                   {index === 0 ?
-                  <button
-                    className="bg-themeColor text-white font-bold py-2 px-4 rounded-lg ml-auto"
-                    onClick={handleNextStep}
-                  >
-                    Verify Property
-                  </button>
+                  <Link  to='/host/new-listing/property-details'>
+                    <button
+                      className="bg-themeColor text-white font-bold py-2 px-4 rounded-lg ml-auto"
+                      onClick={handleNextStep}
+                      >
+                      Verify Property
+                    </button>
+                    </Link>
                   : index === 1 ? '' 
-                  : ''}
-                    {/* {index === 0 ? 'Verify Property' : index === 1 ? 'Admin Review' : 'Complete Onboarding'} */}
-                </Link>
+                  : index === 2 ? 
+                  <Link  to='/host/new-listing/onboarding_form'>
+                     <button
+                      className="bg-themeColor text-white font-bold py-2 px-4 rounded-lg ml-auto"
+                      onClick={handleNextStep}
+                      >
+                     Complete Onboarding
+                    </button>
+                  </Link>
+                :''}
+                </>
               )}
             </div>
           ))}

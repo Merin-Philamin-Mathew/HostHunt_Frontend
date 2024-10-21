@@ -12,11 +12,18 @@ const URLS = {
         'facilities':'property/new-listing/facilities',
         'policies_services':'property/new-listing/policies-services',
         'submit_review':'property/new-listing/submit_review',
+        // doc of single property
+        'property_documents':'property/documents',
     },
 
+    HOSTMANAGEMENT: {
+        'host_properties':'/property/host-properties/',
+    },
     ADMINMANAGEMENT: {
-        'all_properties':'property/all-properties'
-    }
+        'all_properties':'property/all-properties',
+        'basic_details':'property/basic-details',
+        'approve_reject_property':'admin/property/approval'
+    },
 
 }
 

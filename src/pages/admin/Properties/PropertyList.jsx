@@ -73,6 +73,8 @@ const PropertyList = () => {
 
   return (
     <>
+     <div className='flex-1 overflow-auto p-9 bg-slate-800 rounded-lg h-full'>
+
       {/* Filter Buttons */}
       <div className="mb-6 flex flex-wrap gap-4">
         <FilterButton
@@ -113,6 +115,7 @@ const PropertyList = () => {
           />
         </>
       )}
+      </div>
     </>
   );
 };

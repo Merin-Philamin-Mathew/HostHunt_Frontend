@@ -13,8 +13,6 @@ const sidebarItems = [
 ];
 
 
-
-
 const AdminOutlet = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeItem, setActiveItem] = useState('dashboard');
@@ -38,9 +36,9 @@ const AdminOutlet = ({ children }) => {
       <div className="flex-1 flex flex-col">
         <AdminHeader toggleSidebar={toggleSidebar} title={getTitle()} />
         <main className="flex-1 p-6 md:p-10 overflow-auto bg-slate-600 text-slate-800">
-            <div className='flex-1 overflow-auto p-9 bg-slate-800 rounded-lg h-full'>
+            {/* <div className='flex-1 overflow-auto p-9 bg-slate-800 rounded-lg h-full'> */}
           {children}
-            </div>
+            {/* </div> */}
         </main>
       </div>
     </div>

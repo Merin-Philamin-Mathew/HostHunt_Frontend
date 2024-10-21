@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import { api } from '../../../apis/axios';
 import URLS from '../../../apis/urls';
@@ -8,21 +8,34 @@ import { MdDelete } from "react-icons/md";
 import { useNavigate } from 'react-router';
 
 const DocumentsForm = () => {
-  const [images, setImages] = useState([]); // manage image uploads
-  const maxNumber = 5; // maximum images to be uploaded
+  const [images, setImages] = useState([]);
+  const [doc_urls, setDocUrls] = useState([]); 
+  const [canDisplayForm, setCanDisplayForm] = useState(false);
+  const maxNumber = 5; 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const storedPropertyId = localStorage.getItem('property_id');
+
+    if (storedPropertyId) {
+      setCanDisplayForm(true); 
+    }
+  }, []);
   const handleFormSubmit = async () => {
+    if (images.length < 2) {
+      toast.error("Please upload at least two documents (property ownership/license and proof of address).");
+      return;
+    }
+
     try {
       const formData = new FormData();
-      const propertyId = localStorage.getItem('property_id'); // Get property ID from local storage
-  
-      // Add images to formData when submitting
+      const propertyId = localStorage.getItem('property_id'); 
+      
       images.forEach((image, index) => {
-        formData.append('files', image.file);  // Sending as files array
+        formData.append('files', image.file);  
       });
   
-      formData.append('property_id', propertyId); // Add property ID to formData
+      formData.append('property_id', propertyId)
   
       const response = await api.post(URLS.NEWLISTING['documents'], formData, {
         headers: {
@@ -40,12 +53,15 @@ const DocumentsForm = () => {
       toast.success('Documents uploaded successfully!');
     } catch (e) {
       console.error('Error uploading documents:', e);
-      toast.error('An unexpected error occurred. Please try again later.');
+      toast.error(e.response.data.error);
     }
   };
   
 
   return (
+    <>
+      {canDisplayForm ? (
+    
     <Formik
       initialValues={{}}
       onSubmit={handleFormSubmit}
@@ -71,12 +87,11 @@ const DocumentsForm = () => {
               Utility bill (gas, electricity, water), tax documents, local government documents, etc.
 
             </div>
-          {/* Drag-and-Drop Image Upload */}
           <div className=''>
             <ImageUploading
               multiple
               value={images}
-              onChange={(imageList) => setImages(imageList)} // Update state on change
+              onChange={(imageList) => setImages(imageList)} 
               maxNumber={maxNumber}
               dataURLKey="data_url"
             >
@@ -105,19 +120,21 @@ const DocumentsForm = () => {
 
                   <div className="flex justify-center mt-4">
                     {/* Displaying uploaded images */}
-                    <div className="image-preview grid grid-cols-5 p-10 border bg-muted_bg shadow-xl gap-6">
+                    {/* I encountered a problem here, these delete and update button were acting as submit button and
+                    by that the form was getting submitted, solved by giving type botton */}
+                    <div className="image-preview grid grid-cols-5 p-10 border  shadow-xl gap-6">
                       {imageList.map((image, index) => (
                         <div key={index} className="image-item">
                           <img src={image['data_url']} alt="" className="w-24 h-24 object-cover" />
                           <div className="image-item__btn-wrapper flex mt-1">
                             <button 
-                              type="button" // Ensure image update button does not submit form
+                              type="button"
                               onClick={() => onImageUpdate(index)} 
                               className="px-2 py-1 text-xs bg-blue-500 text-white rounded-md">
                               Update
                             </button>
                             <button 
-                              type="button" // Ensure remove button does not submit form
+                              type="button"
                               onClick={() => onImageRemove(index)} 
                               className="ml-1 px-2 py-1 text-xs bg-red-500 text-white rounded-md">
                               Remove
@@ -130,7 +147,7 @@ const DocumentsForm = () => {
 
                   <div className='flex justify-center items-end mt-5'>
                     <button 
-                      type="button" // Prevent the Remove All button from submitting the form
+                      type="button"
                       onClick={onImageRemoveAll} 
                       className="ml-2 px-4 py-2 flex items-center text-block rounded-md ">
                       <MdDelete /> Remove All
@@ -157,6 +174,13 @@ const DocumentsForm = () => {
         </Form>
       )}
     </Formik>
+  ) : (
+        <div className="p-4 md:p-8 bg-white rounded-3xl shadow-xl">
+          <h2 className="text-2xl font-bold mb-2 text-red-600">Incomplete Form</h2>
+          <p>Please complete all steps of the property form </p>
+        </div>
+      )}
+    </>
   );
 };
 

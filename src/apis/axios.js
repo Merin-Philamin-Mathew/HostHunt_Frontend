@@ -15,7 +15,8 @@ api.interceptors.request.use(
     (config) => {
         const token = store.getState()?.user?.user?.access;
         if (token) {
-            console.log('normal_user_api_haaha');
+            // console.log(token,'tokennn');
+            console.log('normal_user_api');
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
         console.log('normaluser Request config:', config);  // Check if Authorization header is being set correctly
@@ -68,10 +69,10 @@ admin_api.interceptors.request.use(
         console.log('ddddd');
         
         const token = store.getState()?.admin?.adminAToken;
-        console.log(token,'tokennn');
         
         if (token) {
-            console.log('admin_api_haaha');
+            // console.log(token,'tokennn');
+            console.log('admin_api');
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
         console.log('admin Request config:', config);  // Check if Authorization header is being set correctly

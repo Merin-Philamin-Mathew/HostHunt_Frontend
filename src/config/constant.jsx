@@ -31,6 +31,7 @@ import AdminLogin from '../pages/admin/Login/AdminLogin';
 import AdminLayout from '../components/Layouts/AdminLayout';
 import PropertyList from '../pages/admin/Properties/PropertyList';
 import ProtectedRoute from './ProtectedRoute';
+import ReviewPropertyDetailedPageAdminSide from '../pages/admin/Properties/ReviewPropertyDetailPageAdmin';
 
 let const_data = {
     REACT_ROUTER_PATH: [
@@ -115,10 +116,12 @@ let const_data = {
                 <AdminLayout><Outlet/></AdminLayout>
                     </ProtectedRoute>,
             children: [
-                {path: "/admin/dashboard",element: <PropertyList></PropertyList>},
+                {path: "/admin/dashboard",element: <></>},
                 {path: "/admin/bookings",element: <></>},
                 {path: "/admin/properties",element: <PropertyList/>},
-                {path: "/admin/users",element: <></>}
+                {path: "/admin/users",element: <></>},
+
+                { path: "/admin/in-review/property-details/:property_id", element: <ReviewPropertyDetailedPageAdminSide /> },
             ]
         },
     ],

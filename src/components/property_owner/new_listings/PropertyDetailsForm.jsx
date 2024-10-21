@@ -1,14 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
+
 import { api } from '../../../apis/axios';
 import URLS from '../../../apis/urls';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { PropertyDetailsSchema } from './new_listing_data';
-import { ownerAddPropertyDetails, ownerUpdatePropertyDetails } from '../../../features/Property/PropertyServices';
+
+import { FaEdit } from 'react-icons/fa';
+
 
 const PropertyDetailsForm = () => {
+
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState('');
+  const [property_id, setProperty_id] = useState('');
+  const [isLoading, setLoading] = useState(false)
+
+  const handleEditImgpopUp = (event,setFieldValue)=>{
+    const file = event.currentTarget.files[0];
+    
+    setFieldValue('thumbnail_image', file);
+    
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setThumbnailPreview(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+
 
   const [initialValues, setInitialValues] = useState({
     property_type: '',
@@ -17,20 +41,23 @@ const PropertyDetailsForm = () => {
     address: '',
     postcode: '',
     thumbnail_image: null,
+    thumbnail_image_url: '',
     total_bed_rooms: '',
     no_of_beds: '',
   });
 
   useEffect(() => {
-    const storedPropertyDetails = localStorage.getItem('property_details');
     console.log('propertyDetailsform useEffect');
-    
+    const storedPropertyDetails = localStorage.getItem('property_details');
+    const storedPropertyId = localStorage.getItem('property_id');
+    if (storedPropertyId)[
+      setProperty_id(storedPropertyId)
+    ]
 
     if (storedPropertyDetails) {
       const propertyDetails = JSON.parse(storedPropertyDetails);
-
-      console.log('property details from localstorage',propertyDetails);
-      
+      setThumbnailPreview(propertyDetails.thumbnail_image_url)
+      console.log('property details from localstorage',propertyDetails.thumbnail_image_url);
 
       setInitialValues({
         property_name: propertyDetails.property_name || '',
@@ -40,10 +67,11 @@ const PropertyDetailsForm = () => {
         postcode: propertyDetails.postcode || '',
         total_bed_rooms: propertyDetails.total_bed_rooms || '',
         no_of_beds: propertyDetails.no_of_beds || '',
-        thumbnail_image: propertyDetails.thumbnail_image_url || '', 
+        thumbnail_image_url: propertyDetails.thumbnail_image_url || '', // Load the image path
       });
     }
   }, []);
+
 
 
   return (
@@ -55,30 +83,42 @@ const PropertyDetailsForm = () => {
         console.log('property_details', values);
         try {
           const storedPropertyId = localStorage.getItem('property_id');
+          const s3_file_path = localStorage.getItem('s3_file_path');
           const formData = new FormData();
           
           for (const key in values) {
             formData.append(key, values[key]);
           }
-    
+          if (s3_file_path) {
+            formData.append('s3_file_path', s3_file_path);
+          }
           let response;
           if (storedPropertyId) {
             // Update existing property
+            setLoading(true)
             console.log('====================================');
-            response = await ownerUpdatePropertyDetails(storedPropertyId,formData)
+            response = await api.put(`${URLS.NEWLISTING['property_details']}/${storedPropertyId}/`, formData, {
+              headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            setLoading(false)
           } else {
-            console.log('//////////////////////////////');
             // Create new property
-            response = await ownerAddPropertyDetails(formData)
+            console.log('//////////////////////////////');
+            setLoading(true)
+            response = await api.post(URLS.NEWLISTING['property_details'], formData, {
+              headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            setLoading(false)
+            console.log(response,"response from property detaisl adding service");
+            localStorage.setItem('s3_file_path', response?.data?.s3_file_path);
+
           }
-    
+
           console.log('Response data:', response.data);
-          
-          const thumbnailFilename = response?.data?.data?.thumbnail_image
 
           const updatedPropertyDetails = {
-            ...values,
-            thumbnail_image: thumbnailFilename
+            ...response.data.data,
+            
           };
     
           localStorage.setItem('property_details', JSON.stringify(updatedPropertyDetails));
@@ -181,21 +221,48 @@ const PropertyDetailsForm = () => {
               )}
             </div>
 
+         
             <div>
-              <label htmlFor="thumbnail_image" className="block text-h5 font-heading">Thumbnail Image</label>
-              <input
+            <label htmlFor="thumbnail_image" className="block text-h5 font-heading">Thumbnail Image</label>
+            <input
                 name="thumbnail_image"
                 type="file"
-                onChange={(event) => setFieldValue('thumbnail_image', event.currentTarget.files[0])}
+                hidden={!!property_id}
+                onChange={(event) => handleEditImgpopUp(event, setFieldValue)}
                 className="w-full p-2 border border-gray-300 focus:ring-1 focus:ring-themeColor2 focus:outline-none shadow-md rounded-xl"
               />
-              {/* {initialValues.thumbnail_image && (
-                <img 
-                  src={`${URLS.BASE_URL}${initialValues.thumbnail_image}`} 
-                  alt="Thumbnail Preview" 
-                  className="mb-4 h-20 w-20" 
-                />
-              )} */}
+            {thumbnailPreview && (
+            <div className="flex justify-center rounded-lg shadow-md border py-3">
+              <div className="relative">
+              <img
+            src={thumbnailPreview}
+            alt="Thumbnail Preview"
+            className="h-20 w-20"
+          />
+                <div className="absolute top-0 right-0 text-white h-full w-full flex items-center justify-center opacity-0 hover:opacity-100 bg-[#535353c4]"  >
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current.click()} 
+                    className=" rounded-full p-1 shadow-lg "
+                  >
+                    <FaEdit/>
+                  </button>
+                  <input
+            ref={fileInputRef} 
+            name="thumbnail_image"
+            type="file"
+            hidden
+            onChange={(event) => handleEditImgpopUp(event, setFieldValue)}
+            className="w-full p-2 border border-gray-300 focus:ring-1 focus:ring-themeColor2 focus:outline-none shadow-md rounded-xl"
+          />
+
+                </div>
+              </div>
+            </div>
+          )}
+
+            
+               
 
               {errors.thumbnail_image && touched.thumbnail_image && (
                 <div className="text-error text-small">{errors.thumbnail_image}</div>
