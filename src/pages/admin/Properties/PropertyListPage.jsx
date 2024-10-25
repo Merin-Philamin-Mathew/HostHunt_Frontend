@@ -5,6 +5,7 @@ import RejectedProperties from '../../../components/admin/properties/RejectedPro
 import { SearchBar } from '../../../components/admin/properties/PropertySearchBar';
 import { adminGetPropertiesService } from '../../../redux/admin/adminService';
 import Pagination from '../../../components/utils/pagination/Pagination';
+import PublishedProperties from '../../../components/admin/properties/PublishedProperties';
 
 const FilterButton = ({ label, isActive, onClick }) => (
   <button
@@ -17,26 +18,19 @@ const FilterButton = ({ label, isActive, onClick }) => (
   </button>
 );
 
-const PropertyList = () => {
-  const [propStatus, setPropStatus] = useState('verified');
+const PropertyListPage = () => {
+  const [propStatus, setPropStatus] = useState('published');
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(1);
   const [response, setResponse] = useState(null); 
   const [loading, setLoading] = useState(false); 
 
-  // Fetch data based on propStatus and page number
   useEffect(() => {
     const fetchProperties = async () => {
       setLoading(true);
-      try {
-        console.log(propStatus,"fffff",page);
-        
-        const res = await adminGetPropertiesService({ propStatus, page });
-        console.log(res?.data?.results,'response');
-        
-        setResponse(res?.data);
-       
-        
+      try {  
+        const res = await adminGetPropertiesService({ propStatus, page });   
+        setResponse(res?.data);       
       } catch (error) {
         console.error('Error fetching properties:', error);
       }
@@ -44,12 +38,10 @@ const PropertyList = () => {
     };
 
     fetchProperties();
-  }, [propStatus, page]); // Trigger fetch on propStatus or page number change
+  }, [propStatus, page]); 
 
-  const itemsPerPage = 4;  // Define how many items you want to show per page
-  const totalPages = Math.ceil(response?.count / itemsPerPage) || 1;  // Fallback if response is undefined
-
-  // Filter properties based on search term
+  const itemsPerPage = 5; 
+  const totalPages = Math.ceil(response?.count / itemsPerPage) || 1;  
   const filteredProperties = response?.results?.filter(property =>
     Object.values(property).some(value =>
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
@@ -57,8 +49,6 @@ const PropertyList = () => {
   ) || [];
 
   const renderPropertiesComponent = () => {
-    console.log(';;;',response,',,',filteredProperties);
-    
     switch (propStatus) {
       case 'verified':
         return <VerifiedProperties data={filteredProperties} />;
@@ -66,6 +56,8 @@ const PropertyList = () => {
         return <InReviewProperties data={filteredProperties} />;
       case 'rejected':
         return <RejectedProperties data={filteredProperties} />;
+      case 'published':
+        return <PublishedProperties data={filteredProperties} />;
       default:
         return null;
     }
@@ -73,51 +65,54 @@ const PropertyList = () => {
 
   return (
     <>
-     <div className='flex-1 overflow-auto p-9 bg-slate-800 rounded-lg h-full'>
+      <div className='flex-1 overflow-auto p-9 bg-slate-800 rounded-lg h-full flex flex-col'>
+        <div className="mb-6 flex flex-wrap gap-4">
+          <FilterButton
+            label="Published"
+            isActive={propStatus === 'published'}
+            onClick={() => setPropStatus('published')}
+          />
+          <FilterButton
+            label="Verified"
+            isActive={propStatus === 'verified'}
+            onClick={() => setPropStatus('verified')}
+          />
+          <FilterButton
+            label="In review"
+            isActive={propStatus === 'in_review'}
+            onClick={() => setPropStatus('in_review')}
+          />
+          <FilterButton
+            label="Rejected"
+            isActive={propStatus === 'rejected'}
+            onClick={() => setPropStatus('rejected')}
+          />
+        </div>
 
-      {/* Filter Buttons */}
-      <div className="mb-6 flex flex-wrap gap-4">
-        <FilterButton
-          label="Verified"
-          isActive={propStatus === 'verified'}
-          onClick={() => setPropStatus('verified')}
-        />
-        <FilterButton
-          label="In review"
-          isActive={propStatus === 'in_review'}
-          onClick={() => setPropStatus('in_review')}
-        />
-        <FilterButton
-          label="Rejected"
-          isActive={propStatus === 'rejected'}
-          onClick={() => setPropStatus('rejected')}
-        />
-      </div>
+        <div className="mb-6">
+          <SearchBar onSearch={setSearchTerm} />
+        </div>
 
-      {/* Search Bar */}
-      <div className="mb-6">
-        <SearchBar onSearch={setSearchTerm} />
-      </div>
+        <div className="flex-grow overflow-y-auto">
+          {loading ? (
+            <div className='flex justify-center'>
+              <p className='text-white'>Loading properties...</p>
+            </div>
+          ) : (
+            renderPropertiesComponent()
+          )}
+        </div>
 
-      {/* Loading State */}
-      {loading ? (
-        <p className=''>Loading properties...</p>
-      ) : (
-        <>
-          {/* Render Properties */}
-          {renderPropertiesComponent()}
-
-          {/* Pagination Component */}
+        <div className="mt-auto">
           <Pagination
             currentPage={page}
             totalPages={totalPages}
-            onPageChange={setPage}  // Change page number when user interacts with pagination
+            onPageChange={setPage}
           />
-        </>
-      )}
+        </div>
       </div>
     </>
   );
 };
 
-export default PropertyList;
+export default PropertyListPage;

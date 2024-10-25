@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaCheck, FaLock, FaSpinner } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import URLS from '../../../apis/urls';
 import POHeader from '../partials/POHeader';
 
 const stepsData = [
@@ -28,7 +27,7 @@ const ListPropertySteps = () => {
       case 'verified':
         setCurrentStep(2);
         break;
-      case 'completed':
+      case 'published':
         setCurrentStep(3);
         break;
       default:
@@ -36,11 +35,23 @@ const ListPropertySteps = () => {
     }
   }, []);
 
+
+  const handleOnboarding = () => {
+    const type = localStorage.getItem('property_type');
+    // in future change to /host/onboarding/property-images later... 
+    // and in there can take this conditions and conditionally render through sidebar
+    if (type === 'apartment' || type === 'rental') {
+      navigate('/host/onboarding/rental-appartment');
+    } else {
+      navigate('/host/onboarding/room/');
+    }
+  };
+  
   const handleNextStep = () => {
     
-    if (currentStep < stepsData.length - 1) {
-      setCurrentStep(currentStep + 1);
-    }
+    // if (currentStep < stepsData.length - 1) {
+    //   setCurrentStep(currentStep + 1);
+    // }
   };
 
   const getStatusIcon = (stepIndex) => {
@@ -106,14 +117,15 @@ const ListPropertySteps = () => {
                     </Link>
                   : index === 1 ? '' 
                   : index === 2 ? 
-                  <Link  to='/host/new-listing/onboarding_form'>
+                  <div>
                      <button
                       className="bg-themeColor text-white font-bold py-2 px-4 rounded-lg ml-auto"
-                      onClick={handleNextStep}
+                      // onClick={handleNextStep}
+                      onClick={handleOnboarding}
                       >
                      Complete Onboarding
                     </button>
-                  </Link>
+                  </div>
                 :''}
                 </>
               )}

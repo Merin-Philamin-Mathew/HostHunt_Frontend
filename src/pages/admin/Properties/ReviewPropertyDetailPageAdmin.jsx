@@ -95,12 +95,20 @@ export default function ReviewPropertyDetailPageAdmin() {
           />
 
             <div className="space-x-2 flex">
-            
+            {(propertyData?.status == "verified")? 
             <Button
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md font-semibold text-sm transition-colors"
-              title={'APPROVED'}
-              onClick={()=>adminAction(propertyData?.id,'verified')}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md font-semibold text-sm transition-colors"
+              title={'REJECT'}
+              onClick={() => adminAction(propertyData?.id,'rejected')}
             />
+            :
+            <Button
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md font-semibold text-sm transition-colors"
+            title={'APPROVE'}
+            onClick={()=>adminAction(propertyData?.id,'verified')}
+          />
+            }
+            
             {(propertyData?.status == "in_review")? 
             <Button
               className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md font-semibold text-sm transition-colors"

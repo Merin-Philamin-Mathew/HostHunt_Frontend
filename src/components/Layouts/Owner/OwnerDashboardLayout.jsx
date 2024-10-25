@@ -1,10 +1,10 @@
 import React from 'react';
-import Sidebar from '../utils/Sidebar';
-import POHeader from '../property_owner/partials/POHeader';
-import POFooter from '../property_owner/partials/POFooter';
+import Sidebar from '../../utils/Sidebar';
+import POHeader from '../../property_owner/partials/POHeader';
+import POFooter from '../../property_owner/partials/POFooter';
 import { FaBell, FaBuilding, FaClipboardList, FaCommentDots, FaSignOutAlt } from 'react-icons/fa';
 
-function DashboardLayout({ children }) {
+function OwnerDashboardLayout({ children }) {
   const sidebarItems = [
     { title: 'Dashboard', link: '/host/dashboard', icon: <FaClipboardList /> },
     { title: 'Hostels Listed', link: '/host/listings', icon: <FaBuilding /> },
@@ -38,4 +38,4 @@ function DashboardLayout({ children }) {
   );
 }
 
-export default DashboardLayout;
+export default OwnerDashboardLayout;

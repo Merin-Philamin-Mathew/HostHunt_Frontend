@@ -11,18 +11,27 @@ const URLS = {
         'documents':'property/new-listing/documents',
         'facilities':'property/new-listing/facilities',
         'policies_services':'property/new-listing/policies-services',
-        'submit_review':'property/new-listing/submit_review',
+        'submit_review':'property/new-listing/submit-review',
         // doc of single property
         'property_documents':'property/documents',
     },
-
+    
+    ONBOARDING: {
+        'rental_appartement':'property/onboarding/rental-appartment/',
+        'rooms':'property/onboarding/rooms/',       
+    },
+    
     HOSTMANAGEMENT: {
         'host_properties':'/property/host-properties/',
+        'room_by_property':'/property/property-rooms',
     },
     ADMINMANAGEMENT: {
         'all_properties':'property/all-properties',
         'basic_details':'property/basic-details',
-        'approve_reject_property':'admin/property/approval'
+        'approve_reject_property':'admin/property/approval',
+
+        'all_users':'admin/users',
+        'all_owners':'admin/owners',
     },
 
 }

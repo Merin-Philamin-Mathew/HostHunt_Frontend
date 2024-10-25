@@ -4,8 +4,7 @@ import React from 'react'
 export const Table = ({ data, columns }) => (
 
     <div className="overflow-x-auto">
-      {console.log('table here',data)
-      }
+      
       <table className="min-w-full  text-white">
         <thead>
           <tr>

@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const ProtectedRoute = ({ children, roleRequired }) => {
-  const { user, owner, admin } = useSelector((state) => state);
+  const { user,admin } = useSelector((state) => state);
   
   // Role-based route protection (admin, owner, or user)
   if (roleRequired === 'admin' && !admin.adminAToken) {

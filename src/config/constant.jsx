@@ -1,4 +1,6 @@
 import { Outlet } from 'react-router';
+import ProtectedRoute from './ProtectedRoute';
+
 import Home from '../pages/users/Home';
 
 import AuthOutlet from '../components/Layouts/AuthOutlet';
@@ -10,7 +12,7 @@ import OTPVerificationPage from '../pages/users/OTPVerificationPage';
 import OTPVerificationForm from '../components/forms/OTPVerificationForm';
 
 
-import DashboardLayout from '../components/Layouts/DashboardLayout';
+import OwnerDashboardLayout from '../components/Layouts/Owner/OwnerDashboardLayout';
 import PODashboard from '../components/property_owner/PODashboard';
 import POManageListings from '../components/property_owner/POMangeListings';
 import POReviews from '../components/property_owner/POReviews';
@@ -19,19 +21,24 @@ import POBookings from '../components/property_owner/POBookings';
 import PONotifications from '../components/property_owner/PONotifications';
 
 
+import NewListingLayout from '../components/Layouts/Owner/property/NewListingLayout';
 import ListPropertySteps from '../components/property_owner/new_listings/ListPropertySteps';
-import PropertyLayout from '../components/Layouts/PropertyLayout';
 import PropertyDetailsForm from '../components/property_owner/new_listings/PropertyDetailsForm';
 import DocumentsForm from '../components/property_owner/new_listings/DocumentsForm';
 import PoliciesServicesForm from '../components/property_owner/new_listings/PoliciesServicesForm';
 import ReviewAndSubmit from '../components/property_owner/new_listings/ReviewAndSubmit';
 
+import PropertyOnboardingLayout from '../components/Layouts/Owner/property/PropertyOnboardingLayout';
+import RentalAppartmentForm from '../components/property_owner/onboardinag/RentalAppartmentForm';
+import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPage';
 
+import AdminOutlet from '../components/Layouts/admin/AdminLayout';
 import AdminLogin from '../pages/admin/Login/AdminLogin';
-import AdminLayout from '../components/Layouts/AdminLayout';
-import PropertyList from '../pages/admin/Properties/PropertyList';
-import ProtectedRoute from './ProtectedRoute';
+import PropertyList from '../pages/admin/Properties/PropertyListPage';
 import ReviewPropertyDetailedPageAdminSide from '../pages/admin/Properties/ReviewPropertyDetailPageAdmin';
+import UserListingPage from '../pages/admin/Users/UsersListingPage';
+import OwnerListPage from '../pages/admin/owners/OwnerListPage';
+
 
 let const_data = {
     REACT_ROUTER_PATH: [
@@ -72,7 +79,7 @@ let const_data = {
         {
             path: `host`,
             element: <ProtectedRoute>
-                <DashboardLayout><Outlet/></DashboardLayout>
+                <OwnerDashboardLayout><Outlet/></OwnerDashboardLayout>
                     </ProtectedRoute>,
             children: [
                 {path: "/host/dashboard",element: <PODashboard/>},
@@ -86,7 +93,7 @@ let const_data = {
         {
             path: "host/new-listing",
             element:<ProtectedRoute roleRequired={'user'}>
-                <PropertyLayout><Outlet/></PropertyLayout>
+                <NewListingLayout><Outlet/></NewListingLayout>
                     </ProtectedRoute> ,
             children: [
                 { path: "property-details", element: <PropertyDetailsForm/>},
@@ -94,6 +101,18 @@ let const_data = {
                 { path: "policies&services", element: <PoliciesServicesForm/>},
                 { path: "facilities", element: <></>},
                 { path: "finish", element: <ReviewAndSubmit/> }
+            ]
+        },
+        {
+            path: "host/onboarding",
+            element:<ProtectedRoute roleRequired={'user'}>
+                <PropertyOnboardingLayout><Outlet/></PropertyOnboardingLayout>
+                    </ProtectedRoute> ,
+            children: [
+                { path: "property-images", element: <></>},
+                { path: "rental-appartment", element: <RentalAppartmentForm/>},
+                { path: "room", element: <AddingRoomPage/>},
+                { path: "room-facilities", element: <></>},
             ]
         },
         {
@@ -113,13 +132,14 @@ let const_data = {
         {
             path: "/admin",
             element: <ProtectedRoute roleRequired={'admin'}>
-                <AdminLayout><Outlet/></AdminLayout>
+                <AdminOutlet><Outlet/></AdminOutlet>
                     </ProtectedRoute>,
             children: [
                 {path: "/admin/dashboard",element: <></>},
                 {path: "/admin/bookings",element: <></>},
                 {path: "/admin/properties",element: <PropertyList/>},
-                {path: "/admin/users",element: <></>},
+                {path: "/admin/users",element: <UserListingPage/>},
+                {path: "/admin/hosts",element: <OwnerListPage/>},
 
                 { path: "/admin/in-review/property-details/:property_id", element: <ReviewPropertyDetailedPageAdminSide /> },
             ]

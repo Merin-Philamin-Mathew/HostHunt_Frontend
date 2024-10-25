@@ -1,11 +1,11 @@
 import React from 'react';
-import Sidebar from '../utils/Sidebar';
-import POFooter from '../property_owner/partials/POFooter';
+import Sidebar from '../../../utils/Sidebar';
+import POFooter from '../../../property_owner/partials/POFooter';
 import { FaFile, FaInfo, FaMapMarkerAlt, FaCheckCircle, FaBuilding,FaBed, FaShieldAlt  } from 'react-icons/fa';
 import { Outlet } from 'react-router-dom';
-import POHeader from '../property_owner/partials/POHeader';
+import POHeader from '../../../property_owner/partials/POHeader';
 
-function PropertyLayout() {
+function NewListingLayout() {
   const isPropertyDetailsComplete = !!localStorage.getItem('property_details');  // If property details are in local storage
   const propertyDocs = parseInt(localStorage.getItem('property_docs'), 10);  // Convert the stored value to an integer
   const isDocumentsComplete = propertyDocs > 0;  // Check if it's greater than zero
@@ -45,4 +45,4 @@ function PropertyLayout() {
   );
 }
 
-export default PropertyLayout;
+export default NewListingLayout;

@@ -19,20 +19,14 @@ const POManageListings = () => {
       toast.error('Failed to fetch properties.');
     }
   };
-  console.log(properties,'lllllll')
   useEffect(() => {
     getProperties()
-    const keysToDelete = ['property_details', 'property_id', 'property_docs', 'property_status','s3_file_path'];
+    const keysToDelete = ['property_details', 'property_id', 'property_docs', 'property_status','property_type','rental_apartment_details'];
     keysToDelete.forEach(key => localStorage.removeItem(key));
 
   }, []);
 
-  const hostels = [
-    { imageUrl: '/images/hostel1.jpg', name: 'Select Beach House', location: 'Junction, Townside', listingDate: '26 February 2024' },
-    { imageUrl: '/images/hostel2.jpg', name: 'Select Beach House', location: 'Junction, Townside', listingDate: '26 February 2024' },
-    { imageUrl: '/images/hostel2.jpg', name: 'Select Beach House', location: 'Junction, Townside', listingDate: '26 February 2024' },
-    { imageUrl: '/images/hostel3.jpg', name: 'Select Beach House', location: 'Junction, Townside', listingDate: '26 February 2024' }
-  ];
+
   const handleAddListing = () => {
     localStorage.setItem('property_status','in_progress')
     localStorage.setItem('property_docs',0)

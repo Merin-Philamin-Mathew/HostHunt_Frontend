@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FiHome, FiUsers, FiKey, FiBriefcase, FiMessageSquare, FiCalendar} from 'react-icons/fi';
-import AdminSidebar from '../admin/partials/AdminSidebar';
-import AdminHeader from '../admin/partials/AdminHeader';
+import AdminSidebar from '../../admin/partials/AdminSidebar';
+import AdminHeader from '../../admin/partials/AdminHeader';
 
 const sidebarItems = [
   { icon: FiHome, text: "Dashboard", key: "dashboard", link:'dashboard' },

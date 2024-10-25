@@ -1,40 +1,33 @@
 import { useEffect } from 'react';
 import { Table } from '../../utils/tables/Table';
+import { useNavigate } from 'react-router';
 
 const VerifiedProperties = ({ data }) => {
 
-  useEffect(() => {
-    console.log('useEffect_verified property', data);
-  }, [data]);
+  const navigate = useNavigate();
 
+ 
   const columns = [
     { key: 'property_name', label: 'Property Name' },
     { key: 'property_type', label: 'Type' },
     { key: 'host', label: 'Host' },
     { key: 'city', label: 'City' },
     {
-      key: 'is_listed',
-      label: 'Active',
-      render: (row) => (
-        <div>
-          <button className={row.is_listed ? "text-green-500" : "text-red-500"}>
-            {row.is_listed ? "Active" : "Inactive"}
-          </button>
-        </div>
-      ),
-    },
-    {
       key: 'action',
       label: 'Action',
       render: (row) => (
         <div className="flex items-center space-x-2">
-          <button className={row.is_listed ? "text-red-500" : "text-green-500"}>
-            {row.is_listed ? "Block" : "Unblock"}
+          <button
+            className="text-blue-300"
+            onClick={() => navigate(`/admin/in-review/property-details/${row.id}`)}
+          >
+            View
           </button>
         </div>
       ),
     },
   ];
+
 
   return (
     <>

@@ -2,10 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBuilding, FaSignOutAlt, FaUser } from "react-icons/fa";
-import { BsBuildingAdd } from "react-icons/bs";
 import Dropdown from '../../utils/Dropdown';   
-import { AiFillMessage } from 'react-icons/ai';
-import { setUserDetails } from '../../../redux/userSlice';
 import {  handleDropdownAction, handleDropdownActionOwner } from '../../utils/logic';
 
 const POHeader = () => {
@@ -40,7 +37,8 @@ const POHeader = () => {
   return (
     <header className="w-full py-3 bg-themeColor2 shadow-xl shadow-white relative">
       <div className="flex justify-between items-center mx- auto lessThan404 px-6 ">
-        <div className="flex items-center space-x-1">
+        <div className="flex items-center space-x-1"
+              onClick={()=>{navigateToUserHome}}>
           <img src="/logo/white_invert.png" className="w-12 bg-orange-600 py-1 rounded-md" alt="Logo"/>
           <div className="text-2xl font-extrabold text-orange-600">HOSTHUNT</div>
         </div>

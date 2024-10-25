@@ -16,10 +16,9 @@ api.interceptors.request.use(
         const token = store.getState()?.user?.user?.access;
         if (token) {
             // console.log(token,'tokennn');
-            console.log('normal_user_api');
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
-        console.log('normaluser Request config:', config);  // Check if Authorization header is being set correctly
+        // console.log('normaluser Request config:', config);  // Check if Authorization header is being set correctly
         
         return config;
     },
@@ -38,15 +37,13 @@ const owner_api = axios.create({
 });
 owner_api.interceptors.request.use(
     (config) => {
-        console.log('owner_api_haaha');
         
         const token = store.getState()?.owner?.owner?.access;
-        console.log('seetha',token);
         
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
-        console.log('owner Request config:', config);  // Check if Authorization header is being set correctly
+        // console.log('owner Request config:', config);  // Check if Authorization header is being set correctly
 
         return config;
     },
@@ -66,16 +63,14 @@ const admin_api = axios.create({
 });
 admin_api.interceptors.request.use(
     (config) => {
-        console.log('ddddd');
         
         const token = store.getState()?.admin?.adminAToken;
         
         if (token) {
             // console.log(token,'tokennn');
-            console.log('admin_api');
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
-        console.log('admin Request config:', config);  // Check if Authorization header is being set correctly
+        // console.log('admin Request config:', config);  // Check if Authorization header is being set correctly
 
         return config;
     },
