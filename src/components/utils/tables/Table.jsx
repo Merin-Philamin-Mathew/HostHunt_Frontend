@@ -5,7 +5,7 @@ export const Table = ({ data, columns }) => (
 
     <div className="overflow-x-auto">
       
-      <table className="min-w-full  text-white">
+      <table className="min-w-full  text-slate-300 font-normal">
         <thead>
           <tr>
             {columns.map((column) => (

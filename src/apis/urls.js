@@ -32,6 +32,9 @@ const URLS = {
 
         'all_users':'admin/users',
         'all_owners':'admin/owners',
+
+        'pc_amenities':'admin/amenities',
+        'pc_amenity`':'admin/amenity`',
     },
 
 }

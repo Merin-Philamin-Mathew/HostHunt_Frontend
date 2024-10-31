@@ -65,7 +65,7 @@ const UserListingPage = () => {
   ];
 
   return (
-    <div className='flex-1 overflow-auto p-9 bg-slate-800 rounded-lg h-full flex flex-col'>
+    <div className='flex-1 overflow-auto p-9 bg-slate-800 md:rounded-lg h-full flex flex-col'>
     <div className="mb-6">
       <SearchBar onSearch={setSearchTerm} />
     </div>

@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.autocomplete-input {
+    border-color: #d32f2f; 
+    color: #ffffff
+  }
+  
+  .autocomplete-input input {
+    color: #e2e0e0; 
+  }

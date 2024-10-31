@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { adminGetPropertiesService, loginAdminService } from "./adminService";
+import { loginAdminService } from "./adminService";
 import {  setAdminsData } from "./adminSlice";
 
 export const adminLogin = createAsyncThunk('adminLogin', async({email,password,user_type}, thunkAPI)=>{
@@ -16,12 +16,12 @@ export const adminLogin = createAsyncThunk('adminLogin', async({email,password,u
 
 
 
-export const adminGetProperties = createAsyncThunk('adminGetUsers',async (thunkAPI) =>{
-    try {
-        const response = await adminGetPropertiesService();
-        console.log('adminGetProperties:responsethunk...',response.data);
-        return response.data;
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.response.data.error)
-    }
-})
+// export const adminGetProperties = createAsyncThunk('adminGetUsers',async (thunkAPI) =>{
+//     try {
+//         const response = await adminGetPropertiesService();
+//         console.log('adminGetProperties:responsethunk...',response.data);
+//         return response.data;
+//     } catch (error) {
+//         return thunkAPI.rejectWithValue(error.response.data.error)
+//     }
+// })

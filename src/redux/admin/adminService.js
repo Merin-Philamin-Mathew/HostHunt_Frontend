@@ -25,7 +25,7 @@ export const adminApproveOrRejectProperties = (property_id, status) => {
     );
 };
 
-//====================================== ADMIN PROPERTY MANAGEMENT==================================
+//====================================== ADMIN USER MANAGEMENT==================================
 export const adminGetUserService = ({ page = 1 }) =>{
     return admin_api.get(URLS.ADMINMANAGEMENT.all_users,
         {params: {page}}
@@ -37,3 +37,14 @@ export const adminGetOwnerService = ({ page = 1 }) =>{
     )
 }
 
+//====================================== ADMIN PROPERTY CONFIGURATION MANAGEMENT==================================
+export const adminGetAmenities = () =>{
+    return admin_api.get(URLS.ADMINMANAGEMENT.pc_amenities)
+}
+export const adminCreateAmenities = (data) =>{
+    console.log('daata',data);
+    return admin_api.post(URLS.ADMINMANAGEMENT.pc_amenities,data)
+}
+export const adminListAllAmenities = () =>{
+    return admin_api.get(URLS.ADMINMANAGEMENT.pc_amenities,)
+}

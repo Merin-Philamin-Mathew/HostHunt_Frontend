@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@nextui-org/react": "^2.4.8",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
     "formik": "^2.4.6",
+    "framer-motion": "^11.11.10",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.453.0",
     "react": "^18.3.1",

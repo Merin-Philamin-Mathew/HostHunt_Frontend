@@ -1,6 +1,7 @@
 import React from 'react';
 // import Sidebar from '../../utils/Sidebar';
 import { FaFile, FaInfo, FaMapMarkerAlt, FaCheckCircle, FaBuilding,FaBed, FaShieldAlt  } from 'react-icons/fa';
+
 import { Outlet } from 'react-router-dom';
 import POHeader from '../../../property_owner/partials/POHeader';
 import POFooter from '../../../property_owner/partials/POFooter';

@@ -31,8 +31,7 @@ const VerifiedProperties = ({ data }) => {
 
   return (
     <>
-      <Table data={data} columns={columns} />
-      
+      <Table data={data} columns={columns} />  
     </>
   );
 };

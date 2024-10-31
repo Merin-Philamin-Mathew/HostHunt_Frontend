@@ -1,17 +1,9 @@
 import { Edit, Trash2 } from "lucide-react"
 
 // We'll create basic versions of the components to replace the shadcn/ui components
-const Card = ({ className, children }) => (
-  <div className={`rounded-xl border bg-card text-card-foreground shadow-sm ${className}`}>
-    {children}
-  </div>
-)
 
-const CardHeader = ({ children }) => <div className="flex flex-col space-y-1.5 px-6 py-4">{children}</div>
-const CardTitle = ({ children }) => <h3 className="text-lg font-semibold leading-none tracking-tight">{children}</h3>
-const CardContent = ({ children }) => <div className="px-6 pb-2 pt-0">{children}</div>
-const CardFooter = ({ className, children }) => <div className={`flex items-center p-6 pt-0 ${className}`}>{children}</div>
 
+import { Card,CardContent,CardHeader } from "../Card"
 const Button = ({ variant = "default", size = "default", className, children, ...props }) => {
   const baseStyles = "inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
   const variantStyles = {
@@ -55,21 +47,11 @@ export default function RoomActionCard({ id, room_name, booking_amount_choice })
             </div>
         </div>
       </CardContent>
-      {/* <CardFooter className="flex justify-end space-x-2">
-        <Button variant="outline" size="icon">
-          <Edit className="h-4 w-4" />
-          <span className="sr-only">Edit</span>
-        </Button>
-        <Button variant="outline" size="icon">
-          <Trash2 className="h-4 w-4" />
-          <span className="sr-only">Delete</span>
-        </Button>
-      </CardFooter> */}
     </Card>
   )
 }
 
-// Default props
+
 RoomActionCard.defaultProps = {
   id: "1",
   room_name: "Deluxe Suite",

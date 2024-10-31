@@ -4,6 +4,7 @@ import { Navigate, replace, useNavigate, useParams } from 'react-router';
 import { adminApproveOrRejectProperties, adminGetPropertiesBasicDetailsService } from '../../../redux/admin/adminService';
 import Button from '../../../components/utils/Button';
 import { toast } from 'react-toastify';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../../components/utils/Tabs/Tabs';
 
 
 
@@ -15,27 +16,6 @@ const Card = React.forwardRef(({ className, ...props }, ref) => (
   />
 ))
 Card.displayName = "Card"
-
-const Tabs = ({ children }) => (
-  <div className="w-full">{children}</div>
-)
-
-const TabsList = ({ children }) => (
-  <div className="flex mb-1">{children}</div>
-)
-
-const TabsTrigger = ({ children, isActive, onClick }) => (
-  <button 
-    className={`px-4  py-2 ${isActive ? 'bg-slate-700 text-white' : 'bg-slate-500 text-slate-100'} rounded-t-lg transition-colors hover:bg-slate-700`}
-    onClick={onClick}
-  >
-    {children}
-  </button>
-)
-
-const TabsContent = ({ children }) => (
-  <div className="bg-slate-700 p-4 rounded-b-lg">{children}</div>
-)
 
 export default function ReviewPropertyDetailPageAdmin() {
 
@@ -73,9 +53,9 @@ export default function ReviewPropertyDetailPageAdmin() {
   console.log(propertyData, "Property Details");
   
   return (
-    <div className="max-w-4xl mx-auto p-4 space-y-4">
+    <div className="max-w-7xl mx-auto p-4 space-y-4">
       <Card className="bg-slate-800 text-white overflow-hidden">
-        <div className="p-6 flex flex-col md:flex-row">
+        <div className="p-6 md:px-10  flex flex-col md:flex-row">
           <div className="flex-1 pr-4">
             <h2 className="text-3xl font-bold mb-4">{propertyData?.property_name}</h2>
             <div className="space-y-2">
@@ -129,27 +109,30 @@ export default function ReviewPropertyDetailPageAdmin() {
       </Card>
 
       <Tabs>
-        <TabsList>
+        <TabsList variant='adminSlider'>
           <TabsTrigger 
             isActive={activeTab === 'documents'} 
             onClick={() => setActiveTab('documents')}
+            variant='adminSlider'
           >
             Property Documents
           </TabsTrigger>
-          {/* <TabsTrigger 
+          <TabsTrigger 
             isActive={activeTab === 'policies'} 
             onClick={() => setActiveTab('policies')}
+            variant='adminSlider'
           >
             Policies and Services
           </TabsTrigger>
           <TabsTrigger 
             isActive={activeTab === 'amenities'} 
             onClick={() => setActiveTab('amenities')}
+            variant='adminSlider'
           >
             Property Amenities
-          </TabsTrigger> */}
+          </TabsTrigger>
         </TabsList>
-        <TabsContent>
+        <TabsContent variant='adminSlider'>
           {activeTab === 'documents' && (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {propertyData?.documents?.map((document, index) => (
@@ -170,7 +153,7 @@ export default function ReviewPropertyDetailPageAdmin() {
             </div>
           )}
           {activeTab === 'policies' && (
-            <div className="space-y-4">
+            <div className="space-y-4 p-2">
               <h3 className="text-xl font-semibold">Policies and Services</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -189,7 +172,7 @@ export default function ReviewPropertyDetailPageAdmin() {
             </div>
           )}
           {activeTab === 'amenities' && (
-            <div className="space-y-4">
+            <div className="space-y-4 p-2">
               <h3 className="text-xl font-semibold">Property Amenities</h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 <div className="flex items-center space-x-2">

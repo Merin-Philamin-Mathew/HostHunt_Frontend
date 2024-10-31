@@ -38,6 +38,8 @@ import PropertyList from '../pages/admin/Properties/PropertyListPage';
 import ReviewPropertyDetailedPageAdminSide from '../pages/admin/Properties/ReviewPropertyDetailPageAdmin';
 import UserListingPage from '../pages/admin/Users/UsersListingPage';
 import OwnerListPage from '../pages/admin/owners/OwnerListPage';
+import PropertyConfigurations from '../pages/admin/Property_configurations/PropertyConfigurations';
+import AdminDashboardPage from '../pages/admin/dashboarf.jsx/AdminDashboardPage';
 
 
 let const_data = {
@@ -135,11 +137,13 @@ let const_data = {
                 <AdminOutlet><Outlet/></AdminOutlet>
                     </ProtectedRoute>,
             children: [
-                {path: "/admin/dashboard",element: <></>},
-                {path: "/admin/bookings",element: <></>},
-                {path: "/admin/properties",element: <PropertyList/>},
+                {path: "/admin/dashboard",element: <AdminDashboardPage></AdminDashboardPage>},
                 {path: "/admin/users",element: <UserListingPage/>},
                 {path: "/admin/hosts",element: <OwnerListPage/>},
+                {path: "/admin/properties",element: <PropertyList/>},
+                {path: "/admin/property_configurations",element: <PropertyConfigurations/>},
+                {path: "/admin/bookings",element: <></>},
+                {path: "/admin/communication",element: <></>},
 
                 { path: "/admin/in-review/property-details/:property_id", element: <ReviewPropertyDetailedPageAdminSide /> },
             ]
