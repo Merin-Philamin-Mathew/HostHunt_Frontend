@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { createRoomDetails } from '../../../features/Property/PropertyServices';
 
 // Validation schema using Yup
-// Validation schema using Yup
 const RoomDetailsFormSchema = Yup.object().shape({
     room_type: Yup.string().required('Room type is required'),
     is_private: Yup.boolean().required('Please specify if the room is private or shared'),

@@ -1,7 +1,7 @@
 import React from 'react'
 import { MapPin, Ban, Edit2, Home, Bed, CheckCircle, XCircle, AlertCircle, Building, BookCheck, LoaderCircle } from 'lucide-react'
 import { useNavigate } from 'react-router'
-import { getAllDocumentsofProperty } from '../../../features/Property/PropertyServices'
+import { getAllDocumentsofProperty, getPoliciesByProperty } from '../../../features/Property/PropertyServices'
 
 
 const StatusBadge = ({ status }) => {
@@ -34,14 +34,26 @@ const HostelCard = ({ property }) => {
     if (status==='in_progress' ){
       localStorage.setItem('property_details',JSON.stringify(property))
       try{
+        console.log('1');
         const response = await getAllDocumentsofProperty(property.id)
+        console.log('docs by property',response);
         localStorage.setItem('property_docs',JSON.stringify(response.data.property_docs))
         localStorage.setItem('documents',JSON.stringify(response.data.documents))
+        
       }
       catch(e){
         console.error(e.response.data.message||'An error occurred while fetching documents')
         localStorage.setItem('property_docs',0)
-        navigate('/host/new-listing')
+      }
+      try{
+        console.log('2');
+        const policies = await getPoliciesByProperty(property.id)
+        console.log('policies by property',policies);
+        
+        localStorage.setItem('policiesData',JSON.stringify(policies.data))
+      }
+      catch(e){
+        console.error(e.response.data.message||'An error occurred while fetching documents')
       }
     }
     if (status==='verified'){

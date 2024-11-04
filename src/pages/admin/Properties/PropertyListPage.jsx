@@ -4,8 +4,8 @@ import InReviewProperties from '../../../components/admin/properties/InReviewPro
 import RejectedProperties from '../../../components/admin/properties/RejectedProperties';
 import { SearchBar } from '../../../components/admin/properties/PropertySearchBar';
 import { adminGetPropertiesService } from '../../../redux/admin/adminService';
-import Pagination from '../../../components/utils/pagination/Pagination';
 import PublishedProperties from '../../../components/admin/properties/PublishedProperties';
+import Pagination from '../../../components/utils/pagination/Pagination';
 
 const FilterButton = ({ label, isActive, onClick }) => (
   <button
@@ -34,6 +34,7 @@ const PropertyListPage = () => {
       } catch (error) {
         console.error('Error fetching properties:', error);
       }
+
       setLoading(false);
     };
 

@@ -1,205 +1,257 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Edit, Trash2 } from 'lucide-react';
+import Swal from 'sweetalert2';
 import { Card, CardHeader, CardTitle, CardContent } from '../../../components/utils/cards/Card';
-import { Button, Input, Select, SelectItem, Switch } from '@nextui-org/react';
-import { Formik, Form as FormikForm, Field } from 'formik';
-import * as Yup from 'yup';
-import { adminCreateAmenities, adminListAllAmenities } from '../../../redux/admin/adminService';
+import { Button, Input, Switch } from '@nextui-org/react';
+import { Formik, Form as FormikForm } from 'formik';
 import { Table } from '../../../components/utils/tables/Table';
-
-const amenityTypes = [
-    { key: "general", label: "General" },
-    { key: "entertainment", label: "Entertainment" },
-    { key: "service", label: "Service" }
-];
-
-const amenityIcons = [
-    { key: "icon1", label: "Icon 1" },
-    { key: "icon2", label: "Icon 2" }
-];
-const columns = [
-    // { key: 'id', label: 'ID' },
-    // { key: 'serial_no', label: 'Sl. No.', render: (row, index) => index }, // Serial Number column
-    { key: 'amenity_name', label: 'Amenity Name' },
-    { key: 'is_active', label: 'Active Status',
-        render: (row) => (
-            <div>
-         <button className={`font-semibold ${row.is_active ? "text-green-800" : "text-red-600"}`}>
-            {row.is_active ? "Active" : "Inactive"}
-        </button>
-
-            </div>
-        ),
-    },
-    {
-    key: 'action',
-    label: 'Action',
-    render: (row) => (
-        <div className="flex gap-2">
-        <Button isIconOnly color="" variant="light" aria-label="edit">
-            <Edit className="h-4 w-4 text-slate-800" />
-        </Button>
-        <Button isIconOnly color="danger" variant="light" aria-label="delete">
-            <Trash2 className="h-4 w-4" />
-        </Button>
-        <Switch
-            defaultSelected={row.is_active} // Replace with actual state if available
-            // checked={data.isActive} // Uncomment if you have controlled state
-            // onChange={handleChange} // Provide your change handler here
-            name="is_active"
-            size="md"
-        />
-        </div>
-    ),
-    },
-];
-
-
-const validationSchema = Yup.object().shape({
-    amenity_name: Yup.string().required('Amenity name is required'),
-});
+import { RoomFacilities_InitialValues, RoomFacilities_YupSchemas } from './data';
+import {
+    Admin_fetchAllRoomFacilities,
+    Admin_handleDeleteRoomFacility,
+    Admin_handleSaveRoomFacility,
+    Admin_handleUpdateRoomFacility
+} from '../../../redux/admin/adminActions';
+import Pagination from '../../../components/utils/pagination/Pagination';
+import { useDebounce } from '../../../components/utils/Performance/Debouncing/Debounce';
 
 export function RoomFacilities() {
     const [isAdding, setIsAdding] = useState(false);
-    const [response, setResponse] = useState([]); 
-    const [loading, setLoading] = useState(false); 
+    const [response, setResponse] = useState({ results: [], count: 0 });
+    const [loading, setLoading] = useState(false);
+    const [page, setPage] = useState(1);
+    const [selectedFacility, setSelectedFacility] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const debouncedSearchTerm = useDebounce(searchQuery, 500);
+    const itemsPerPage = 6;
+    const totalPages = Math.ceil(response.count / itemsPerPage) || 1;
 
     useEffect(() => {
-    const fetchAllAmenities  = async () => {
         setLoading(true);
-        try {  
-        const res = await adminListAllAmenities();   
-        console.log(' fetching amenities:', res.data);
-        setResponse(res?.data);       
-        } catch (error) {
-        console.error('Error fetching amenities:', error.response.data);
-        }
-        setLoading(false);
-    };
-
-    fetchAllAmenities();
-    }, []);
-
-    const handleSaveAmenity = async (values, { resetForm }) => {
-        try {
-            // Call your API to save the amenity here (replace with actual API call)
-            console.log(values,'kkkkkkkk')
-            await adminCreateAmenities(values);
-            console.log("Amenity saved successfully", values);
-
-            // Refresh amenities list or perform any additional actions
-            console.log("Amenity saved successfully", values);
-            setResponse((prevResponse) => [...prevResponse, values]);
-
-            resetForm();
-
-            setIsAdding(false);
-        } catch (error) {
-            console.error("Failed to save amenity", error.response.data);
-        }
-    };
-
+        Admin_fetchAllRoomFacilities(setResponse, setLoading, page, debouncedSearchTerm);
+    }, [debouncedSearchTerm, page]);
     
+    const handleSearchChange = (e) => setSearchQuery(e.target.value);
+    
+    const handleSaveRoomFacility = async (values, { resetForm }) => {
+        try {
+            await Admin_handleSaveRoomFacility(values, resetForm);
+            setIsAdding(false);
+            setSelectedFacility(null);
+            Admin_fetchAllRoomFacilities(setResponse, setLoading, page);
+        } catch (error) {
+            console.error("Error saving room facility:", error);
+        }
+    };
+
+    const handleEditButtonActionFacility = async (facility) => {
+        setIsAdding(false);
+        setSelectedFacility(facility);
+        setIsAdding(true);
+    };
+
+    const handleUpdateRoomFacility = async (values, { resetForm }) => {
+        try {
+            if (selectedFacility && selectedFacility.id) {
+                await Admin_handleUpdateRoomFacility(selectedFacility.id, values);
+                setIsAdding(false);
+                setSelectedFacility(null);
+                resetForm();
+                Admin_fetchAllRoomFacilities(setResponse, setLoading, page);
+            }
+        } catch (error) {
+            console.error("Error updating room facility:", error);
+        }
+    };
+
+    const handleToggleFacilityStatus = async (facility) => {
+        try {
+            const updatedFacility = { ...facility, is_active: !facility.is_active };
+            await Admin_handleUpdateRoomFacility(facility.id, updatedFacility);
+            setResponse((prev) => ({
+                ...prev,
+                results: prev.results.map((item) =>
+                    item.id === facility.id ? { ...item, is_active: !item.is_active } : item
+                ),
+            }));
+        } catch (error) {
+            console.error("Error updating facility status:", error);
+        }
+    };
+
+    const handleDeleteFacility = async (facility_id) => {
+        try {
+            const result = await Swal.fire({
+                title: 'Delete Facility?',
+                text: "Are you sure you want to remove this facility?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e76608',
+                cancelButtonColor: '#00179',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel'
+            });
+
+            if (result.isConfirmed) {
+                await Admin_handleDeleteRoomFacility(facility_id);
+                Admin_fetchAllRoomFacilities(setResponse, setLoading, page);
+                Swal.fire('Deleted!', 'Your facility has been deleted.', 'success');
+            }
+        } catch (error) {
+            console.error("Error deleting facility:", error);
+            Swal.fire('Error!', 'There was a problem deleting the facility.', 'error');
+        }
+    };
+
+    const columns = [
+        { key: 'facility_name', label: 'Facility Name' },
+        {
+            key: 'is_active',
+            label: 'Active Status',
+            render: (row) => (
+                <button className={`font-semibold ${row.is_active ? "text-green-800" : "text-red-600"}`}>
+                    {row.is_active ? "Active" : "Inactive"}
+                </button>
+            ),
+        },
+        {
+            key: 'action',
+            label: 'Action',
+            render: (row) => (
+                <div className="flex gap-2">
+                    <Button isIconOnly variant="light" aria-label="edit" onClick={() => handleEditButtonActionFacility(row)}>
+                        <Edit className="h-4 w-4 text-slate-800" />
+                    </Button>
+                    <Button
+                        isIconOnly
+                        color="danger"
+                        variant="light"
+                        aria-label="delete"
+                        onClick={() => handleDeleteFacility(row.id)}
+                    >
+                        <Trash2 className="h-4 w-4" />
+                    </Button>
+                    <Switch
+                        isSelected={row.is_active} 
+                        onChange={() => handleToggleFacilityStatus(row)}
+                        name="is_active"
+                        size="md"
+                    />
+                </div>
+            ),
+        },
+    ];
 
     return (
-        <Card className="bg-slate-500 text-slate-800">
-            <CardHeader variant="p-6">
-                <CardTitle className="text-2xl">Property Amenities</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div className="flex justify-between items-center mb-4">
-                    <Input className="max-w-md" placeholder="Search your amenities..." />
-                    <Button className="bg-gray-400" onClick={() => setIsAdding(!isAdding)}>
-                        <Plus className="h-4 w-4" /> Add New Amenity
-                    </Button>
-                </div>
-
-                {isAdding && (
-                    <Card className="border-slate-600 p-6 bg-slate-700">
-                        <CardHeader variant="adding_form_admin_slate">Adding Amenities</CardHeader>
-                        <Formik
-                            initialValues={{ amenity_name: '', amenity_type: '', icon: '', is_active: true }}
-                            validationSchema={validationSchema}
-                            onSubmit={handleSaveAmenity}
-                        >
-                            {({ values, handleChange, errors, touched }) => (
-                                <FormikForm className="mb-6">
-                                    <div className="grid grid-cols-2 gap-4 mb-4">
-                                        <div>
-                                            <Input
-                                                label="Amenity Name"
-                                                placeholder="Enter Amenity name..."
-                                                name="amenity_name"
-                                                value={values.amenity_name}
-                                                onChange={handleChange}
-                                                className="max-w-md"
-                                                size="sm"
-                                                isInvalid={touched.amenity_name && !!errors.amenity_name}
-                                                errorText={errors.amenity_name}
-                                            />
-                                        </div>
-                                        <div>
-                                            <Switch
-                                            defaultSelected
-                                                checked={values.is_active}
-                                                onChange={handleChange}
-                                                name="is_active"
-                                                size="md"
-                                            >
-                                                <div className="text-slate-300 text-sm">Is Active</div>
-                                            </Switch>
-                                        </div>
-                                    </div>
-                                    {/* <div className="grid grid-cols-2 gap-4">
-                                        <div>
-                                            <Select
-                                                label="Amenity Type"
-                                                placeholder="Select an amenity type"
-                                                name="amenity_type"
-                                                onChange={(e) => handleChange(e)}
-                                                className="max-w-md"
-                                                size="sm"
-                                                isInvalid={touched.amenity_type && !!errors.amenity_type}
-                                                errorText={errors.amenity_type}
-                                            >
-                                                {amenityTypes.map((type) => (
-                                                    <SelectItem key={type.key} value={type.key}>
-                                                        {type.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </Select>
-                                        </div>
-                                        <div>
-                                            <Select
-                                                label="Amenity Icon"
-                                                placeholder="Select an amenity icon"
-                                                name="icon"
-                                                onChange={(e) => handleChange(e)}
-                                                className="max-w-md"
-                                                size="sm"
-                                                isInvalid={touched.icon && !!errors.icon}
-                                                errorText={errors.icon}
-                                            >
-                                                {amenityIcons.map((icon) => (
-                                                    <SelectItem key={icon.key} value={icon.key}>
-                                                        {icon.label}
-                                                    </SelectItem>
-                                                ))}
-                                            </Select>
-                                        </div>
-                                    </div> */}
-                                    <Button type="submit" className="mt-4 bg-gray-400 text-slate-800">
-                                        Save Amenity
+        <div className="h-full">
+            <Card className="h-full bg-slate-500 text-slate-800 flex flex-col">
+                <CardHeader variant="p-6">
+                    <CardTitle className="text-2xl">Room Facilities</CardTitle>
+                </CardHeader>
+                <CardContent className="flex flex-col flex-grow">
+                        {loading ? (
+                            <div className="flex-grow overflow-y-auto mb-4">
+                                
+                                <div className="flex justify-center items-center ">
+                                    <p className="text-xl text-gray-300 mb-10">Loading...</p>
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                            <div className="flex-grow overflow-y-auto mb-4">
+                        
+                                <div className="flex justify-between items-center mb-4">
+                                    <Input
+                                        className="max-w-md"
+                                        placeholder="Search facilities..."
+                                        value={searchQuery}
+                                        onChange={handleSearchChange}
+                                    />
+                                    <Button
+                                        className="bg-gray-400"
+                                        onClick={() => { setIsAdding(!isAdding); setSelectedFacility(null); }}
+                                    >
+                                        <Plus className="h-4 w-4" /> Add New Facility
                                     </Button>
-                                </FormikForm>
-                            )}
-                        </Formik>
-                    </Card>
-                )}
+                                </div>
 
-                <Table data={response} columns={columns} />  
-        
-            </CardContent>
-        </Card>
+                                {isAdding && (
+                                    <Card className="border-slate-600 p-6 bg-slate-700">
+                                        <CardHeader variant={'adding_form_admin_slate'}>
+                                            {selectedFacility ? "Edit Facility" : "Add New Facility"}
+                                        </CardHeader>
+                                        <Formik
+                                            initialValues={selectedFacility || RoomFacilities_InitialValues}
+                                            validationSchema={RoomFacilities_YupSchemas}
+                                            onSubmit={selectedFacility ? handleUpdateRoomFacility : handleSaveRoomFacility}
+                                        >
+                                            {({ values, handleChange, errors, touched }) => (
+                                                <FormikForm className="mb-6">
+                                                    <div className="grid grid-cols-2 gap-4 mb-4">
+                                                        <div>
+                                                            <Input
+                                                                label="Facility Name"
+                                                                placeholder="Enter Facility name..."
+                                                                name="facility_name"
+                                                                value={values.facility_name}
+                                                                onChange={handleChange}
+                                                                className="max-w-md"
+                                                                size="sm"
+                                                                isInvalid={touched.facility_name && !!errors.facility_name}
+                                                                errorText={errors.facility_name}
+                                                            />
+                                                        </div>
+                                                        <div>
+                                                            <Switch
+                                                                isSelected={values.is_active}
+                                                                onChange={handleChange}
+                                                                name="is_active"
+                                                                size="md"
+                                                            >
+                                                                <div className="text-slate-300 text-sm">Is Active</div>
+                                                            </Switch>
+                                                        </div>
+                                                    </div>
+                                                    <Button type="submit" className="mt-4 bg-gray-400 text-slate-800">
+                                                        {selectedFacility ? "Update Facility" : "Save Facility"}
+                                                    </Button>
+                                                </FormikForm>
+                                            )}
+                                        </Formik>
+                                    </Card>
+                                )}
+
+                                {response.count === 0 ? (
+                                    
+                                    <div className=" h-full flex flex-col justify-center">
+                                    <div className="flex justify-center items-center mb-8 ">
+                                        <p className="text-lg text-gray-300 mb-10">No Facilities added yet</p>
+                                    </div>
+                                </div>
+                                ) : (
+                                    <>
+                                    <Table data={response.results} columns={columns} />
+                                    </>
+                                )}
+
+                            </div>
+                   
+                    </>
+
+                        )}
+                                    <div className="mt-auto flex justify-center pt-3 pb-2">
+                    <Pagination
+                                      currentPage={page}
+                                      totalPages={totalPages}
+                                      onPageChange={(newPage) => setPage(newPage)}
+                                      button='bg-gradient-to-l from-gray-600 to-slate-700 rounded-xl text-gray-300'
+                                      off_button='bg-gradient-to-tl from-gray-600 to-slate-400 rounded-xl text-slate-100'
+                                      arrow_btn='text-slate-300'
+                                  />
+                    </div>
+                    
+                </CardContent>
+            </Card>
+        </div>
     );
 }

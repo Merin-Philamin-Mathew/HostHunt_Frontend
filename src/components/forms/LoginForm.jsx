@@ -134,7 +134,7 @@ const LoginForm = ({user_type='property_owner'}) => {
         </div>
 
         <div className="flex justify-end items-center mb-6">
-          <a href="#" className="text-blue-400 text-sm">Forgot Password?</a>
+          {/* <a href="#" className="text-blue-400 text-sm">Forgot Password?</a> */}
         </div>
 
         <button

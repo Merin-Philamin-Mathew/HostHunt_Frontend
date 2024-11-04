@@ -6,7 +6,7 @@ export const Table = ({ data, columns }) => (
     <div className="overflow-x-auto">
       
       <table className="min-w-full  text-slate-300 font-normal">
-        <thead>
+        <thead className='text-slate-200'>
           <tr>
             {columns.map((column) => (
               <th key={column.key} className="py-3 px-4 text-left">{column.label}</th>

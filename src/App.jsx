@@ -4,6 +4,7 @@ import const_data from './config/constant'
 import { createBrowserRouter, RouterProvider} from "react-router-dom"
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { Toaster } from 'sonner';
 
 
 
@@ -25,6 +26,7 @@ function App() {
         style={{ zIndex: 9999 }}  // Ensure the toast is above other content
       />
 
+      <Toaster position="top-right" richColors={true} />
       <RouterProvider router={routerProvider} />
     </>
   )

@@ -28,6 +28,8 @@
     "react-toastify": "^10.0.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^3.1.0",
+    "sonner": "^1.6.1",
+    "sweetalert2": "^11.14.4",
     "yup": "^1.4.0"
   },
   "devDependencies": {

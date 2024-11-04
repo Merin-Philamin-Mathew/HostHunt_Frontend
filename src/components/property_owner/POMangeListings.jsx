@@ -21,7 +21,7 @@ const POManageListings = () => {
   };
   useEffect(() => {
     getProperties()
-    const keysToDelete = ['property_details', 'property_id', 'property_docs', 'property_status','property_type','rental_apartment_details'];
+    const keysToDelete = ['property_details', 'property_id', 'property_docs', 'property_status','property_type','rental_apartment_details','policiesData','documents','s3_file_path'];
     keysToDelete.forEach(key => localStorage.removeItem(key));
 
   }, []);

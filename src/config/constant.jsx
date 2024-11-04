@@ -40,6 +40,7 @@ import UserListingPage from '../pages/admin/Users/UsersListingPage';
 import OwnerListPage from '../pages/admin/owners/OwnerListPage';
 import PropertyConfigurations from '../pages/admin/Property_configurations/PropertyConfigurations';
 import AdminDashboardPage from '../pages/admin/dashboarf.jsx/AdminDashboardPage';
+import PropertyAmenities from '../components/property_owner/new_listings/PropertyAmenities';
 
 
 let const_data = {
@@ -73,12 +74,6 @@ let const_data = {
             ]
         },
         {
-            path: 'host/new-listing',
-            element: <ProtectedRoute roleRequired={'user'}>
-                <ListPropertySteps/>
-                </ProtectedRoute>
-        },
-        {
             path: `host`,
             element: <ProtectedRoute>
                 <OwnerDashboardLayout><Outlet/></OwnerDashboardLayout>
@@ -93,6 +88,12 @@ let const_data = {
             ]
         },
         {
+            path: 'host/new-listing',
+            element: <ProtectedRoute roleRequired={'user'}>
+                <ListPropertySteps/>
+                </ProtectedRoute>
+        },
+        {
             path: "host/new-listing",
             element:<ProtectedRoute roleRequired={'user'}>
                 <NewListingLayout><Outlet/></NewListingLayout>
@@ -101,7 +102,7 @@ let const_data = {
                 { path: "property-details", element: <PropertyDetailsForm/>},
                 { path: "documents", element: <DocumentsForm/>},
                 { path: "policies&services", element: <PoliciesServicesForm/>},
-                { path: "facilities", element: <></>},
+                { path: "facilities", element: <PropertyAmenities/>},
                 { path: "finish", element: <ReviewAndSubmit/> }
             ]
         },
@@ -148,7 +149,11 @@ let const_data = {
                 { path: "/admin/in-review/property-details/:property_id", element: <ReviewPropertyDetailedPageAdminSide /> },
             ]
         },
+        
+        
     ],
+
+    
 }
 
-export default const_data 
+export default const_data

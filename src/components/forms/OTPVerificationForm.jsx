@@ -118,7 +118,7 @@ const OTPVerificationForm = ({ user_type='property-owner' }) => {
           Verify and Signup
         </button>
 
-        <p className="text-gray-300 text-sm mt-4 text-center">
+        {/* <p className="text-gray-300 text-sm mt-4 text-center">
           Didn't receive the OTP?{' '}
           <button
             type="button"
@@ -128,7 +128,7 @@ const OTPVerificationForm = ({ user_type='property-owner' }) => {
           >
             Resend OTP
           </button>
-        </p>
+        </p> */}
 
         <div className="text-center text-gray-300 mt-4">
           <span>Time remaining: {formatTime(timer)}</span>

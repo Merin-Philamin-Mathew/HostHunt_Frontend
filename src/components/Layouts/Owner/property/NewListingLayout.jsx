@@ -13,8 +13,8 @@ function NewListingLayout() {
   const sidebarItems = [
     { title: 'Property Details', link: '/host/new-listing/property-details', icon: <FaBuilding />, disabled: false  },
     { title: 'Documents', link: '/host/new-listing/documents', icon: <FaFile />,disabledf: !isPropertyDetailsComplete   },
-    // { title: 'Policies & Services', link: '/host/new-listing/policies&services', icon: <FaShieldAlt />   },
-    // { title: 'Facilities', link: '/host/new-listing/facilities', icon: <FaBed />  },
+    { title: 'Policies & Services', link: '/host/new-listing/policies&services', icon: <FaShieldAlt />   },
+    { title: 'Facilities', link: '/host/new-listing/facilities', icon: <FaBed />  },
     { title: 'Finish', link: '/host/new-listing/finish', icon: <FaCheckCircle />,disabledf: !isDocumentsComplete    }
   ];
 

@@ -8,25 +8,20 @@ export const handleDropdownAction = (itemName, dispatch, navigate) => {
     switch (itemName) {
       case 'Sign out':
   
-        // Dispatch Redux logout action
         dispatch(logoutUser());
   
-        // Navigate to login page
         navigate('/');
         break;
   
       case 'account':
-        // Navigate to account page
         navigate('/account');
         break;
   
       case 'trips':
-        // Navigate to trips page
         navigate('/trips');
         break;
   
       case 'messages':
-        // Navigate to messages page
         navigate('/messages');
         break;
   

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import RoomDetailsForm from '../../../components/property_owner/onboardinag/RoomDetailsForm';
-import { getRoomsByProperty, reviewAndSubmitSteps_ChangeStatus } from '../../../features/Property/PropertyServices';
+import { getAllRoomsByProperty, reviewAndSubmitSteps_ChangeStatus } from '../../../features/Property/PropertyServices';
 import RoomActionCard from '../../../components/utils/cards/Rooms/RoomActionCard';
 import { useNavigate } from 'react-router';
 
@@ -21,7 +21,7 @@ function AddingRoomPage() {
     useEffect(() => {
         if (property_id) {
             console.log('merin',property_id);
-            getRoomsByProperty(property_id)
+            getAllRoomsByProperty(property_id)
                 .then(response => {
                     setRooms(response.data); // Assuming the API returns the room data in `response.data`
                     console.log('lll',response.data)

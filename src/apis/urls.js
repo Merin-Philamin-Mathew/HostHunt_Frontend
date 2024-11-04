@@ -10,7 +10,7 @@ const URLS = {
         'property_details':'property/new-listing/property-details',
         'documents':'property/new-listing/documents',
         'facilities':'property/new-listing/facilities',
-        'policies_services':'property/new-listing/policies-services',
+        'policies_services':'property/new-listing/{property_id}/policies/',
         'submit_review':'property/new-listing/submit-review',
         // doc of single property
         'property_documents':'property/documents',
@@ -24,6 +24,7 @@ const URLS = {
     HOSTMANAGEMENT: {
         'host_properties':'/property/host-properties/',
         'room_by_property':'/property/property-rooms',
+        'policies_by_property':'/property/get-policies-services',
     },
     ADMINMANAGEMENT: {
         'all_properties':'property/all-properties',
@@ -34,7 +35,17 @@ const URLS = {
         'all_owners':'admin/owners',
 
         'pc_amenities':'admin/amenities',
-        'pc_amenity`':'admin/amenity`',
+        'pc_amenity':'admin/amenity', //to retrieve, update, delete specific amenity
+
+        'pc_room_facilities': 'admin/room-facilities/',
+        'pc_room_facility': 'admin/room-facility/',  // to retrieve, update, delete specific room facility
+    
+        'pc_room_types': 'admin/room-types/',
+        'pc_room_type': 'admin/room-type/',  // to retrieve, update, delete specific room type
+    
+        'pc_bed_types': 'admin/bed-types/',
+        'pc_bed_type': 'admin/bed-type/',  // to retrieve, update, delete specific bed type
+    
     },
 
 }

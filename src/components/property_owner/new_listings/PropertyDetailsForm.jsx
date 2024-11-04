@@ -83,15 +83,15 @@ const PropertyDetailsForm = () => {
         console.log('property_details', values);
         try {
           const storedPropertyId = localStorage.getItem('property_id');
-          const s3_file_path = localStorage.getItem('s3_file_path');
+          // const s3_file_path = localStorage.getItem('s3_file_path');
           const formData = new FormData();
           
           for (const key in values) {
             formData.append(key, values[key]);
           }
-          if (s3_file_path) {
-            formData.append('s3_file_path', s3_file_path);
-          }
+          // if (s3_file_path) {
+          //   formData.append('s3_file_path', s3_file_path);
+          // }
           let response;
           if (storedPropertyId) {
             // Update existing property
