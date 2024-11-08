@@ -61,9 +61,7 @@ function RoomTypes() {
               Admin_fetchAllRoomTypes(setResponse, setLoading, page);
           }
       } catch (error) {
-          console.error("Error updating room type:", error);
-      }
-  };
+          console.error("Error updating room type:", err )
 
   const handleDeleteRoomType = async (room_type_id) => {
       try {
@@ -88,7 +86,7 @@ function RoomTypes() {
           Swal.fire('Error!', 'There was a problem deleting the room type.', 'error');
       }
   };
-
+      }
   const handleToggleFacilityStatus = async (facility) => {
     try {
         const updatedFacility = { ...facility, is_active: !facility.is_active };
@@ -179,6 +177,7 @@ function RoomTypes() {
                                   {selectedRoomType ? "Edit Room Type" : "Add New Room Type"}
                               </CardHeader>
                               <Formik
+                              enableReinitialize
                                   initialValues={selectedRoomType || RoomTypes_InitialValues}
                                   validationSchema={RoomTypes_YupSchemas}
                                   onSubmit={selectedRoomType ? handleUpdateRoomType : handleSaveRoomType}
@@ -199,6 +198,16 @@ function RoomTypes() {
                                                       errorText={errors.room_type_name}
                                                   />
                                               </div>
+                                              <div>
+                                                            <Switch
+                                                                isSelected={values.is_active}
+                                                                onChange={handleChange}
+                                                                name="is_active"
+                                                                size="md"
+                                                            >
+                                                                <div className="text-slate-300 text-sm">Is Active</div>
+                                                            </Switch>
+                                                        </div>
                                           </div>
                                           <Button type="submit" className="mt-4 bg-gray-400 text-slate-800">
                                               {selectedRoomType ? "Update Room Type" : "Save Room Type"}
@@ -233,6 +242,6 @@ function RoomTypes() {
             </Card>
         </div>
     );
+    }
 }
-
 export default RoomTypes

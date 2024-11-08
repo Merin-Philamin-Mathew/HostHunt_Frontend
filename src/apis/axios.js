@@ -18,37 +18,12 @@ api.interceptors.request.use(
             // console.log(token,'tokennn');
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
-        // console.log('normaluser Request config:', config);  // Check if Authorization header is being set correctly
+        console.log('normaluser Request config:', config);  // Check if Authorization header is being set correctly
         
         return config;
     },
     (error) => {
-        return Promise.reject(error);
-    }
-);
-
-//  OWNER API
-const owner_api = axios.create({
-    baseURL: BASE_URL,
-    withCredentials: true,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-owner_api.interceptors.request.use(
-    (config) => {
-        
-        const token = store.getState()?.owner?.owner?.access;
-        
-        if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
-        }
-        // console.log('owner Request config:', config);  // Check if Authorization header is being set correctly
-
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
+        return Promise.reject(error);AC
     }
 );
 
@@ -83,6 +58,31 @@ admin_api.interceptors.request.use(
 export { BASE_URL, api, owner_api,admin_api };
 
 
+
+//  OWNER API
+// const owner_api = axios.create({
+//     baseURL: BASE_URL,
+//     withCredentials: true,
+//     headers: {
+//         'Content-Type': 'application/json',
+//     },
+// });
+// owner_api.interceptors.request.use(
+//     (config) => {
+        
+//         const token = store.getState()?.owner?.owner?.access;
+        
+//         if (token) {
+//             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
+//         }
+//         // console.log('owner Request config:', config);  // Check if Authorization header is being set correctly
+
+//         return config;
+//     },
+//     (error) => {
+//         return Promise.reject(error);
+//     }
+// );
 
 // api.interceptors.response.use(
 //     (response) => {

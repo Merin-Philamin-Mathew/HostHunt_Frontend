@@ -42,6 +42,8 @@ export function PropertyAmenities() {
     
     const handleSaveAmenity = async (values, { resetForm }) => {
         try {
+            console.log('save amenity',values);
+
             await Admin_handleSaveAmenity(values, resetForm);
             setIsAdding(false);
             setSelectedAmenity(null);
@@ -52,14 +54,23 @@ export function PropertyAmenities() {
     };
 
     const handleEditButtonActionAmenity = async (amenity) => {
+        console.log('kjkjkjk',amenity);
+        
         setIsAdding(false);
+        console.log('kjkjkjk');
         setSelectedAmenity(amenity);
+
+        console.log('kjkjkjk');
         setIsAdding(true);
     };
+    console.log('selected amenity',selectedAmenity);
+    
 
     const handleUpdateAmenity = async (values, { resetForm }) => {
         try {
             if (selectedAmenity && selectedAmenity.id) {
+                console.log('update amenity',selectedAmenity);
+                
                 await Admin_handleUpdateAmenity(selectedAmenity.id, values);
                 setIsAdding(false);
                 setSelectedAmenity(null);
@@ -176,11 +187,14 @@ export function PropertyAmenities() {
                                 <CardHeader variant={'adding_form_admin_slate'}>
                                 {selectedAmenity ? "Edit Amenity" : "Add New Amenity"}
                                 </CardHeader>
+                                
                                 <Formik
+                                    enableReinitialize
                                     initialValues={selectedAmenity || PropertyAmenities_InitialValues}
                                     validationSchema={PropertyAmenities_YupSchemas}
                                     onSubmit={selectedAmenity ? handleUpdateAmenity : handleSaveAmenity}
                                 >
+
                                     {({ values, handleChange, errors, touched }) => (
                                         <FormikForm className="mb-6">
                                             <div className="grid grid-cols-2 gap-4 mb-4">

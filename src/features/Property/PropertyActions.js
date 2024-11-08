@@ -1,18 +1,10 @@
-import { toast } from 'react-toastify';
-import { addingPoliciesAndServices, getAllAmenitiesService } from "./PropertyServices";
+import { toast } from "sonner";
+import { addingPoliciesAndServices, createAmenitiesByPropertyService, getAllAmenitiesService, getAmenitiesByPropertyService, getPoliciesByProperty } from "./PropertyServices";
+import { setPolicyServiceComplete, setPropertyAmenitiesComplete } from './PropertySlice';
 
-// export const ownerAddProperties = createAsyncThunk('adminGetUsers',async (thunkAPI) =>{
-//     try {
-//         const response = await ownerAddPropertyDetails();
-//         console.log('ownerAddPropertyDetails:responsethunk...',response.data);
-//         return response.data;
-//     } catch (error) {
-//         return thunkAPI.rejectWithValue(error.response.data.error)
-//     }
-// })
 
-export const handlePolicyAndServicesSubmit_Newlisting = async (values, setSubmitting) => {
-    let errorMessage = 'Failed to save policies'; // Default error message
+export const handlePolicyAndServicesSubmit_Newlisting = async (values, setSubmitting, dispatch, navigate) => {
+    let errorMessage = 'Failed to save policies'; 
 
     try {
         console.log('Submitting policies:', values.property_id);
@@ -23,6 +15,8 @@ export const handlePolicyAndServicesSubmit_Newlisting = async (values, setSubmit
         if (response.status === 200 || response.status === 201) {
             localStorage.setItem('policiesData', JSON.stringify(values));
             toast.success('Policies saved successfully');
+            dispatch(setPolicyServiceComplete(true));
+            navigate('/host/new-listing/facilities', {replace:true});
         } else {
             throw new Error('Unexpected response status');
         }
@@ -30,22 +24,28 @@ export const handlePolicyAndServicesSubmit_Newlisting = async (values, setSubmit
         console.error('Error saving policies:', error.response.data);
 
         if (error.response?.data) {
-            // Check for specific fields in the error response
             if (error.response.data.amenity_name) {
                 errorMessage = error.response.data.amenity_name[0] || errorMessage;
             } else if (error.response.data.non_field_errors) {
                 errorMessage = error.response.data.non_field_errors.join(', ') || errorMessage;
             } else {
-                // Flatten the values and join all error messages
                 errorMessage = Object.values(error.response.data).flat().join(', ') || errorMessage;
             }
         }
-
-        // Display the constructed error message
         toast.error(errorMessage);
     } finally {
         setSubmitting(false);
     }
+};
+
+export const fetchPolicies_ServicesByProperty = async (property_id) => {
+    try{
+        const policies = await getPoliciesByProperty(property_id)        
+        localStorage.setItem('policiesData',JSON.stringify(policies.data))
+      }
+      catch(e){
+        console.error(e.response.data.message||'An error occurred while fetching documents')
+      }
 };
 
 export const fetchAllAmenities = async () => {
@@ -68,4 +68,33 @@ export const fetchAllAmenities = async () => {
             }
         }
     }
+}
+
+export const handlecreateAmenitiesByProperty_Newlisting = async(values,property_id,dispatch,navigate) => {
+    try{
+        console.log('data from create amenities',values,property_id);
+        const response = await createAmenitiesByPropertyService(property_id,values)
+        console.log('response of createAmenities by proeprty new listing ', response);
+        dispatch(setPropertyAmenitiesComplete(true))
+        localStorage.setItem('amenities', JSON.stringify(values));
+        navigate('/host/new-listing/finish', {replace:true});
+        toast.success('Amenities added successfully...')
+    }catch(error){
+        console.error(error);
+    }
+}
+
+export const fetchAllAmenities_ByProperty = async(property_id) => {
+try{
+    const response = await getAmenitiesByPropertyService(property_id)
+    const data = {
+        amenities_ids: response.data.map(item => item.amenity_id),
+        free: response.data.every(item => item.free)
+      };   
+    localStorage.setItem('amenities', JSON.stringify(data));
+}
+catch(error){
+    console.error(error);
+    
+}
 }

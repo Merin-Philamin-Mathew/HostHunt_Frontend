@@ -4,7 +4,7 @@ import URLS from "../../apis/urls";
 
 
 export const getAllAmenitiesService = () =>{
-  return api.get(URLS.ADMINMANAGEMENT.pc_amenities,)
+  return api.get(URLS.FETCHINGMANAGEMENT.hh_all_amenities,)
 }
 
 
@@ -24,7 +24,26 @@ export const addingPoliciesAndServices = (property_id,values) => {
 export const getPoliciesByProperty = (property_id) =>{
     return api.get(`${URLS.HOSTMANAGEMENT['policies_by_property']}/${property_id}/`) 
 }
+// property amenities
+export const getAmenitiesByPropertyService = (property_id) => {
+  const url = URLS.NEWLISTING['retrievORcreate_amenities_by_property'].replace('{property_id}',property_id)
+  return api.get(url)
+}
+export const createAmenitiesByPropertyService = (property_id,values) => {
+  console.log(property_id,values,'createAmentiesByPropertyService');  
+  const url = URLS.NEWLISTING['retrievORcreate_amenities_by_property'].replace('{property_id}',property_id)
+  return api.post(url,values)
+}
 
+export const updateAmenitiesByPropertyService = (property_id,values) => {
+
+  console.log(property_id,values,'createAmentiesByPropertyService');  
+  const url = URLS.NEWLISTING['create_amenities_by_property'].replace('{property_id}',property_id)
+  return api.put(url,values)
+}
+
+
+// submit and review
 export const reviewAndSubmitSteps_ChangeStatus = (property_id,status) =>{
     return api.post(`${URLS.NEWLISTING['submit_review']}/${property_id}/${status}/`);
 }

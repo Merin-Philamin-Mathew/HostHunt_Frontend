@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { FaChevronDown } from "react-icons/fa";
-import { Navigate, replace, useNavigate, useParams } from 'react-router';
+ import { Navigate, replace, useNavigate, useParams } from 'react-router';
 import { adminApproveOrRejectProperties, adminGetPropertiesBasicDetailsService } from '../../../redux/admin/adminService';
 import Button from '../../../components/utils/Button';
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../../components/utils/Tabs/Tabs';
+import PropertyPoliciesDisplay from '../../../components/properties/PropertyPoliciesDisplay';
+import PropertyAmenitiesDisplay from '../../../components/properties/PropertyAmenitiesDisplay';
 
 
 
@@ -119,8 +120,11 @@ export default function ReviewPropertyDetailPageAdmin() {
           </TabsTrigger>
           <TabsTrigger 
             isActive={activeTab === 'policies'} 
-            onClick={() => setActiveTab('policies')}
-            variant='adminSlider'
+            onClick={() => {
+              setActiveTab('policies');
+              fetchPolicies_ServicesByProperty();
+          }}
+          variant='adminSlider'
           >
             Policies and Services
           </TabsTrigger>
@@ -143,9 +147,10 @@ export default function ReviewPropertyDetailPageAdmin() {
                 className="w-full h-48 object-cover rounded-lg transition-opacity group-hover:opacity-75" 
               />
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <Button className="bg-blue-500 hover:bg-blue-600 text-white">
-                  View
-                </Button>
+                <Button className="bg-blue-500 hover:bg-blue-600 text-white px-2 rounded-md"
+                title={"View"}
+                // onClick={''}
+                ></Button>
               </div>
             </div>
           ))}
@@ -155,51 +160,13 @@ export default function ReviewPropertyDetailPageAdmin() {
           {activeTab === 'policies' && (
             <div className="space-y-4 p-2">
               <h3 className="text-xl font-semibold">Policies and Services</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <p><strong>Check-in Time:</strong> 2:00 PM</p>
-                  <p><strong>Check-out Time:</strong> 11:00 AM</p>
-                  <p><strong>Pets:</strong> Not Allowed</p>
-                  <p><strong>Smoking:</strong> Designated Areas Only</p>
-                </div>
-                <div>
-                  <p><strong>Cancellation:</strong> Free up to 24 hours before check-in</p>
-                  <p><strong>Payment:</strong> Credit Card, Cash</p>
-                  <p><strong>Age Restriction:</strong> 18+</p>
-                  <p><strong>Languages Spoken:</strong> English, Hindi</p>
-                </div>
-              </div>
+              <PropertyPoliciesDisplay propertyData={propertyData}/>
             </div>
           )}
           {activeTab === 'amenities' && (
             <div className="space-y-4 p-2">
               <h3 className="text-xl font-semibold">Property Amenities</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div className="flex items-center space-x-2">
-                  <FaChevronDown className="text-green-500" />
-                  <span>Free Wi-Fi</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <FaChevronDown className="text-green-500" />
-                  <span>24/7 Reception</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <FaChevronDown className="text-green-500" />
-                  <span>Locker Storage</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <FaChevronDown className="text-green-500" />
-                  <span>Common Kitchen</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <FaChevronDown className="text-green-500" />
-                  <span>Laundry Facilities</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <FaChevronDown className="text-green-500" />
-                  <span>Tour Desk</span>
-                </div>
-              </div>
+              <PropertyAmenitiesDisplay propertyAmenities={propertyData.property_amenities}/>
             </div>
           )}
         </TabsContent>

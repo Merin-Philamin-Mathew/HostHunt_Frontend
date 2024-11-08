@@ -2,8 +2,10 @@
     import { Formik, Form, Field } from 'formik';
     import * as Yup from 'yup';
   import { handlePolicyAndServicesSubmit_Newlisting } from '../../../features/Property/PropertyActions';
+import { useDispatch } from 'react-redux';
+import { setDocumentsComplete } from '../../../features/Property/PropertySlice';
+import { useNavigate } from 'react-router';
 
-    // Validation Schema
     const validationSchema = Yup.object().shape({
       check_in_time: Yup.string().required('Please specify a check-in time'),
       check_out_time: Yup.string().required('Please specify a check-out time'),
@@ -58,6 +60,9 @@
         })
     });
     const PropertyPoliciesForm = () => {
+      
+      const dispatch = useDispatch();
+      const navigate = useNavigate()
       const [initialValues, setInitialValues] = useState({
         check_in_time: '',
         check_out_time: '',
@@ -91,17 +96,15 @@
             console.error('Error parsing policies data from localStorage:', error);
           }
         }
-      }, []); // Empty dependency array means this runs once on component mount
-    
+      }, []); 
 
-        // Handle form submission
         const handleSubmit = async (values, { setSubmitting }) => {
           console.log('Submitting form with values:', values);
           const property_id = localStorage.getItem('property_id')
           if (property_id) {
             values.property_id = property_id; 
           }
-            await handlePolicyAndServicesSubmit_Newlisting(values, setSubmitting)
+            await handlePolicyAndServicesSubmit_Newlisting(values, setSubmitting, dispatch, navigate )
         };
         
 

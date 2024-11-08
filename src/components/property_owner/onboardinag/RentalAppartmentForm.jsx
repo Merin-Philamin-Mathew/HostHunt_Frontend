@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 import { replace, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { createRentalApartmentDetails, reviewAndSubmitSteps_ChangeStatus } from '../../../features/Property/PropertyServices';

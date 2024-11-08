@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 import { createRoomDetails } from '../../../features/Property/PropertyServices';
 
 // Validation schema using Yup

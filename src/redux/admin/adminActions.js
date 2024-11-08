@@ -15,17 +15,6 @@ export const adminLogin = createAsyncThunk('adminLogin', async({email,password,u
 })
 
 
-
-// export const adminGetProperties = createAsyncThunk('adminGetUsers',async (thunkAPI) =>{
-//     try {
-//         const response = await adminGetPropertiesService();
-//         console.log('adminGetProperties:responsethunk...',response.data);
-//         return response.data;
-//     } catch (error) {
-//         return thunkAPI.rejectWithValue(error.response.data.error)
-//     }
-// })
-
 // ==============================PROPERTY CONFIGURATION===================================
 // Amenities
 export const Admin_fetchAllAmenities = async (setResponse, setLoading, page, searchQuery = '') => {
@@ -62,7 +51,7 @@ export  const Admin_handleSaveAmenity = async (values, resetForm) => {
 export  const Admin_handleUpdateAmenity = async (id,values) => {
     try {
         await adminUpdateAmenityService(id, values);
-        console.log("Amenity saved successfully:", values);
+        console.log("Amenity Updated successfully:", values);
         toast.success("Amenity Updated successfully");
         return values; 
     } catch (error) {
@@ -258,6 +247,7 @@ export const Admin_handleSaveBedType = async (values, resetForm) => {
 
 export const Admin_handleUpdateBedType = async (id, values) => {
     try {
+        
         await adminUpdateBedTypeService(id, values);
         console.log("Bed type updated successfully:", values);
         toast.success("Bed type updated successfully");

@@ -2,26 +2,27 @@ import React from 'react'
 import { MapPin, Ban, Edit2, Home, Bed, CheckCircle, XCircle, AlertCircle, Building, BookCheck, LoaderCircle } from 'lucide-react'
 import { useNavigate } from 'react-router'
 import { getAllDocumentsofProperty, getPoliciesByProperty } from '../../../features/Property/PropertyServices'
+import { fetchAllAmenities_ByProperty, fetchPolicies_ServicesByProperty } from '../../../features/Property/PropertyActions';
 
 
 const StatusBadge = ({ status }) => {
   const statusConfig = {
-    in_progress: { features: 'border border-yellow-600 text-yellow-600 bg-gray-50', icon: LoaderCircle},
-    in_review: { features: 'border border-blue-600 text-blue-600', icon: AlertCircle },
-    verified: { features: 'border border-green-600 text-green-600', icon: CheckCircle },
-    rejected: { features: 'border border-red-600 text-[#d34040]', icon: XCircle },
-    published: { features: 'border border-teal-600 bg-teal-600 text-white-800', icon: BookCheck},
-  }
+    in_progress: { color: 'text-yellow-600 ', border: 'border-yellow-600', bg: 'bg-gray-50', icon: LoaderCircle },
+    in_review: { color: 'text-blue-600', border: 'border-blue-600', bg: '', icon: AlertCircle },
+    verified: { color: 'text-green-600', border: 'border-green-600', bg: '', icon: CheckCircle },
+    rejected: { color: 'text-[#d34040]', border: 'border-red-600', bg: '', icon: XCircle },
+    published: { color: 'text-white', border: 'border-teal-600', bg: 'bg-teal-600', icon: BookCheck },
+  };
 
-  const { features, icon: Icon } = statusConfig[status] || statusConfig.in_progress
+  const { color = '', border = '', bg = '', icon: Icon } = statusConfig[status] || statusConfig.in_progress;
 
   return (
-    <div className={`flex items-center ${features} text-white px-2 py-1 rounded-full text-xs font-semibold`}>
-      <Icon className="w-3 h-3 mr-1" />
+    <div className={`flex items-center border ${border} ${color} ${bg} px-2 py-1 rounded-full text-xs font-semibold`}>
+      {Icon && <Icon className="w-3 h-3 mr-1" />}
       {status.replace('_', ' ')}
     </div>
-  )
-}
+  );
+};
 
 const HostelCard = ({ property }) => {
   const navigate = useNavigate()
@@ -31,7 +32,7 @@ const HostelCard = ({ property }) => {
     localStorage.setItem('property_id',property.id)
     const status = property.status
     localStorage.setItem('property_status',status)
-    if (status==='in_progress' ){
+    if (status==='in_progress' || status==='rejected' ){
       localStorage.setItem('property_details',JSON.stringify(property))
       try{
         console.log('1');
@@ -40,21 +41,13 @@ const HostelCard = ({ property }) => {
         localStorage.setItem('property_docs',JSON.stringify(response.data.property_docs))
         localStorage.setItem('documents',JSON.stringify(response.data.documents))
         
-      }
+      } 
       catch(e){
         console.error(e.response.data.message||'An error occurred while fetching documents')
         localStorage.setItem('property_docs',0)
       }
-      try{
-        console.log('2');
-        const policies = await getPoliciesByProperty(property.id)
-        console.log('policies by property',policies);
-        
-        localStorage.setItem('policiesData',JSON.stringify(policies.data))
-      }
-      catch(e){
-        console.error(e.response.data.message||'An error occurred while fetching documents')
-      }
+      fetchAllAmenities_ByProperty(property.id)
+      fetchPolicies_ServicesByProperty(property.id)
     }
     if (status==='verified'){
       localStorage.setItem('property_type',JSON.stringify(property.property_type))

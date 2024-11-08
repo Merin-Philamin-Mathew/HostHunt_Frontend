@@ -178,6 +178,7 @@ import { useDebounce } from '../../../components/utils/Performance/Debouncing/De
                                             {selectedBedType ? "Edit Bed Type" : "Add New Bed Type"}
                                         </CardHeader>
                                         <Formik
+                                        enableReinitialize
                                             initialValues={selectedBedType || BedTypes_InitialValues}
                                             validationSchema={BedTypes_YupSchemas}
                                             onSubmit={selectedBedType ? handleUpdateBedType : handleSaveBedType}

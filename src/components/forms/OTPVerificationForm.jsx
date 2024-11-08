@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { api } from '../../apis/axios';
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 import { useLocation, useNavigate } from 'react-router';
 import { OTP_Form_Data } from './data';
 import URLS from '../../apis/urls';

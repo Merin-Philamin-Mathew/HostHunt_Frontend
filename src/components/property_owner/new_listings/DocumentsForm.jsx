@@ -2,12 +2,15 @@
   import { Formik, Form } from 'formik';
   import { api } from '../../../apis/axios';
   import URLS from '../../../apis/urls';
-  import { toast } from 'react-toastify';
+  import { toast } from "sonner";
   import ImageUploading from 'react-images-uploading';
   import { MdDelete } from "react-icons/md";
   import { useNavigate } from 'react-router';
+import { setDocumentsComplete } from '../../../features/Property/PropertySlice';
+import { useDispatch } from 'react-redux';
 
   const DocumentsForm = () => {
+    const dispatch = useDispatch();
     const [images, setImages] = useState([]);
     const [doc_urls, setDocUrls] = useState([]); 
     const [canDisplayForm, setCanDisplayForm] = useState(false);
@@ -42,14 +45,15 @@
             'Content-Type': 'multipart/form-data',
           },
         });
-    
+        dispatch(setDocumentsComplete(true));
+
         console.log('Response data:', response.data);
   
       let docs = localStorage.getItem('property_docs');
       let currentDocsCount = docs ? parseInt(docs, 10) : 0;
       localStorage.setItem('property_docs', currentDocsCount + images.length);
       
-        navigate('/host/new-listing/finish')
+        navigate('/host/new-listing/policies&services', {replace:true});
         toast.success('Documents uploaded successfully!');
       } catch (e) {
         console.error('Error uploading documents:', e);

@@ -20,17 +20,17 @@ import POMessages from '../components/property_owner/POMessages';
 import POBookings from '../components/property_owner/POBookings';
 import PONotifications from '../components/property_owner/PONotifications';
 
-
-import NewListingLayout from '../components/Layouts/Owner/property/NewListingLayout';
 import ListPropertySteps from '../components/property_owner/new_listings/ListPropertySteps';
-import PropertyDetailsForm from '../components/property_owner/new_listings/PropertyDetailsForm';
-import DocumentsForm from '../components/property_owner/new_listings/DocumentsForm';
-import PoliciesServicesForm from '../components/property_owner/new_listings/PoliciesServicesForm';
-import ReviewAndSubmit from '../components/property_owner/new_listings/ReviewAndSubmit';
+    import NewListingPage from '../pages/property_owner/newListing.jsx/NewLIstingPage';
+    import PropertyDetailsForm from '../components/property_owner/new_listings/PropertyDetailsForm';
+    import DocumentsForm from '../components/property_owner/new_listings/DocumentsForm';
+    import Policy_ServicesPage from '../pages/property_owner/newListing.jsx/Policy_ServicesPage';
+    import PropertyAmenitiesPage from '../pages/property_owner/newListing.jsx/PropertyAmenitiesPage';
+    import ReviewAndSubmit from '../components/property_owner/new_listings/ReviewAndSubmit';
 
-import PropertyOnboardingLayout from '../components/Layouts/Owner/property/PropertyOnboardingLayout';
-import RentalAppartmentForm from '../components/property_owner/onboardinag/RentalAppartmentForm';
-import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPage';
+    import OnboardingPage from '../pages/property_owner/onboarding.jsx/OnboardingPage';
+    import RentalAppartmentForm from '../components/property_owner/onboardinag/RentalAppartmentForm';
+    import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPage';
 
 import AdminOutlet from '../components/Layouts/admin/AdminLayout';
 import AdminLogin from '../pages/admin/Login/AdminLogin';
@@ -40,8 +40,6 @@ import UserListingPage from '../pages/admin/Users/UsersListingPage';
 import OwnerListPage from '../pages/admin/owners/OwnerListPage';
 import PropertyConfigurations from '../pages/admin/Property_configurations/PropertyConfigurations';
 import AdminDashboardPage from '../pages/admin/dashboarf.jsx/AdminDashboardPage';
-import PropertyAmenities from '../components/property_owner/new_listings/PropertyAmenities';
-
 
 let const_data = {
     REACT_ROUTER_PATH: [
@@ -93,23 +91,24 @@ let const_data = {
                 <ListPropertySteps/>
                 </ProtectedRoute>
         },
+  
         {
             path: "host/new-listing",
             element:<ProtectedRoute roleRequired={'user'}>
-                <NewListingLayout><Outlet/></NewListingLayout>
+                <NewListingPage><Outlet/></NewListingPage>
                     </ProtectedRoute> ,
             children: [
                 { path: "property-details", element: <PropertyDetailsForm/>},
                 { path: "documents", element: <DocumentsForm/>},
-                { path: "policies&services", element: <PoliciesServicesForm/>},
-                { path: "facilities", element: <PropertyAmenities/>},
+                { path: "policies&services", element: <Policy_ServicesPage/>},
+                { path: "facilities", element: <PropertyAmenitiesPage/>},
                 { path: "finish", element: <ReviewAndSubmit/> }
             ]
         },
         {
             path: "host/onboarding",
             element:<ProtectedRoute roleRequired={'user'}>
-                <PropertyOnboardingLayout><Outlet/></PropertyOnboardingLayout>
+                <OnboardingPage><Outlet/></OnboardingPage>
                     </ProtectedRoute> ,
             children: [
                 { path: "property-images", element: <></>},

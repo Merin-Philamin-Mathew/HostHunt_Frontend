@@ -36,4 +36,4 @@ function Button({ icon = null, title, onClick, className }) {
   );
 }
 
-export default Button;
+export default Button

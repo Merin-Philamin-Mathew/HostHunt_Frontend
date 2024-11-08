@@ -181,6 +181,7 @@ export function RoomFacilities() {
                                             {selectedFacility ? "Edit Facility" : "Add New Facility"}
                                         </CardHeader>
                                         <Formik
+                                        enableReinitialize
                                             initialValues={selectedFacility || RoomFacilities_InitialValues}
                                             validationSchema={RoomFacilities_YupSchemas}
                                             onSubmit={selectedFacility ? handleUpdateRoomFacility : handleSaveRoomFacility}

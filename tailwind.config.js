@@ -14,6 +14,7 @@ export default {
         themeColor: '#e76608',  // orange for major_buttons, highlights, logo 
         themeColorli8: '#e49a6594',  // orange for major_buttons, highlights, logo 
         themeColor2: '#00172c', //  Dark navy for headers, footer, highlights and buttons
+        themeColor2li8: '#334155', //  Dark navy for headers, footer, highlights and buttons
         bar_color1: '#4b9499',    // for bars
         bar_color2: '#F2C94C',    // second bars
 

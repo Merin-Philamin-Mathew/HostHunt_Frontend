@@ -3,13 +3,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './userSlice'
 import ownerReducer from './ownerSlice'; 
 import adminReducer from './admin/adminSlice'
+import propertyReducer from '../features/Property/PropertySlice';
 
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from '@reduxjs/toolkit';
 import persistReducer from 'redux-persist/es/persistReducer';
 import persistStore from 'redux-persist/es/persistStore';
-
-
 
 const persistConfig = {
   key: 'root',
@@ -19,7 +18,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   owner: ownerReducer,
-  admin: adminReducer
+  admin: adminReducer,
+  property: propertyReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -27,14 +27,6 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({
   reducer: persistedReducer
 });
-// const store = configureStore({
-//   reducer: rootReducer,
-//   middleware: getDefaultMiddleware({
-//     serializableCheck: {
-//       ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
-//     },
-//   }),
-// });
 
 export const persistor = persistStore(store);
 export default store;

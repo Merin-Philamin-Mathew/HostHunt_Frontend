@@ -11,6 +11,7 @@ const URLS = {
         'documents':'property/new-listing/documents',
         'facilities':'property/new-listing/facilities',
         'policies_services':'property/new-listing/{property_id}/policies/',
+        'retrievORcreate_amenities_by_property':'/property/new-listing/{property_id}/amenities/bulk/',
         'submit_review':'property/new-listing/submit-review',
         // doc of single property
         'property_documents':'property/documents',
@@ -25,6 +26,9 @@ const URLS = {
         'host_properties':'/property/host-properties/',
         'room_by_property':'/property/property-rooms',
         'policies_by_property':'/property/get-policies-services',
+    },
+    FETCHINGMANAGEMENT: {
+        'hh_all_amenities':'/property/all-amenities/'
     },
     ADMINMANAGEMENT: {
         'all_properties':'property/all-properties',

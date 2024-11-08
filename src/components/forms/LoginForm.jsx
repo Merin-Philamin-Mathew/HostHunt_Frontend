@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../../apis/axios';
 import { useGoogleLogin } from '@react-oauth/google';
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 import { LogForm_Data } from './data';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import URLS from '../../apis/urls';

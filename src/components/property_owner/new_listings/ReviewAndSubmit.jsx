@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Formik, Form } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 import { api } from '../../../apis/axios';
 import URLS from '../../../apis/urls';
+import { useSelector } from 'react-redux';
 
 const ReviewAndSubmitPage = () => {
   const navigate = useNavigate();
@@ -20,13 +21,24 @@ const ReviewAndSubmitPage = () => {
   });
 
   const [canDisplayForm, setCanDisplayForm] = useState(false);
+    const isPropertyDetailsComplete = useSelector(
+    (state) => state.property.isPropertyDetailsComplete
+  );
+  const isDocumentsComplete = useSelector(
+    (state) => state.property.isDocumentsComplete
+  );
+  const isPolicyServiceComplete = useSelector(
+    (state) => state.property.isPolicyServiceComplete
+  );
+  const isPropertyAmenitiesComplete = useSelector(
+    (state) => state.property.isPropertyAmenitiesComplete
+  );
 
   useEffect(() => {
     const storedPropertyDetails = localStorage.getItem('property_details');
     const documentsCount = parseInt(localStorage.getItem('property_docs'), 10) || 0;
-    const storedPropertyId = localStorage.getItem('property_id');
 
-    if (storedPropertyId && documentsCount > 0) {
+    if (isDocumentsComplete && isPropertyAmenitiesComplete && isPropertyDetailsComplete && isPolicyServiceComplete ) {
       setCanDisplayForm(true); 
     }
 

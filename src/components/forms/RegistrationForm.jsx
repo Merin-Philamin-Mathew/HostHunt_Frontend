@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify'
+import { toast } from "sonner";
 import { useFormik } from 'formik';
 import {Link, useNavigate} from 'react-router-dom'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; 

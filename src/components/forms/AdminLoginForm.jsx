@@ -5,7 +5,7 @@ import { adminLogin } from '../../redux/admin/adminActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { resetAdminActions } from '../../redux/admin/adminSlice';
-import { toast } from 'react-toastify';
+import { toast } from "sonner";
 
 // Validation Schema using Yup
 const validationSchema = Yup.object({

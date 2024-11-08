@@ -3,14 +3,18 @@ import { Formik, Form, Field } from 'formik';
 
 import { api } from '../../../apis/axios';
 import URLS from '../../../apis/urls';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { toast } from "sonner";
+import { replace, useNavigate } from 'react-router-dom';
 import { PropertyDetailsSchema } from './new_listing_data';
 
 import { FaEdit } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { setPropertyDetailsComplete } from '../../../features/Property/PropertySlice';
 
 
 const PropertyDetailsForm = () => {
+  const dispatch = useDispatch();
+
 
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
@@ -67,7 +71,7 @@ const PropertyDetailsForm = () => {
         postcode: propertyDetails.postcode || '',
         total_bed_rooms: propertyDetails.total_bed_rooms || '',
         no_of_beds: propertyDetails.no_of_beds || '',
-        thumbnail_image_url: propertyDetails.thumbnail_image_url || '', // Load the image path
+        thumbnail_image_url: propertyDetails.thumbnail_image_url || '',
       });
     }
   }, []);
@@ -83,15 +87,11 @@ const PropertyDetailsForm = () => {
         console.log('property_details', values);
         try {
           const storedPropertyId = localStorage.getItem('property_id');
-          // const s3_file_path = localStorage.getItem('s3_file_path');
           const formData = new FormData();
           
           for (const key in values) {
             formData.append(key, values[key]);
           }
-          // if (s3_file_path) {
-          //   formData.append('s3_file_path', s3_file_path);
-          // }
           let response;
           if (storedPropertyId) {
             // Update existing property
@@ -102,29 +102,24 @@ const PropertyDetailsForm = () => {
             });
             setLoading(false)
           } else {
-            // Create new property
-            console.log('//////////////////////////////');
             setLoading(true)
             response = await api.post(URLS.NEWLISTING['property_details'], formData, {
               headers: { 'Content-Type': 'multipart/form-data' },
             });
             setLoading(false)
-            console.log(response,"response from property detaisl adding service");
-            localStorage.setItem('s3_file_path', response?.data?.s3_file_path);
-
+            console.log('post property details... no error till here');
+            
+            dispatch(setPropertyDetailsComplete(true));
           }
-
-          console.log('Response data:', response.data);
 
           const updatedPropertyDetails = {
             ...response.data.data,
-            
           };
     
           localStorage.setItem('property_details', JSON.stringify(updatedPropertyDetails));
           localStorage.setItem('property_id', response?.data?.property_id);
           toast.success('Property details successfully saved');
-          navigate('/host/new-listing/documents');
+          navigate('/host/new-listing/documents', {replace:true});
         } catch (e) {
           console.log('error', e);
         
