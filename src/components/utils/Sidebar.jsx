@@ -8,12 +8,12 @@ const Sidebar = ({ items = [], activePath }) => {
         {items.map((item, index) => (
           <li key={index}>
             <Link
-              to={item.disabled ? '#' : item.link}  // Disable link navigation if the item is disabled
+              to={item.disabled ? '#' : item.link} 
               className={`flex items-center py-2 pl-2 md:pl-3 md:pr-7 rounded-full transition ${
                 item.disabled
                   ? 'text-gray-400 cursor-not-allowed'
                   : activePath === item.link
-                  ? 'bg-slate-300 text-themeColor2'  // Active item styles
+                  ? 'bg-slate-300 text-themeColor2' 
                   : 'hover:bg-gray-200'
               }`}
               aria-disabled={item.disabled}

@@ -1,10 +1,10 @@
 import React from 'react';
-import Banner from '../../components/user/Banner';
 import CategoryCard from '../../components/user/CategoryCard';
 import ReviewCard from '../../components/user/ReviewCard';
 import Footer from '../../components/user/partials/Footer';
 import Header from '../../components/user/partials/header';
-import Container from '../../components/utils/Container';
+import Container from '../../components/utils/Containers/Container';
+import Banner from '../../components/user/HomePage/Banner';
 
 const Home = () => {
   const categories = [
@@ -26,8 +26,9 @@ const Home = () => {
       <Container>
         {/* <br></br> */}
       <Banner />
-      <section className="py-8 w-full">
-        <h2 className="text-2xl font-bold text-center">Uncover the Best Stays</h2>
+      <section className="py-12  pt-28 w-full">
+        <h2 className="text-3xl font-semibold py-1">Uncover the Best Stays: Explore Our Top categories</h2>
+        <div className='h-0.5  bg-themeColor w-52'></div>
         <div className="mt-6 grid sm:grid-cols-2 grid-cols-1  lg:grid-cols-4 gap-4 ">
           {categories.map((category, index) => (
             <CategoryCard key={index} {...category} />
@@ -35,9 +36,10 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="py-8 bg-gray-100">
-        <h2 className="text-2xl font-bold text-center">Hosteller's Experiences</h2>
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 container mx-auto">
+      <section className="py-8 ">
+      <h2 className="text-3xl font-semibold py-1">Hosteller’s Experiences</h2>
+      <div className='h-0.5  bg-themeColor w-52'></div>        
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 container mx-auto">
           {reviews.map((review, index) => (
             <ReviewCard key={index} {...review} />
           ))}

@@ -72,3 +72,21 @@ export const deleteRoomDetails_Onboarding = () =>{
 export const getAllRoomsByProperty = (property_id) =>{
     return api.get(`${URLS.HOSTMANAGEMENT['room_by_property']}/${property_id}/`) //getting by property_id which can be sent with the data
 }
+
+// ================FETCHING DATAS===================
+export const getActiveRoomTypes = () =>{
+  return api.get(URLS.FETCHINGMANAGEMENT['hh_active_room_types'])
+}
+export const getActiveBedTypes = () =>{
+  return api.get(URLS.FETCHINGMANAGEMENT['hh_active_bed_types'])
+}
+
+
+// =================== User side property display ========================================
+export const getAllPropertyResults = (city) => {
+  console.log(`Requesting properties for city: ${city}`);
+  return api.get(URLS.FETCHINGMANAGEMENT.hh_all_property_results, {
+    params: { city: city }
+  });
+};
+

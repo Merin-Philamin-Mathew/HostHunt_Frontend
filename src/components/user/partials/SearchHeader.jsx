@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBuilding, FaSignOutAlt, FaUser } from "react-icons/fa";
-import Dropdown from '../../utils/Dropdown';   
-import {  handleDropdownAction, handleDropdownActionOwner } from '../../utils/logic';
-import { navigatetoUserHome } from '../../../config/constant';
+import { BsBuildingAdd } from "react-icons/bs";
+import Dropdown from '../../utils/Dropdown';
+import { AiFillMessage } from 'react-icons/ai';
+import { handleDropdownAction } from '../../utils/logic';
+import PropertyLocationSearch from '../HomePage/PropetyLocationSearch';
+import SmContainer from '../../utils/Containers/SmContainer';
 
-const POHeader = () => {
-  const { user } = useSelector((state) => state.user);
+const SearchHeader = () => {
+  const { user,userLoggedIn } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,7 +21,8 @@ const POHeader = () => {
   // Dropdown items
   const dropdownItems = [
     { title: 'Manage account', icon: <FaUser/> },
-    { title: 'Manage Listings', icon: <FaBuilding/> },
+    { title: 'My Stays', icon: <FaBuilding/> },
+    { title: 'Messages', icon: <AiFillMessage/>},
     { title: 'Sign out', icon: <FaSignOutAlt/>}
   ];
 
@@ -36,34 +40,44 @@ const POHeader = () => {
   };
 
   return (
-    <header className="w-full py-3 bg-themeColor2 shadow-xl shadow-white relative">
-      <div className="flex justify-between items-center mx- auto lessThan404 px-6 ">
+      <header className=" w-full py-3 bg-white shadow-xl relative">
+        <SmContainer>
+      <div className="flex justify-between items-center mx-auto ">
         <button className="flex items-center space-x-1"
-              onClick={()=>{navigate(navigatetoUserHome)}}>
-          <img src="/logo/white_invert.png" className="w-12 bg-orange-600 py-1 rounded-md" alt="Logo"/>
-          <div className="text-2xl font-extrabold text-orange-600">HOSTHUNT</div>
+          onClick={() => navigate('/')} 
+  >
+          <img src="/logo/Orange.png" className="w-10" alt="Logo"/>
+          <div className="hidden lg:block text-2xl font-extrabold text-orange-600">HOSTHUNT</div>
         </button>
-        <div className="flex items-center space-x-5 px-2">
-
-          { user ?    (
+     <div className="flex items-stretch bg-white rounded-lg border border-gray-400 w-3/4 md:w-2/3 lg:w-1/2">
+        <PropertyLocationSearch/>
+        </div>
+        <div className="flex items-center ">
+     
+          { userLoggedIn ?    (
   <div className="relative">
-    <div onClick={toggleDropdown} className="flex items-center space-x-4 cursor-pointer">
-      {user?.profilePic ? (
-        <img src={user.profilePic} alt="Profile" className="w-9 h-9 rounded-full" />
+    <div onClick={toggleDropdown} className="flex items-center  cursor-pointer">
+      {user.userProPic ? (
+        <img src={user.userProPic} alt="Profile" className="w-9 h-9 rounded-full" />
       ) : (
-        <button className="w-9 h-9 bg-gray-300 text-slate-900 rounded-full flex items-center outline outline-offset-1 outline-1  outline-gray-200 justify-center">
+        <button className="w-9 h-9 bg-gray-700 text-slate-300 rounded-full flex items-center outline outline-offset-1 outline-1  outline-themeColor2 justify-center">
           <span className="text-base font-semibold">
             {user?.data?.name?.charAt(0).toUpperCase() || user?.data?.email?.charAt(0).toUpperCase() || ''}
           </span>
         </button>
       )}
       <i className="fa fa-bell text-xl"></i>
+     
     </div>
   </div>
 ) : (
-  <Link to="/host/login">
+  <div className='flex justify-center'>
+  <Link to="/login" className='flex items-center space-x-2'>
     <FaUser />
+    <div>Login</div>
   </Link>
+</div>
+  
 )}
 
         </div>
@@ -81,8 +95,10 @@ const POHeader = () => {
           position={dropdownPosition} // Pass calculated position
         />
       )}
+    </SmContainer>
     </header>
+
   );
 };
 
-export default POHeader;
+export default SearchHeader;

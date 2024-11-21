@@ -40,10 +40,12 @@ const Header = () => {
   return (
     <header className="w-full py-3 bg-white shadow-xl mb-2 relative">
       <div className="flex justify-between items-center mx-auto lessThan404 max-w-[1440px] px-10">
-        <div className="flex items-center space-x-1">
+        <button className="flex items-center space-x-1"
+          onClick={() => navigate('/')} 
+          >
           <img src="/logo/Orange.png" className="w-10" alt="Logo"/>
           <div className="text-2xl font-extrabold text-orange-600">HOSTHUNT</div>
-        </div>
+        </button>
         <div className="flex items-center space-x-5 px-2">
           <button className="flex space-x-1 items-center hover:bg-gray-100 py-2 px-3 border border-gray-400 rounded-full ">
             <BsBuildingAdd />

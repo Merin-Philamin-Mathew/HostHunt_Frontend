@@ -17,7 +17,7 @@ import { RoomTypes_InitialValues, RoomTypes_YupSchemas } from './data';
 
 
 
-function RoomTypes() {
+export function RoomTypes() {
   const [isAdding, setIsAdding] = useState(false);
   const [response, setResponse] = useState({ results: [], count: 0 });
   const [loading, setLoading] = useState(false);
@@ -31,6 +31,8 @@ function RoomTypes() {
   useEffect(() => {
       setLoading(true);
       Admin_fetchAllRoomTypes(setResponse, setLoading, page, debouncedSearchTerm);
+      console.log('rooom types.....');
+      
   }, [debouncedSearchTerm, page]);
 
   const handleSearchChange = (e) => setSearchQuery(e.target.value);
@@ -62,7 +64,8 @@ function RoomTypes() {
           }
       } catch (error) {
           console.error("Error updating room type:", err )
-
+    }
+  }
   const handleDeleteRoomType = async (room_type_id) => {
       try {
           const result = await Swal.fire({
@@ -86,7 +89,6 @@ function RoomTypes() {
           Swal.fire('Error!', 'There was a problem deleting the room type.', 'error');
       }
   };
-      }
   const handleToggleFacilityStatus = async (facility) => {
     try {
         const updatedFacility = { ...facility, is_active: !facility.is_active };
@@ -242,6 +244,5 @@ function RoomTypes() {
             </Card>
         </div>
     );
-    }
-}
-export default RoomTypes
+ }
+

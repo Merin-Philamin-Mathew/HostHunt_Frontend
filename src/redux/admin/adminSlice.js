@@ -43,6 +43,11 @@ const adminSlice = createSlice({
         setActiveItem: (state, action) => { // New action for setting active item
             state.activeItem = action.payload;
         },
+        updateAdminAccessToken: (state, action) => {
+            if (state.adminData) {
+              state.adminAToken = action.payload;
+            }
+          },
     },
     extraReducers: (builder) => {
         builder
@@ -64,6 +69,6 @@ const adminSlice = createSlice({
     },
 });
 
-export const { resetAdminActions, logoutAdmin, setAdminsData, setActiveItem } = adminSlice.actions;
+export const { resetAdminActions, logoutAdmin, setAdminsData, setActiveItem, updateAdminAccessToken } = adminSlice.actions;
 
 export default adminSlice.reducer;

@@ -10,6 +10,9 @@ const propertySlice = createSlice({
       isDocumentsComplete: false,
       isPolicyServiceComplete: false,
       isPropertyAmenitiesComplete: false,
+      isRoomDetails: false,
+
+      allPropertyResults: []
     },
     reducers: {
       setPropertyDetailsComplete: (state, action) => {
@@ -25,6 +28,12 @@ const propertySlice = createSlice({
       setPropertyAmenitiesComplete: (state, action) => {
         state.isPropertyAmenitiesComplete = action.payload;
       },
+      setRoomDetailsComplete: (state, action) => {
+        state.isRoomDetails = action.payload;
+      },
+      setAllPropertyResults: (state, action) => {
+        state.allPropertyResults = action.payload;
+      }
     },
   });
   
@@ -32,7 +41,9 @@ const propertySlice = createSlice({
     setPropertyDetailsComplete,
     setDocumentsComplete,
     setPolicyServiceComplete,
-    setPropertyAmenitiesComplete
+    setPropertyAmenitiesComplete,
+    setAllPropertyResults,
+    setRoomDetailsComplete
   } = propertySlice.actions;
   
   export default propertySlice.reducer;

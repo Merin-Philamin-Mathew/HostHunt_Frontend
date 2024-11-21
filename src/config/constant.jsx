@@ -30,7 +30,6 @@ import ListPropertySteps from '../components/property_owner/new_listings/ListPro
 
     import OnboardingPage from '../pages/property_owner/onboarding.jsx/OnboardingPage';
     import RentalAppartmentForm from '../components/property_owner/onboardinag/RentalAppartmentForm';
-    import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPage';
 
 import AdminOutlet from '../components/Layouts/admin/AdminLayout';
 import AdminLogin from '../pages/admin/Login/AdminLogin';
@@ -40,6 +39,8 @@ import UserListingPage from '../pages/admin/Users/UsersListingPage';
 import OwnerListPage from '../pages/admin/owners/OwnerListPage';
 import PropertyConfigurations from '../pages/admin/Property_configurations/PropertyConfigurations';
 import AdminDashboardPage from '../pages/admin/dashboarf.jsx/AdminDashboardPage';
+import PropertyResultsPage from '../pages/users/PropertyResultsPage';
+import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPage';
 
 let const_data = {
     REACT_ROUTER_PATH: [
@@ -59,7 +60,12 @@ let const_data = {
         },
         {
             path: "/otp-verification",
-            element: <OTPVerificationPage/>},
+            element: <OTPVerificationPage/>
+        },
+        {
+            path: "/property-results",
+            element: <PropertyResultsPage/>
+        },
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // OWNER SIDE PATHS
         {
@@ -154,5 +160,8 @@ let const_data = {
 
     
 }
+
+
+export const  navigatetoUserHome = '/'
 
 export default const_data

@@ -46,7 +46,7 @@ function NewListingPage() {
       { title: 'Documents', link: '/host/new-listing/documents', icon: <FaFile />, disabled: !isPropertyDetailsComplete },
       { title: 'Policies & Services', link: '/host/new-listing/policies&services', icon: <FaShieldAlt />, disabled: !isDocumentsComplete },
       { title: 'Facilities', link: '/host/new-listing/facilities', icon: <FaBed />, disabled: !isPolicyServiceComplete },
-      { title: 'Finish', link: '/host/new-listing/finish', icon: <FaCheckCircle />, disabled: !isPropertyAmenitiesComplete },
+      { title: 'Finish', link: '/host/new-listing/finish', icon: <FaCheckCircle />, disabled: !isDocumentsComplete  },
     ]
   return (
    <GeneralFormsLayout sidebarItems={sidebarItems}/>

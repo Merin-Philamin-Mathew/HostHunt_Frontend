@@ -1,6 +1,6 @@
 import { toast } from "sonner";
-import { addingPoliciesAndServices, createAmenitiesByPropertyService, getAllAmenitiesService, getAmenitiesByPropertyService, getPoliciesByProperty } from "./PropertyServices";
-import { setPolicyServiceComplete, setPropertyAmenitiesComplete } from './PropertySlice';
+import { addingPoliciesAndServices, createAmenitiesByPropertyService, getActiveBedTypes, getActiveRoomTypes, getAllAmenitiesService, getAllPropertyResults, getAmenitiesByPropertyService, getPoliciesByProperty } from "./PropertyServices";
+import { setAllPropertyResults, setPolicyServiceComplete, setPropertyAmenitiesComplete, setPropertyDetailsComplete } from './PropertySlice';
 
 
 export const handlePolicyAndServicesSubmit_Newlisting = async (values, setSubmitting, dispatch, navigate) => {
@@ -97,4 +97,42 @@ catch(error){
     console.error(error);
     
 }
+}
+
+export const fetchActiveRoomTypes = async (setRoomTypes) => {
+    try{ 
+        console.log('fetch room types');
+        const response = await getActiveRoomTypes()
+        setRoomTypes(response.data)
+        console.log('got room types', response.data);
+        return response.data
+    }
+    catch (error) {
+        console.error('Error saving policies:', error.response.data);
+    }
+}
+export const fetchActiveBedTypes = async (setBedTypes) => {
+    try{ 
+        console.log('fetch bed types');
+        const response = await getActiveBedTypes()
+        setBedTypes(response.data)
+        console.log('got bed types', response.data);
+        return response.data
+    }
+    catch (error) {
+        console.error('Error saving policies:', error.response.data);
+    }
+}
+// =================== User side property display ========================================
+export const fetchAllPropertyResults = async(city,dispatch) => {
+    try {
+        const response = await getAllPropertyResults(city)
+        console.log('all property results...',response,response.data);
+        dispatch(setAllPropertyResults(response?.data))
+        console.log('done');
+        
+    }
+    catch(error){
+        console.error(error)
+    }
 }

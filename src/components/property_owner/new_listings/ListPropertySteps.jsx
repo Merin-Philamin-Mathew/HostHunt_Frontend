@@ -40,10 +40,16 @@ const ListPropertySteps = () => {
     const type = localStorage.getItem('property_type');
     // in future change to /host/onboarding/property-images later... 
     // and in there can take this conditions and conditionally render through sidebar
-    if (type === 'apartment' || type === 'rental') {
+    console.log('kkk',type);
+    
+    if (type === '"apartment"' || type === '"rental"') {
+      console.log('2. aparment ');
       navigate('/host/onboarding/rental-appartment');
+      console.log('2 , kkk');
     } else {
+      console.log('1, llll',type);
       navigate('/host/onboarding/room/');
+      console.log('1, llll');
     }
   };
   

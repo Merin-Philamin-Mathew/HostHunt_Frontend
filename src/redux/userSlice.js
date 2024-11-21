@@ -19,6 +19,11 @@ const userSlice = createSlice({
     updateUseruserProPic: (state, action) => {
       state.userProPic = action.payload;
     },
+    updateAccessToken: (state, action) => {
+      if (state.user) {
+        state.user.access = action.payload;
+      }
+    },
     logoutUser: (state) => {
       state.user = null;
       state.userLoggedIn = false
@@ -27,6 +32,9 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserDetails, updateUseruserProPic, logoutUser } = userSlice.actions;
+export const { setUserDetails, 
+            updateUseruserProPic, 
+            updateAccessToken, 
+            logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -5,7 +5,7 @@ const Tabs = ({ children, className }) => (
 )
 
 const TabsList = ({ children, variant, className }) => (
-    <button className={`${variant === 'adminSlider' ? 'bg-slate-700 p-1 mb-1 rounded-lg' : 'bg-slate-500 p-1 mb-1 rounded-lg'} ${className}`}>
+    <button className={`${variant === 'adminSlider' ? 'bg-slate-700 p-1 mb-1 rounded-lg' : ' p-1 mb-1 rounded-lg'} ${className}`}>
         {children}
     </button>
 )
@@ -14,6 +14,7 @@ const TabsTrigger = ({ children, isActive, variant = 'default', size, className,
     <button 
         className={`px-4 py-2 ${
             variant === 'default' ? `${isActive ? 'bg-slate-700 text-white' : 'bg-slate-500 text-slate-100'} rounded-lg transition-colors hover:bg-slate-600` :
+            variant === 'owner_form' ? `${isActive ? 'bg-gray-100 text-themeColor2' : ' text-themeColor2li8 hover:text-gray-500'} rounded-lg transition-colors ` :
             variant === 'adminSlider' ? `${isActive ? 'bg-slate-500 text-white' : 'bg-slate-700 text-slate-100'} rounded-lg transition-colors hover:bg-slate-600` :
             variant === 'outline' ? 'border border-input bg-background hover:bg-accent hover:text-accent-foreground' :
             variant === 'secondary' ? 'bg-secondary text-secondary-foreground hover:bg-secondary/80' :
