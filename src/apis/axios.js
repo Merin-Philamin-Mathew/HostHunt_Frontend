@@ -21,8 +21,10 @@ api.interceptors.request.use(
         if (token) {
         // console.log(token,'tokennn');
             config.headers['Authorization'] = `Bearer ${token}`;
+            
         }
-        // console.log('user Request config:', config);  // Check if Authorization header is being set correctly
+        console.log('Request data:', config.data); // Debug the outgoing data
+        console.log('user Request config:', config);  // Check if Authorization header is being set correctly
         return config;
     },
     (error) => Promise.reject(error)

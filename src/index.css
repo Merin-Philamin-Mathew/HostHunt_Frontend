@@ -11,3 +11,15 @@
   .autocomplete-input input {
     color: #e2e0e0; 
   }
+
+  .upload__image-wrapper {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .upload__image-wrapper.bg-green-100 {
+    background-color: rgba(0, 255, 0, 0.1); /* Light green */
+  }
+  

@@ -1,3 +1,75 @@
+import React, { useEffect, useState } from 'react'
+import { MapPin, Wifi, Wind, Car, Music, Monitor } from 'lucide-react'
+import SearchHeader from '../../components/user/partials/SearchHeader'
+import Container from '../../components/utils/Containers/Container'
+import PublishedRoomCard from '../../components/utils/cards/Rooms/PublishedRoomCard'
+import { fetchDetailedDisplay_property } from '../../features/Property/PropertyActions'
+import SmContainer from '../../components/utils/Containers/SmContainer'
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from '@stripe/react-stripe-js';
+
+
+export default function PropertyDisplayPage(
+  { property = {
+  name: "Zostel Kochi (Ernakulam)",
+  rating: 4.5,
+  reviews: 1156,
+  address: "Lakshi (guest road, ward-2633, Kerala, Kerala",
+  description: "Featuring free WiFi throughout the property, Lakeside Motel Waterfront offers accommodations in Lakes kitchezh, 19 km from Barnstable. Free private parking is available on site.\n\nEach room at this hotel is air conditioned and comes with a flat-screen TV. You will find a kettle, toaster and a microwave in the room. Each room is fitted with a private bathroom. Guests have access to barbecue facilities and a lovely large lawn area. Marina is 8.8 km from Lakeside Motel Waterfront, while Paynesvilla is.",
+  nearbyPlaces: [
+    // { name: "Hotel Recidencia", distance: "2 min drive" },
+    // { name: "Norman Opera Class", distance: "14 min drive" },
+    // { name: "Residual hotel", distance: "21 min drive" }
+  ],
+  facilities: [
+    { icon: Wifi, name: "Free wifi" },
+    { icon: Wind, name: "Air Conditioning" },
+    { icon: Car, name: "Parking available" },
+    { icon: Music, name: "Entertainment Area" },
+    { icon: Monitor, name: "All media available" }
+  ],
+  rooms: [
+    {
+      id: 1,
+      name: "Standard 6 Bed Mixed Dorm",
+      type: "Bed in 6 Bed Mixed Dormitory with Balcony",
+      occupancy: "Sleeps 6",
+      price: "€4.56",
+      bedsLeft: 4,
+      image: "/dorm1.jpg"
+    },
+    {
+      id: 2,
+      name: "Standard 6 Bed Female Dorm",
+      type: "Bed in 6 Bed Mixed Dormitory with Balcony",
+      occupancy: "Sleeps 6",
+      price: "€4.56",
+      bedsLeft: 4,
+      image: "/dorm2.jpg"
+    }
+  ]
+}}
+) {
+  const [propertyDetails, setPropertyDetails] = useState('')
+  useEffect(() => {
+    const property_id = localStorage.getItem('property_id') 
+    fetchDetailedDisplay_property(property_id,setPropertyDetails)
+
+  }, []);
+
+  const [activeTab, setActiveTab] = useState('overview')
+  
+
+  const tabs = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'rooms', label: 'Rooms' },
+    { id: 'reviews', label: 'Guest Reviews' }
+  ]
+
+  const key = import.meta.env.VITE_STRIPE_PUBLISH_KEY
+
+  const stripePromise = loadStripe(key);
+
   return (
     <>
       <SearchHeader />
@@ -10,36 +82,29 @@
           alt={propertyDetails?.property_details?.property_name}
           className="w-full h-full object-cover"
         />
-        <div className="absolute top-0 right-0 bg-red-600 p-4">
-          <img
-            src=''
-            alt="Zostel"
-            className="h-8"
-          />
-        </div>
+      
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="py-8">
         {/* Tabs */}
-    {/* Tabs */}
-<div className="sticky top-0 bg-white z-10 border-b mb-8">
-  <div className="flex gap-8 px-4 py-2">
-    {tabs.map(tab => (
-      <button
-        key={tab.id}
-        onClick={() => setActiveTab(tab.id)}
-        className={`pb-4 px-2 font-medium transition-colors relative ${
-          activeTab === tab.id
-            ? 'text-blue-600 border-b-2 border-blue-600'
-            : 'text-gray-500 hover:text-gray-700'
-        }`}
-      >
-        {tab.label}
-      </button>
-    ))}
-  </div>
-</div>
+        <div className="border-b mb-8">
+          <div className="flex gap-8">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`pb-4 px-2 font-medium transition-colors relative ${
+                  activeTab === tab.id
+                    ? 'text-blue-600 border-b-2 border-blue-600'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Property? Header */}
         <div className="flex justify-between items-start mb-8">
@@ -105,7 +170,7 @@
           <div className="lg:col-span-2">
             {activeTab === 'overview' && (
               <div className="space-y-8">
-                <section  ref={overviewRef}>
+                <section>
                   <h2 className="text-xl font-semibold mb-4">Overview</h2>
                   <p className="text-gray-600 whitespace-pre-line">
                     {property?.description}
@@ -124,19 +189,15 @@
                   </div>
                 </section>
 
-                <section  ref={roomsRef}>
+                <section>
                   <h2 className="text-xl font-semibold mb-4">Available rooms</h2>
                   <div className="space-y-4">
-                  <PublishedRoomCard rooms={propertyDetails?.rooms}/>
+                  <Elements stripe={stripePromise}>
+                  <PublishedRoomCard rooms={propertyDetails?.rooms} stripePromise={stripePromise}/>
+                  </Elements>
+
                   </div>
                 </section>
-                <section>
-                <div ref={reviewsRef} className="mt-8">
-                  <h2 className="text-xl font-semibold mb-4">Guest Reviews</h2>
-                  <p>No reviews yet</p>
-                </div>
-                </section>
-
               </div>
             )}
           </div>
@@ -169,3 +230,4 @@
     </Container>
     </>
   )
+}

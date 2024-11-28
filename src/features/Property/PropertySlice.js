@@ -1,49 +1,90 @@
 // propertySlice.js
 import { createSlice } from "@reduxjs/toolkit";
-
-
-
 const propertySlice = createSlice({
-    name: 'property',
-    initialState: {
+  name: 'property',
+  initialState: {
       isPropertyDetailsComplete: false,
       isDocumentsComplete: false,
       isPolicyServiceComplete: false,
       isPropertyAmenitiesComplete: false,
-      isRoomDetails: false,
+
+    // onboarding
+      RoomDetails: '',
+      RoomFacilities: [],
+      RoomImages: '',
+      allRoomByProperty: [],
 
       allPropertyResults: []
-    },
-    reducers: {
+  },
+  reducers: {
       setPropertyDetailsComplete: (state, action) => {
-        state.isPropertyDetailsComplete = action.payload;
+          state.isPropertyDetailsComplete = action.payload;
       },
       setDocumentsComplete: (state, action) => {
-        state.isDocumentsComplete = action.payload;
-        
+          state.isDocumentsComplete = action.payload;
       },
       setPolicyServiceComplete: (state, action) => {
-        state.isPolicyServiceComplete = action.payload;
+          state.isPolicyServiceComplete = action.payload;
       },
       setPropertyAmenitiesComplete: (state, action) => {
-        state.isPropertyAmenitiesComplete = action.payload;
+          state.isPropertyAmenitiesComplete = action.payload;
       },
-      setRoomDetailsComplete: (state, action) => {
-        state.isRoomDetails = action.payload;
+    //   room details >> onboarding 
+      setRoomDetails: (state, action) => {
+          state.RoomDetails = action.payload;
       },
+      setRoomFacilities: (state, action) => {
+          state.RoomFacilities = action.payload;
+      },
+      setRoomImages: (state, action) => {
+          state.RoomImages = action.payload;
+      },
+      setAllRoomsByProperty: (state, action) => {
+          state.allRoomByProperty = action.payload;
+      },
+      deleteRoomById: (state, action) => {
+        const idToDelete = action.payload;
+        state.allRoomByProperty = state.allRoomByProperty.filter(room => room.id !== idToDelete);
+      },
+      addRoomToProperty: (state, action) => {
+          state.allRoomByProperty.push(action.payload);
+      },
+    
+      resetOnboardingDetails: (state, action) => {
+          state.RoomDetails        =  ''
+          state.RoomFacilities     =  []
+          state.RoomImages         =  ''
+          state.allRoomByProperty  =  []
+      },
+      resetRoomForm: (state, action) => {
+          state.RoomDetails        =  ''
+          state.RoomFacilities     =  []
+          state.RoomImages         =  ''
+      },
+    
+    // for displaying in the user side
       setAllPropertyResults: (state, action) => {
-        state.allPropertyResults = action.payload;
-      }
-    },
-  });
-  
-  export const {
-    setPropertyDetailsComplete,
-    setDocumentsComplete,
-    setPolicyServiceComplete,
-    setPropertyAmenitiesComplete,
-    setAllPropertyResults,
-    setRoomDetailsComplete
-  } = propertySlice.actions;
-  
-  export default propertySlice.reducer;
+          state.allPropertyResults = action.payload;
+      },
+  }
+});
+
+export const {
+  setPropertyDetailsComplete,
+  setDocumentsComplete,
+  setPolicyServiceComplete,
+  setPropertyAmenitiesComplete,
+
+  setRoomDetails,
+  setRoomFacilities,
+  setRoomImages,
+  setAllRoomsByProperty,
+  deleteRoomById,
+  addRoomToProperty,
+  resetRoomForm,
+  resetOnboardingDetails,
+
+  setAllPropertyResults,
+} = propertySlice.actions;
+
+export default propertySlice.reducer;

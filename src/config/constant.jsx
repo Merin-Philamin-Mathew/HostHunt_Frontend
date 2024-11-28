@@ -41,11 +41,17 @@ import PropertyConfigurations from '../pages/admin/Property_configurations/Prope
 import AdminDashboardPage from '../pages/admin/dashboarf.jsx/AdminDashboardPage';
 import PropertyResultsPage from '../pages/users/PropertyResultsPage';
 import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPage';
+import Trial from '../pages/Trial';
+import PropertyDisplayPage from '../pages/users/PropertyDisplayPage';
 
 let const_data = {
     REACT_ROUTER_PATH: [
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // USER SIDE AND AUTHENTICATION PATHS
+        {
+            path: "/trial-page",
+            element: <Trial/>
+        },
         {
             path: "/",
             element: <Home/>
@@ -65,6 +71,10 @@ let const_data = {
         {
             path: "/property-results",
             element: <PropertyResultsPage/>
+        },
+        {
+            path: "/hosteldetails",
+            element: <PropertyDisplayPage/>
         },
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // OWNER SIDE PATHS
@@ -120,7 +130,6 @@ let const_data = {
                 { path: "property-images", element: <></>},
                 { path: "rental-appartment", element: <RentalAppartmentForm/>},
                 { path: "room", element: <AddingRoomPage/>},
-                { path: "room-facilities", element: <></>},
             ]
         },
         {

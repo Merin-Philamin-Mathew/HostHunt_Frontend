@@ -8,6 +8,7 @@ import { AiFillMessage } from 'react-icons/ai';
 import { handleDropdownAction } from '../../utils/logic';
 import PropertyLocationSearch from '../HomePage/PropetyLocationSearch';
 import SmContainer from '../../utils/Containers/SmContainer';
+import Container from '../../utils/Containers/Container';
 
 const SearchHeader = () => {
   const { user,userLoggedIn } = useSelector((state) => state.user);
@@ -40,8 +41,9 @@ const SearchHeader = () => {
   };
 
   return (
-      <header className=" w-full py-3 bg-white shadow-xl relative">
-        <SmContainer>
+    <header className=" w-full py-3 bg-white shadow-xl relative">
+      
+        <Container>
       <div className="flex justify-between items-center mx-auto ">
         <button className="flex items-center space-x-1"
           onClick={() => navigate('/')} 
@@ -49,7 +51,7 @@ const SearchHeader = () => {
           <img src="/logo/Orange.png" className="w-10" alt="Logo"/>
           <div className="hidden lg:block text-2xl font-extrabold text-orange-600">HOSTHUNT</div>
         </button>
-     <div className="flex items-stretch bg-white rounded-lg border border-gray-400 w-3/4 md:w-2/3 lg:w-1/2">
+     <div className=" bg-white rounded-lg border border-gray-400 w-1/2 md:w-3/4 lg:w-3/6">
         <PropertyLocationSearch/>
         </div>
         <div className="flex items-center ">
@@ -95,7 +97,8 @@ const SearchHeader = () => {
           position={dropdownPosition} // Pass calculated position
         />
       )}
-    </SmContainer>
+    
+    </Container>
     </header>
 
   );

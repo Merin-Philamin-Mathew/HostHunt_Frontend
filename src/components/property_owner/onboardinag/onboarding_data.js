@@ -14,3 +14,44 @@ export const RentalApartmentSchema = Yup.object().shape({
     water_supply: Yup.boolean(),
     gas_pipeline: Yup.boolean(),
 });
+
+
+export const RoomDetailsFormSchema = Yup.object().shape({
+    room_type: Yup.string().required('Room type is required'),
+    is_private: Yup.boolean().required('Please specify if the room is private or shared'),
+    occupancy: Yup.number()
+      .required('Occupancy is required')
+      .positive('Occupancy must be a positive number')
+      .integer('Occupancy must be an integer'),
+    no_of_rooms: Yup.number()
+      .required('Number of rooms/beds is required')
+      .positive('Must be a positive number')
+      .integer('Must be an integer'),
+    booking_amount_choice: Yup.string().required('Booking amount choice is required'),
+    price_per_night: Yup.number()
+      .nullable()
+      .when('booking_amount_choice', {
+        is: 'price_per_night',
+        then: (schema) => schema
+          .required('Price per night is required')
+          .positive('Must be a positive number')
+          .max(99999999.99, 'Ensure that there are no more than 8 digits before the decimal point'),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+    monthly_rent: Yup.number()
+      .nullable()
+      .when('booking_amount_choice', {
+        is: 'monthly_rent',
+        then: (schema) => schema
+          .required('Monthly rent is required')
+          .positive('Must be a positive number')
+          .max(99999999.99, 'Ensure that there are no more than 8 digits before the decimal point'),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+    bed_type: Yup.string().required('Bed type is required'),
+    area: Yup.number()
+      .required('Area is required')
+      .positive('Must be a positive number')
+      .integer('Must be an integer'),
+    description: Yup.string(),
+  });

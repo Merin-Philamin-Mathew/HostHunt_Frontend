@@ -4,6 +4,8 @@ import { Edit, Trash2 } from "lucide-react"
 
 
 import { Card,CardContent,CardHeader, CardTitle } from "../Card"
+import { deleteRooms } from "../../../../features/Property/PropertyActions"
+import { useDispatch } from "react-redux"
 const Button = ({ variant = "default", size = "default", className, children, ...props }) => {
   const baseStyles = "inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
   const variantStyles = {
@@ -27,6 +29,8 @@ const Button = ({ variant = "default", size = "default", className, children, ..
 }
 
 export default function RoomActionCard({ id, room_name, booking_amount_choice,no_of_rooms }) {
+
+  const dispatch = useDispatch()
   return (
     <Card className="w-full max-w-sm bg-white">
       <CardHeader>
@@ -43,7 +47,8 @@ export default function RoomActionCard({ id, room_name, booking_amount_choice,no
       <Button variant="outline" size="icon" aria-label="Edit">
         <Edit className="h-4 w-4" />
       </Button>
-      <Button variant="outline" size="icon" aria-label="Delete">
+      <Button variant="outline" size="icon" aria-label="Delete" 
+      onClick={()=>deleteRooms(id, dispatch)}>
         <Trash2 className="h-4 w-4" />
       </Button>
     </div>

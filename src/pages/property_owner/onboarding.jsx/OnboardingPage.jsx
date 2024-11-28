@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import GeneralFormsLayout from '../../../components/Layouts/Owner/GeneralFormsLayout'
 import { useDispatch, useSelector } from 'react-redux';
-import { FaBed } from 'react-icons/fa';
-import { setRoomDetailsComplete } from '../../../features/Property/PropertySlice';
+import { FaBed, FaImages } from 'react-icons/fa';
+import { resetOnboardingDetails } from '../../../features/Property/PropertySlice';
 
 function OnboardingPage() {
   const dispatch = useDispatch();
@@ -12,10 +12,11 @@ function OnboardingPage() {
   );
 
   const updateSidebarState = () => {
-    dispatch(setRoomDetailsComplete(!!localStorage.getItem('property_details')));
+    // dispatch(setRoomDetailsComplete(!!localStorage.getItem('property_details')));
   };
   
   useEffect(() => {
+
     updateSidebarState();
 
     const handleStorageChange = () => {
@@ -23,14 +24,21 @@ function OnboardingPage() {
     };
     window.addEventListener('storage', handleStorageChange);
     
-    return () => window.removeEventListener('storage', handleStorageChange);
+    return () =>{ 
+      window.removeEventListener('storage', handleStorageChange)
+      
+      dispatch(resetOnboardingDetails());
+
+    };
   }, []);
   
-  const sidebarItems = [
-       { title: 'Room', link: '/host/new-listing/finish', icon: <FaBed/> , disabled: false  },
-  ]
+  // const sidebarItems = [
+  //      { title: 'Room', link: '/host/onboarding/room/', icon: <FaBed/> , disabled: false  },
+  //      { title: 'Property Images', link: '/host/onboarding/property-images/', icon: <FaImages/> , disabled: false  },
+  // ]
   return (
-    <GeneralFormsLayout sidebarItems={sidebarItems}/>
+    // <GeneralFormsLayout sidebarItems={sidebarItems}/>
+    <GeneralFormsLayout/>
   )
 }
 

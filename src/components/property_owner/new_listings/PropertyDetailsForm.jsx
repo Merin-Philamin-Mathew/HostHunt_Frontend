@@ -255,10 +255,6 @@ const PropertyDetailsForm = () => {
               </div>
             </div>
           )}
-
-            
-               
-
               {errors.thumbnail_image && touched.thumbnail_image && (
                 <div className="text-error text-small">{errors.thumbnail_image}</div>
               )}

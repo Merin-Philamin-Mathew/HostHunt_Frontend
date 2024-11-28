@@ -48,25 +48,30 @@ export const reviewAndSubmitSteps_ChangeStatus = (property_id,status) =>{
     return api.post(`${URLS.NEWLISTING['submit_review']}/${property_id}/${status}/`);
 }
 
-
+  
 
 // =============================== ONBOARDING ==============================================
 // Rental Appartments
 export const createRentalApartmentDetails = (data) =>{
     return api.post(URLS.ONBOARDING['rental_appartement'],data)
 }
-// Rooms  
-export const createRoomDetails = (data) =>{
-    return api.post(URLS.ONBOARDING['rooms'],data)
-} //same api for get and create
-export const getRoomDetails_Onboarding = (data) =>{
+// Rooms
+export const createRoomsService = (formData) => {
+  return api.post(URLS.ONBOARDING['rooms'], formData, {
+      headers: {
+          'Content-Type': 'multipart/form-data',
+      },
+  })
+};//same api for get and create
+
+export const getRoomDetailsService = (data) =>{
     return api.get(URLS.ONBOARDING['rooms'],data) //getting by property_id which can be sent with the data
 }
-export const updateRoomDetails_Onboarding = () =>{
-  return api.put(`${URLS.ONBOARDING['rooms']}/${room_id}/`)
+export const updateRoomDetailsService = (id) =>{
+  return api.put(`${URLS.ONBOARDING['rooms']}/${id}/`)
 }
-export const deleteRoomDetails_Onboarding = () =>{
-  return api.put(`${URLS.ONBOARDING['rooms']}/${room_id}/`)
+export const deleteRoomDetailsService = (id) =>{
+  return api.delete(`${URLS.ONBOARDING['rooms']}${id}/`)
 }
 
 export const getAllRoomsByProperty = (property_id) =>{
@@ -74,6 +79,9 @@ export const getAllRoomsByProperty = (property_id) =>{
 }
 
 // ================FETCHING DATAS===================
+export const getActiveRoomFacilities = () =>{
+  return api.get(URLS.FETCHINGMANAGEMENT['hh_active_room_facilities'])
+}
 export const getActiveRoomTypes = () =>{
   return api.get(URLS.FETCHINGMANAGEMENT['hh_active_room_types'])
 }
@@ -81,12 +89,15 @@ export const getActiveBedTypes = () =>{
   return api.get(URLS.FETCHINGMANAGEMENT['hh_active_bed_types'])
 }
 
-
 // =================== User side property display ========================================
 export const getAllPropertyResults = (city) => {
   console.log(`Requesting properties for city: ${city}`);
   return api.get(URLS.FETCHINGMANAGEMENT.hh_all_property_results, {
     params: { city: city }
   });
+};
+export const getDetailedDisplay_property = (property_id) => {
+  console.log(`Requesting properties for city: ${property_id}`);
+  return api.get(`${URLS.FETCHINGMANAGEMENT.hh_published_property_display}${property_id}/`);
 };
 

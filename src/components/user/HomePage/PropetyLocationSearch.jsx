@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { MapPin, Search } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router'
+import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api'
+
+
 
 function PropertyLocationSearch() {
     const location = useLocation()
@@ -17,28 +20,73 @@ function PropertyLocationSearch() {
     }
   }
 
-  return (
+  const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+
+  const inputref = useRef()
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: GOOGLE_API_KEY,
+    libraries: ["places"]
+  })
+
+
+  const handleOnPlacesChanged = ()=>{
+    let address = inputref.current
+    console.log("address",address);
+    // setSearchTerm(address)
+    
+  }
+
+
+  return isLoaded ? (
     <>
-     {/* <div className="flex items-stretch bg-white rounded-lg shadow-lg shadow-gray-400 absolute -bottom-6 w-3/4 md:w-2/3 lg:w-1/2"> */}
-      <div className="flex items-center pl-4 text-gray-400">
-        <MapPin className="h-5 w-5" />
-      </div>
-      <input
-        type="text"
-        placeholder="Where you want to go?"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="flex-1 px-4 py-3 text-gray-800 bg-transparent focus:outline-none"
-        />
-      <button
-        className="m-1 px-3 md:px-8 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
-        onClick={handleHomePageSearchButton}
+    
+        <StandaloneSearchBox
+               onLoad={(ref)=>inputref.current=ref}
+               onPlacesChanged={handleOnPlacesChanged}
         >
-         <span className="hidden md:inline">Search</span>
-         <Search className="md:hidden h-5 w-5" />
-      </button>
+          <div className='flex justify-between '>
+        <div className="flex items-center pl-4 text-gray-400">
+          <MapPin className="h-5 w-5" />
+        </div>
+        <input
+          type="text"
+          placeholder="Where you want to go?"
+          // value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="flex-1 px-4 py-3 text-gray-800 bg-transparent focus:outline-none"
+          />
+        <button
+          className="m-1 px-3 md:px-8 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
+          onClick={handleHomePageSearchButton}
+          >
+          <span className="hidden md:inline">Search</span>
+          <Search className="md:hidden h-5 w-5" />
+        </button>
+    </div>
+        </StandaloneSearchBox>
+          
           </>
-  )
+  ):
+
+  <>         <div className='flex justify-between '>
+  <div className="flex items-center pl-4 text-gray-400">
+    <MapPin className="h-5 w-5" />
+  </div>
+  <input
+    type="text"
+    placeholder="Where you want to go?"
+    onChange={(e) => setSearchTerm(e.target.value)}
+    className="flex-1 px-4 py-3 text-gray-800 bg-transparent focus:outline-none"
+    />
+  <button
+    className="m-1 px-3 md:px-8 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
+    onClick={handleHomePageSearchButton}
+    >
+    <span className="hidden xl:inline">Search</span>
+    <Search className="xl:hidden h-5 w-5" />
+  </button>
+</div></>
 }
 
 export default PropertyLocationSearch

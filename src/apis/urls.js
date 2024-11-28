@@ -29,9 +29,12 @@ const URLS = {
     },
     FETCHINGMANAGEMENT: {
         'hh_all_amenities':'/property/all-amenities/',
-        'hh_all_property_results':'/property/property-results/',
+        'hh_active_room_facilities':'/property/active-room-facilities/',
         'hh_active_room_types':'/property/active-room-types/',
-        'hh_active_bed_types':'/property/active-bed-types/'
+        'hh_active_bed_types':'/property/active-bed-types/',
+        
+        'hh_all_property_results':'/property/property-results/',
+        'hh_published_property_display':'property/property-display-view/'
     },
     ADMINMANAGEMENT: {
         'all_properties':'property/all-properties',
