@@ -9,8 +9,10 @@ export const getAllAmenitiesService = () =>{
 
 
 //===================== NEW_LISTING =============================
-export const getAllPropertiesOfHost =() =>{
-    return api.get(URLS.HOSTMANAGEMENT['host_properties'])
+export const getAllPropertiesOfHost =(searchQuery = '') =>{
+    return api.get(URLS.HOSTMANAGEMENT['host_properties'],{
+      params: {search: searchQuery || undefined }
+  });
 }
 
 export const getAllDocumentsofProperty =(property_id) =>{
@@ -76,6 +78,17 @@ export const deleteRoomDetailsService = (id) =>{
 
 export const getAllRoomsByProperty = (property_id) =>{
     return api.get(`${URLS.HOSTMANAGEMENT['room_by_property']}/${property_id}/`) //getting by property_id which can be sent with the data
+}
+// property images
+export const createPropertyImagesService = (property_id,formData) => {
+  return api.post(`${URLS.ONBOARDING['property_images']}${property_id}/`,formData, {
+    headers: {
+      'Content-Type':'multipart/form-data'
+    }
+  })
+}
+export const getPropertyImagesService = (property_id) => {
+  return api.get(`${URLS.ONBOARDING['property_images']}${property_id}/`)
 }
 
 // ================FETCHING DATAS===================

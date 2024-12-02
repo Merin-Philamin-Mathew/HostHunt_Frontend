@@ -119,13 +119,20 @@ const RentalApartmentForm = () => {
           </FormField>
 
           <FormField name="furnishings" label="Furnishings" placeholder="Fridge-1, Air Conditioner-1, TV-1, Induction Cooker-1...." />
-
+{/* 
           <button
             type="submit"
             className="px-6 py-2 mt-4 bg-themeColor text-white font-accent rounded-xl shadow-md hover:opacity-90"
             disabled={isSubmitting || isLoading}
           >
             {isLoading ? 'Saving...' : 'Submit And Publish Your Property'}
+          </button> */}
+          <button
+            type="submit"
+            className="px-6 py-2 mt-4 bg-themeColor text-white font-accent rounded-xl shadow-md hover:opacity-90"
+            disabled={isSubmitting || isLoading}
+          >
+            {isLoading ? 'Saving...' : 'Save and Continue'}
           </button>
         </Form>
       )}

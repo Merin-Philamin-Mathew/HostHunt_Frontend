@@ -11,7 +11,7 @@ const propertySlice = createSlice({
     // onboarding
       RoomDetails: '',
       RoomFacilities: [],
-      RoomImages: '',
+      RoomImages: [],
       allRoomByProperty: [],
 
       allPropertyResults: []
@@ -49,17 +49,18 @@ const propertySlice = createSlice({
       addRoomToProperty: (state, action) => {
           state.allRoomByProperty.push(action.payload);
       },
-    
+      resetRoomForm: (state, action) => {
+          state.RoomDetails        =  ''
+          state.RoomFacilities     =  []
+          state.RoomImages         =  ''
+      },
+ 
       resetOnboardingDetails: (state, action) => {
           state.RoomDetails        =  ''
           state.RoomFacilities     =  []
           state.RoomImages         =  ''
           state.allRoomByProperty  =  []
-      },
-      resetRoomForm: (state, action) => {
-          state.RoomDetails        =  ''
-          state.RoomFacilities     =  []
-          state.RoomImages         =  ''
+          state.PropertyImages     =  []
       },
     
     // for displaying in the user side

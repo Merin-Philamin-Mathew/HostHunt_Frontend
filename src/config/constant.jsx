@@ -43,6 +43,7 @@ import PropertyResultsPage from '../pages/users/PropertyResultsPage';
 import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPage';
 import Trial from '../pages/Trial';
 import PropertyDisplayPage from '../pages/users/PropertyDisplayPage';
+import PropertyImages from '../components/property_owner/onboardinag/PropertyImages';
 
 let const_data = {
     REACT_ROUTER_PATH: [
@@ -127,9 +128,11 @@ let const_data = {
                 <OnboardingPage><Outlet/></OnboardingPage>
                     </ProtectedRoute> ,
             children: [
-                { path: "property-images", element: <></>},
+                { path: "property-images", element: <PropertyImages/>},
                 { path: "rental-appartment", element: <RentalAppartmentForm/>},
                 { path: "room", element: <AddingRoomPage/>},
+                { path: "finish", element: <ReviewAndSubmit/> }
+
             ]
         },
         {

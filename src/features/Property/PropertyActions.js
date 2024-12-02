@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { addingPoliciesAndServices, createAmenitiesByPropertyService, createRoomsService, deleteRoomDetailsService, getActiveBedTypes, getActiveRoomFacilities, getActiveRoomTypes, getAllAmenitiesService, getAllPropertyResults, getAmenitiesByPropertyService, getDetailedDisplay_property, getPoliciesByProperty } from "./PropertyServices";
+import { addingPoliciesAndServices, createAmenitiesByPropertyService, createPropertyImagesService, createRoomsService, deleteRoomDetailsService, getActiveBedTypes, getActiveRoomFacilities, getActiveRoomTypes, getAllAmenitiesService, getAllPropertyResults, getAmenitiesByPropertyService, getDetailedDisplay_property, getPoliciesByProperty, getPropertyImagesService } from "./PropertyServices";
 import { addRoomToProperty, deleteRoomById, setAllPropertyResults, setAllRoomsByProperty, setPolicyServiceComplete, setPropertyAmenitiesComplete, setPropertyDetailsComplete } from './PropertySlice';
 
 
@@ -109,7 +109,6 @@ export const createRooms = async (property_id, RoomDetails, RoomFacilities, Room
 
         // Initialize FormData
         const formData = new FormData();
-
         // Add Room Details
         const roomDetails = {
             ...RoomDetails,
@@ -190,6 +189,30 @@ export const deleteRooms = async (id,dispatch) => {
     }
 }
 
+
+export const createPropertyImages = async (property_id, formData, navigate)=> {
+    try{
+        console.log('dfdfdfdfdfdf');
+        const response = await createPropertyImagesService(property_id, formData)
+        console.log(response);
+    }
+    catch(error){
+        console.error(error)
+        toast.error(error)
+    }
+}
+export const fetchPropertyImages = async (property_id, dispatch)=> {
+    try{
+        console.log('dfdfdfdfdfdf');
+        const response = await getPropertyImagesService(property_id)
+        console.log('fetchPropertyImages',response.data);
+        // dispatch(setPropertyImages(response.data))
+    }
+    catch(error){
+        console.error(error)
+        toast.error(error)
+    }
+}
 
 //============================ FETCHING EXTRA DATAS=====================================
 export const fetchActiveRoomTypes = async (setRoomTypes) => {

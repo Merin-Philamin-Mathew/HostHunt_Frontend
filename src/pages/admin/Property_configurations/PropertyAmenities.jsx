@@ -54,13 +54,8 @@ export function PropertyAmenities() {
     };
 
     const handleEditButtonActionAmenity = async (amenity) => {
-        console.log('kjkjkjk',amenity);
-        
         setIsAdding(false);
-        console.log('kjkjkjk');
         setSelectedAmenity(amenity);
-
-        console.log('kjkjkjk');
         setIsAdding(true);
     };
     console.log('selected amenity',selectedAmenity);
@@ -70,7 +65,6 @@ export function PropertyAmenities() {
         try {
             if (selectedAmenity && selectedAmenity.id) {
                 console.log('update amenity',selectedAmenity);
-                
                 await Admin_handleUpdateAmenity(selectedAmenity.id, values);
                 setIsAdding(false);
                 setSelectedAmenity(null);

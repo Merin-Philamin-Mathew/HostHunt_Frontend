@@ -27,10 +27,14 @@ function Button({ icon = null, title, onClick, className }) {
     <div>
       <button 
         onClick={onClick}
-        className={className ? className : "hover:bg-white border-2 border-gray-800 text-gray-800 font-bold py-2 px-8 rounded-xl inline-flex items-center"}
+        className={className ? className : "hover:bg-white border-2 border-gray-800 text-gray-800 font-bold py-2 px-8 rounded-xl inline-flex items-center whitespace-nowrap"}
       >
         {icon && <span className="mr-2">{icon}</span>}
-        <span>{title}</span>
+        {icon ? (
+          <span className="hidden md:inline">{title}</span>
+        ) : (
+          <span>{title}</span>
+        )}
       </button>
     </div>
   );

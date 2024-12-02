@@ -16,7 +16,7 @@ function PublishedRoomCard({rooms,stripePromise}) {
         console.log(room_id,property_id);
         
         console.log(room_id, property_id, booking_amount, 'Request Data');
-        const response = await api.post('property/create_payment/', {
+        const response = await api.post('booking/create_payment/', {
             room_id: room_id,
             check_in_date: '2025-01-01'
           });

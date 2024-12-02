@@ -34,7 +34,6 @@ function AddingRoomPage() {
         if (property_id) {
             getAllRoomsByProperty(property_id)
                 .then(response => {
-                    // setRooms(response.data);
                     dispatch(setAllRoomsByProperty(response.data))
                     console.log('Rooms:', response.data);
                 })

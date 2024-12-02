@@ -20,6 +20,7 @@ const URLS = {
     ONBOARDING: {
         'rental_appartement':'property/onboarding/rental-appartment/',
         'rooms':'property/onboarding/rooms/',       
+        'property_images':'property/onboarding/property-images/',
     },
     
     HOSTMANAGEMENT: {
@@ -27,6 +28,7 @@ const URLS = {
         'room_by_property':'/property/property-rooms',
         'policies_by_property':'/property/get-policies-services',
     },
+    
     FETCHINGMANAGEMENT: {
         'hh_all_amenities':'/property/all-amenities/',
         'hh_active_room_facilities':'/property/active-room-facilities/',
