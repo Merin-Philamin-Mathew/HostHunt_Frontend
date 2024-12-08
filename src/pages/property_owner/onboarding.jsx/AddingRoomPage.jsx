@@ -17,7 +17,7 @@ function AddingRoomPage() {
     const dispatch = useDispatch()
 
     const { RoomDetails, RoomFacilities, RoomImages } = useSelector((state) => state.property);
-
+    const [enableSubmit, setEnableSubmit] = useState(false);
     const [activeTab, setActiveTab] = useState('roomDetails');
     const tabs = [
         { id: 'roomDetails', label: 'Room Details', component: RoomDetailsForm },
@@ -26,8 +26,15 @@ function AddingRoomPage() {
     ];
     const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || RoomDetailsForm;
 
-    const enableSubmit = RoomDetails && RoomFacilities.length > 0 && RoomImages.length > 0;
-    const allRooms = useSelector((state) => state.property.allRoomByProperty);
+    useEffect(() => {
+        // Enable or disable the submit button based on form states
+        const canSubmit =
+            RoomDetails &&
+            Object.keys(RoomDetails).length > 0 && // Ensure RoomDetails is not empty
+            RoomFacilities.length > 0 &&
+            RoomImages.length > 0;
+        setEnableSubmit(canSubmit);
+    }, [RoomDetails, RoomFacilities, RoomImages]);    const allRooms = useSelector((state) => state.property.allRoomByProperty);
     
 
     useEffect(() => {
@@ -45,7 +52,7 @@ function AddingRoomPage() {
 
     return (
         <>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                 {allRooms?.map((room, index) => (
                     <div key={index} className="p-2">
                         <RoomActionCard {...room} />
@@ -80,7 +87,7 @@ function AddingRoomPage() {
                             ? 'bg-themeColor hover:opacity-90'
                             : 'bg-themeColor opacity-60 hover:opacity-40 cursor-not-allowed'
                     }`}
-                    onClick={()=>{createRooms(property_id, RoomDetails, RoomFacilities, RoomImages, dispatch)}}
+                    onClick={()=>{createRooms(property_id, RoomDetails, RoomFacilities, RoomImages, dispatch, setEnableSubmit)}}
                     disabled={!enableSubmit}
                 >
                     Add Room

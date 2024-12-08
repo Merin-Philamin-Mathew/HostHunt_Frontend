@@ -14,6 +14,30 @@ const POHeader = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ left: 0, top: 0 });
 
+  const [messages, setMessages] = useState([]);
+  const user_id = user?.data.id
+
+  useEffect(() => {
+    // Open WebSocket connection
+    
+    const socket = new WebSocket(`ws://localhost:8000/ws/notifications/${user_id}/`);
+
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log('notifications from the backend', data);
+        setMessages((prevMessages) => [...prevMessages, data]);
+        console.log('notifications from the backend', data);
+        
+    };
+
+    socket.onclose = () => {
+        console.error('WebSocket closed unexpectedly');
+    };
+    
+    console.log('messages',messages)
+
+    return () => socket.close();
+}, []);
 
   // Dropdown items
   const dropdownItems = [
@@ -40,7 +64,7 @@ const POHeader = () => {
       <div className="flex justify-between items-center mx- auto lessThan404 px-6 ">
         <button className="flex items-center space-x-1"
               onClick={()=>{navigate(navigatetoUserHome)}}>
-          <img src="/logo/white_invert.png" className="w-12 bg-orange-600 py-1 rounded-md" alt="Logo"/>
+          <img src="/logo/white_invert.png" className="w-10 bg-orange-600 py-1 px-0 rounded-md" alt="Logo"/>
           <div className="text-2xl font-extrabold text-orange-600">HOSTHUNT</div>
         </button>
         <div className="flex items-center space-x-5 px-2">

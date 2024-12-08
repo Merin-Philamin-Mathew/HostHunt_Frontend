@@ -1,6 +1,6 @@
 import { toast } from "sonner";
-import { addingPoliciesAndServices, createAmenitiesByPropertyService, createPropertyImagesService, createRoomsService, deleteRoomDetailsService, getActiveBedTypes, getActiveRoomFacilities, getActiveRoomTypes, getAllAmenitiesService, getAllPropertyResults, getAmenitiesByPropertyService, getDetailedDisplay_property, getPoliciesByProperty, getPropertyImagesService } from "./PropertyServices";
-import { addRoomToProperty, deleteRoomById, setAllPropertyResults, setAllRoomsByProperty, setPolicyServiceComplete, setPropertyAmenitiesComplete, setPropertyDetailsComplete } from './PropertySlice';
+import { addingPoliciesAndServices, createAmenitiesByPropertyService, createPropertyImagesService, createRoomsService, deletePropertyImageService, deleteRoomDetailsService, getActiveBedTypes, getActiveRoomFacilities, getActiveRoomTypes, getAllAmenitiesService, getAllPropertyResults, getAmenitiesByPropertyService, getDetailedDisplay_property, getPoliciesByProperty, getPropertyImagesService, reviewAndSubmitSteps_ChangeStatus } from "./PropertyServices";
+import { addRoomToProperty, deleteRoomById, resetRoomForm, setAllPropertyResults, setAllRoomsByProperty, setPolicyServiceComplete, setPropertyAmenitiesComplete, setPropertyDetailsComplete } from './PropertySlice';
 
 
 //===================================NEW LISTING=====================================
@@ -103,8 +103,9 @@ catch(error){
 }
 
 // ============================ ONBOARDING DETIALS =====================================================
-export const createRooms = async (property_id, RoomDetails, RoomFacilities, RoomImages, dispatch) => {
+export const createRooms = async (property_id, RoomDetails, RoomFacilities, RoomImages, dispatch, setEnableSubmit) => {
     try {
+        setEnableSubmit(false)
         console.log('Preparing to send room details:', property_id, RoomDetails, RoomFacilities, RoomImages);
 
         // Initialize FormData
@@ -150,9 +151,9 @@ export const createRooms = async (property_id, RoomDetails, RoomFacilities, Room
         // Send API request
         const response = await createRoomsService(formData);
         dispatch(addRoomToProperty(response.data));
-        toast.success('New room is successfully added!')
-        console.log("Response:", response);
         dispatch(resetRoomForm())
+        toast.success('New room is successfully added!')
+
         return response.data;
     } catch (error) {
         
@@ -165,7 +166,7 @@ export const createRooms = async (property_id, RoomDetails, RoomFacilities, Room
                 const messages = errors[key];
                 messages.forEach((msg) => {
                     // toast.error(`${key}: ${msg}`);
-                    toast.error(`${msg}`);
+                    toast.error(`For field ${key}: ${msg}`);
                 });
             });
         } else {
@@ -179,9 +180,10 @@ export const createRooms = async (property_id, RoomDetails, RoomFacilities, Room
 };
 
 export const deleteRooms = async (id,dispatch) => {
-    try{
+    try{        
         const response = await deleteRoomDetailsService(id)
         dispatch(deleteRoomById(id))
+        toast.success('Room was successfully deleted!')
     }
     catch (error){
         console.error(error);
@@ -190,27 +192,71 @@ export const deleteRooms = async (id,dispatch) => {
 }
 
 
-export const createPropertyImages = async (property_id, formData, navigate)=> {
+export const createPropertyImages = async (property_id, formData, setImageUrls,setImages)=> {
     try{
         console.log('dfdfdfdfdfdf');
         const response = await createPropertyImagesService(property_id, formData)
-        console.log(response);
+        toast.success(response.data.message)
+        console.log(response.data);
+        const data =  response.data.data_url
+        setImages([])
+        setImageUrls((prevImageUrls) => [...prevImageUrls, ...data]);
+    }
+    catch (error) {
+        if (error) {
+            console.log(error);
+            
+            const errorMessage = error
+                ? error.response.data.error// Access the first error string in the array
+                : 'An unknown error occurred';
+            console.error('Error response:', errorMessage);
+            toast.error(errorMessage);
+        } else {
+            console.error('Unexpected error:', error.message);
+            toast.error('An unexpected error occurred');
+        }
+    }
+}
+
+export const fetchPropertyImages = async (property_id, setImage_urls, setThumbnail)=> {
+    try{
+        const response = await getPropertyImagesService(property_id)
+        console.log('fetchPropertyImages',response.data);
+        setImage_urls(response.data.property_images)
+        setThumbnail(response.data.thumbnail_image_url)
     }
     catch(error){
         console.error(error)
         toast.error(error)
     }
 }
-export const fetchPropertyImages = async (property_id, dispatch)=> {
+
+// handle uploaded image
+export const handleUploadedImageDelete = async (image_id, setImage_urls, image_urls) => {
     try{
-        console.log('dfdfdfdfdfdf');
-        const response = await getPropertyImagesService(property_id)
-        console.log('fetchPropertyImages',response.data);
-        // dispatch(setPropertyImages(response.data))
+        
+        const response = await deletePropertyImageService(image_id)
+        const updatedImageUrls = image_urls.filter((image) => image.id !== image_id);
+        setImage_urls(updatedImageUrls);
+
     }
     catch(error){
         console.error(error)
         toast.error(error)
+    }
+}
+
+export const handlePublishingProperty = async (property,navigate) => {
+    try{
+        const response = await reviewAndSubmitSteps_ChangeStatus(property,'published')
+        localStorage.setItem('property_status','published');
+        navigate('/host/new-listing/',{replace:true});
+        toast.success('Property has been published!')
+
+    }
+    catch(error){
+        console.error(error)
+        // toast.error(error)
     }
 }
 

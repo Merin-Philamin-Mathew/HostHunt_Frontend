@@ -8,6 +8,7 @@ export const getAllAmenitiesService = () =>{
 }
 
 
+
 //===================== NEW_LISTING =============================
 export const getAllPropertiesOfHost =(searchQuery = '') =>{
     return api.get(URLS.HOSTMANAGEMENT['host_properties'],{
@@ -89,6 +90,9 @@ export const createPropertyImagesService = (property_id,formData) => {
 }
 export const getPropertyImagesService = (property_id) => {
   return api.get(`${URLS.ONBOARDING['property_images']}${property_id}/`)
+}
+export const deletePropertyImageService = (image_id) => {
+  return api.delete(`${URLS.ONBOARDING['property_images']}${image_id}/`)
 }
 
 // ================FETCHING DATAS===================

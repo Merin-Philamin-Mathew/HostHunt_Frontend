@@ -19,15 +19,15 @@ function PropertyResultCard({ allPropertyResults }) {
 
   return (
     <div className="grid gap-4">
-      {allPropertyResults.map((property) => (
+      {allPropertyResults?.map((property) => (
         <div
-          key={property.id}
-          onClick={() => navigatePropertyDisplayPage(property.property_name,property.id)}
-          className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow my-2 cursor-pointer"
+          key={property?.id}
+          onClick={() => navigatePropertyDisplayPage(property?.property_name,property.id)}
+          className="bg-white rounded-lg  shadow-md overflow-hidden hover:shadow-lg transition-shadow my-2 cursor-pointer"
         >
           <div className="flex">
             {/* Thumbnail Image */}
-            <div className="w-1/4">
+            <div className="w-1/4 ">
               {property.thumbnail_image_url ? (
                 <img
                   src={property.thumbnail_image_url}
@@ -42,7 +42,7 @@ function PropertyResultCard({ allPropertyResults }) {
             </div>
 
             {/* Property Details */}
-            <div className="w-3/4 p-4 flex flex-col">
+            <div className=" p-4 flex flex-col">
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="text-lg font-semibold">

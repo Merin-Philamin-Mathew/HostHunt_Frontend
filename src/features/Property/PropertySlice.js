@@ -50,9 +50,9 @@ const propertySlice = createSlice({
           state.allRoomByProperty.push(action.payload);
       },
       resetRoomForm: (state, action) => {
-          state.RoomDetails        =  ''
-          state.RoomFacilities     =  []
-          state.RoomImages         =  ''
+            state.RoomDetails        =  ''
+            state.RoomFacilities     =  []
+            state.RoomImages         =  ''
       },
  
       resetOnboardingDetails: (state, action) => {

@@ -44,14 +44,24 @@ import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPag
 import Trial from '../pages/Trial';
 import PropertyDisplayPage from '../pages/users/PropertyDisplayPage';
 import PropertyImages from '../components/property_owner/onboardinag/PropertyImages';
+import PreviewProperty from '../pages/property_owner/onboarding.jsx/PreviewProperty';
+import ManageAccountPage from '../pages/users/ManageAccount/ManageAccountPage';
+import MyStays from '../components/user/ManageAccounts/MyStays';
+import ManageAccount from '../components/user/ManageAccounts/ManageAccount';
+import BookingSuccessModal from '../components/utils/Modals/BookingSuccessModal';
+import WebSocketTest from '../pages/Trial';
 
 let const_data = {
     REACT_ROUTER_PATH: [
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // USER SIDE AND AUTHENTICATION PATHS
+        // {
+        //     path: "/trial-page",
+        //     element: <Trial/>
+        // },
         {
             path: "/trial-page",
-            element: <Trial/>
+            element: <WebSocketTest/>
         },
         {
             path: "/",
@@ -76,6 +86,18 @@ let const_data = {
         {
             path: "/hosteldetails",
             element: <PropertyDisplayPage/>
+        },
+
+        {
+            path: "/manage-account",
+            element:<ProtectedRoute roleRequired={'user'}>
+                <ManageAccountPage><Outlet/></ManageAccountPage>
+                    </ProtectedRoute> ,
+            children: [
+                { path: "/manage-account/manage-account", element: <ManageAccount/>},
+                { path: "/manage-account/my-stays", element: <MyStays/>},
+
+            ]
         },
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // OWNER SIDE PATHS
@@ -131,7 +153,7 @@ let const_data = {
                 { path: "property-images", element: <PropertyImages/>},
                 { path: "rental-appartment", element: <RentalAppartmentForm/>},
                 { path: "room", element: <AddingRoomPage/>},
-                { path: "finish", element: <ReviewAndSubmit/> }
+                { path: "finish", element: <PreviewProperty/> }
 
             ]
         },

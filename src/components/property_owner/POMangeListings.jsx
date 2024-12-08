@@ -42,12 +42,14 @@ const POManageListings = () => {
     localStorage.setItem('property_docs',0)
     navigate('/host/new-listing/'); 
   };
+
   const buttonProps = {
     title: 'Add Listings',
     icon: <FaPlus />,
     onClick: handleAddListing,
     bg_color: 'bg-gray-200',
 };
+
   return (
     <>
 

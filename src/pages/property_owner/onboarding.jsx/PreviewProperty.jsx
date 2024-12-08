@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { MapPin, Wifi, Wind, Car, Music, Monitor, Grid } from 'lucide-react'
-import SearchHeader from '../../components/user/partials/SearchHeader'
-import Container from '../../components/utils/Containers/Container'
-import PublishedRoomCard from '../../components/utils/cards/Rooms/PublishedRoomCard'
-import { fetchDetailedDisplay_property } from '../../features/Property/PropertyActions'
-import SmContainer from '../../components/utils/Containers/SmContainer'
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from '@stripe/react-stripe-js';
-import PD_ReviewSection from '../../components/user/PropertyDisplayPage/PD_ReviewSection'
+import { MapPin, Wifi, Wind, Car, Music, Monitor } from 'lucide-react'
+
+import PD_ReviewSection from '../../../components/user/PropertyDisplayPage/PD_ReviewSection';
+import PublishedRoomCard from '../../../components/utils/cards/Rooms/PublishedRoomCard';
+import { fetchDetailedDisplay_property, handlePublishingProperty } from '../../../features/Property/PropertyActions';
+import { Grid, Image } from 'lucide-react'
+import { useNavigate } from 'react-router';
 
 
-export default function PropertyDisplayPage(
+
+export default function PreviewProperty(
+    
   { property = {
   name: "Zostel Kochi (Ernakulam)",
   rating: 4.5,
@@ -52,10 +52,11 @@ export default function PropertyDisplayPage(
 }}
 ) {
   const [propertyDetails, setPropertyDetails] = useState('')
-  useEffect(() => {
-    const property_id = localStorage.getItem('property_id') 
-    fetchDetailedDisplay_property(property_id,setPropertyDetails)
+  const property_id = localStorage.getItem('property_id')
+  const navigate = useNavigate() 
 
+  useEffect(() => {
+    fetchDetailedDisplay_property(property_id,setPropertyDetails)
   }, []);
 
   const [activeTab, setActiveTab] = useState('overview')
@@ -67,21 +68,16 @@ export default function PropertyDisplayPage(
     { id: 'reviews', label: 'Guest Reviews' }
   ]
 
-  const key = import.meta.env.VITE_STRIPE_PUBLISH_KEY
-
-  const stripePromise = loadStripe(key);
-
   return (
     <>
-      <SearchHeader />
-    <Container>
-    <div className="min-h-screen bg-gray-50 ">
+    <div className='flex flex-col  p-4 md:p-8 rounded-3xl bg-white shadow-xl'>
+    <div className="min-h-screen ">
       {/* Hero Image */}
       <>
-      <div className="relative overflow-hidden rounded-2xl mt-1">
-  <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
+      <div className="relative aspect-[12/9] md:aspect-[2/1] overflow-hidden rounded-2xl">
+  <div className="grid grid-cols-1 md:grid-cols-4 gap-2 h-full">
     {/* Main Thumbnail Image */}
-<div class="relative h-[51vh] overflow-hidden md:col-span-8">
+    <div className="relative h-full md:col-span-2">
       <img
         src={`${propertyDetails?.property_details?.thumbnail_image_url}`}
         alt="Property thumbnail"
@@ -90,11 +86,11 @@ export default function PropertyDisplayPage(
     </div>
 
     {/* Grid of Additional Images */}
-    <div className="hidden md:grid grid-cols-2 gap-2 md:col-span-4">
+    <div className="hidden md:grid grid-cols-2 gap-2 md:col-span-2">
       {propertyDetails?.property_images?.slice(0, 4).map((image, index) => (
         <div
           key={image.id}
-          className="relative h-[25vh] overflow-hidden"
+          className="relative aspect-square overflow-hidden"
         >
           <img
             src={`${image.property_image_url}`}
@@ -189,7 +185,7 @@ export default function PropertyDisplayPage(
 
             <p className="flex items-center text-gray-600">
               <MapPin className="w-4 h-4 mr-2" />
-              {propertyDetails?.property_details?.city}
+              {property?.address}
             </p>
           </div>
         </div>
@@ -220,11 +216,8 @@ export default function PropertyDisplayPage(
 
                 <section>
                   <h2 className="text-xl font-semibold mb-4">Available rooms</h2>
-                  <div className="space-y-4 ">
-                  <Elements stripe={stripePromise}>
-                  <PublishedRoomCard rooms={propertyDetails?.rooms} stripePromise={stripePromise}/>
-                  </Elements>
-
+                  <div className="space-y-4">
+                  <PublishedRoomCard rooms={propertyDetails?.rooms} />
                   </div>
                 </section>
               </div>
@@ -256,7 +249,17 @@ export default function PropertyDisplayPage(
         </div>
       </div>
     </div>
-    </Container>
+    </div>
+
+    
+    <div className="flex justify-center mt-8">
+        <button
+          onClick={()=>handlePublishingProperty(property_id, navigate)}
+          className="px-6 py-2 bg-themeColor text-white rounded-xl hover:opacity-90 shadow-md"
+        >
+          Submit and Publish Property
+        </button>
+      </div>
     </>
   )
 }

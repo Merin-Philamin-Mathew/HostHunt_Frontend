@@ -44,7 +44,7 @@ const Header = () => {
           onClick={() => navigate('/')} 
           >
           <img src="/logo/Orange.png" className="w-10" alt="Logo"/>
-          <div className="text-2xl font-extrabold text-orange-600">HOSTHUNT</div>
+          <div className="text-2xl font-extrabold text-orange-600 hidden md:inline">HOSTHUNT</div>
         </button>
         <div className="flex items-center space-x-5 px-2">
           <button className="flex space-x-1 items-center hover:bg-gray-100 py-2 px-3 border border-gray-400 rounded-full ">

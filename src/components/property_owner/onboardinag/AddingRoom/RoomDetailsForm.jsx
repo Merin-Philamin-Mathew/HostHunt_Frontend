@@ -24,11 +24,12 @@ const RoomDetailsForm = ({ setRooms, onSubmit }) => {
     return roomDetailsForm || {
       room_type: '',
       is_private: false,
-      occupancy: '',
+      no_of_beds: '',
       no_of_rooms: '',
-      booking_amount_choice: '',
-      price_per_night: '',
+      // booking_amount_choice: '',
+      // price_per_night: '',
       monthly_rent: '',
+      booking_amount: '',
       bed_type: '',
       area: '',
       description: '',
@@ -59,13 +60,13 @@ const RoomDetailsForm = ({ setRooms, onSubmit }) => {
 
         // Dynamically update room_name when related fields change
         useEffect(() => {
-          const privateText = values.is_private ? 'Private' : 'Shared';
+          const privateText = values.is_private ? 'Private' : '';
           const roomTypeName = roomTypes.find((type) => type.id === parseInt(values.room_type))?.room_type_name || '';
           const bedTypeName = bedTypes.find((type) => type.id === parseInt(values.bed_type))?.bed_type_name || '';
 
-          const roomName = `${privateText} ${roomTypeName} (${values.occupancy > 1 ? values.occupancy : ''} ${bedTypeName} ${values.occupancy > 'Beds' ? values.occupancy : 'Bed'})`.trim();
+          const roomName = `${privateText} ${roomTypeName} (${values.no_of_beds > 1 ? values.no_of_beds : ''} ${bedTypeName} ${values.no_of_beds > 'Beds' ? values.no_of_beds : 'Bed'})`.trim();
           setFieldValue('room_name', roomName);
-        }, [values.occupancy, values.bed_type, values.is_private, values.room_type, roomTypes, bedTypes, setFieldValue]);
+        }, [values.no_of_beds, values.bed_type, values.is_private, values.room_type, roomTypes, bedTypes, setFieldValue]);
 
         return (
           <Form className="flex flex-col gap-6 p-4 md:p-8 rounded-3xl bg-white shadow-xl">
@@ -99,7 +100,7 @@ const RoomDetailsForm = ({ setRooms, onSubmit }) => {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <FormField
-                name="occupancy"
+                name="no_of_beds"
                 label="Number of Beds"
                 type="number"
                 placeholder="Enter the total number of beds in this room"
@@ -111,15 +112,16 @@ const RoomDetailsForm = ({ setRooms, onSubmit }) => {
                 placeholder="Number of rooms with this specific type and bed configuration (e.g., Mixed Dorm with 4 beds and Mixed Dorm with 8 beds are separate room types)"
                 />
             </div>
-            <FormField name="booking_amount_choice" label="Booking Amount Choice" component="select">
+            {/* <FormField name="booking_amount_choice" label="Booking Amount Choice" component="select">
               <option value="">Select</option>
               <option value="price_per_night">Price per night</option>
               <option value="monthly_rent">Monthly Rent</option>
-            </FormField>
+            </FormField> */}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField name="price_per_night" label="Price per Night" type="number" />
+              {/* <FormField name="price_per_night" label="Price per Night" type="number" /> */}
               <FormField name="monthly_rent" label="Monthly Rent" type="number" />
+              <FormField name="booking_amount" label="Booking Amount" type="number" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               

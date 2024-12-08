@@ -7,9 +7,9 @@ const URLS = {
     },
 
     NEWLISTING: {
-        'property_details':'property/new-listing/property-details',
-        'documents':'property/new-listing/documents',
-        'facilities':'property/new-listing/facilities',
+        'property_details':'property/new-listing/property-details/',
+        'documents':'property/new-listing/documents/',
+        'facilities':'property/new-listing/facilities/',
         'policies_services':'property/new-listing/{property_id}/policies/',
         'retrievORcreate_amenities_by_property':'/property/new-listing/{property_id}/amenities/bulk/',
         'submit_review':'property/new-listing/submit-review',
@@ -21,6 +21,7 @@ const URLS = {
         'rental_appartement':'property/onboarding/rental-appartment/',
         'rooms':'property/onboarding/rooms/',       
         'property_images':'property/onboarding/property-images/',
+        'uploaded_image':'property/onboarding/uploaded-image/'
     },
     
     HOSTMANAGEMENT: {
@@ -36,8 +37,14 @@ const URLS = {
         'hh_active_bed_types':'/property/active-bed-types/',
         
         'hh_all_property_results':'/property/property-results/',
-        'hh_published_property_display':'property/property-display-view/'
+        'hh_published_property_display':'property/property-display/'
     },
+
+    BOOKING: {
+        'booking_detials_by_id':'booking/booking-details',
+        'user_booking_details_by_userId':'booking/userbookings'
+    },
+
     ADMINMANAGEMENT: {
         'all_properties':'property/all-properties',
         'basic_details':'property/basic-details',

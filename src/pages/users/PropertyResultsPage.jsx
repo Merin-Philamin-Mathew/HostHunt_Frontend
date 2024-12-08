@@ -21,7 +21,7 @@ function PropertyResultsPage() {
   }, [Term, dispatch]);
 
   const allPropertyResults = useSelector((state) => state.property.allPropertyResults);
-  console.log('Property Results:', allPropertyResults);
+  console.log('Property Resultds:', allPropertyResults);
 
   const filters = [
     {
@@ -101,7 +101,7 @@ function PropertyResultsPage() {
               </aside>
 
               {/* Results Content */}
-              <main className="flex-grow py-6">
+              <main className="py-6">
                 <h1 className="text-xl font-semibold mb-4">Property Results for "{Term}"</h1>
                 <PropertyResultCard allPropertyResults={allPropertyResults} />
               </main>

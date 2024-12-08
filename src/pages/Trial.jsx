@@ -82,43 +82,100 @@
 
 // export default React.memo(Trial)
 
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// ============================Booking=========================================
+
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../components/user/partials/header";
+import { fetchBookingDetialsByID } from "../features/Booking/BookingActions";
 
-const BookingSuccessPage = ({ bookingId='booking id' }) => {
-  const navigate = useNavigate();
+const BookingSuccessPage = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const bookingId = queryParams.get('booking_id');
+  const [bookingDetails, setBookingDetails] = useState('')
+  console.log('Booking ID:', bookingId);
 
-  useEffect(() => {
-    // Redirect to the booking details page or home after a delay
-    setTimeout(() => {
-    //   navigate(`/bookings/${bookingId}`);
-      navigate(`/`);
-    }, 5000); // redirect after 5 seconds
-  }, [bookingId, navigate]);
+  useEffect(()=>{
+    fetchBookingDetialsByID(bookingId,setBookingDetails)
+  },[bookingId])
+  
+  // useEffect(() => {
+  //   // Redirect to the booking details page or home after a delay
+  //   setTimeout(() => {
+  //     navigate(`/`);
+  //   }, 5000); // redirect after 5 seconds
+  // }, [bookingId, navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-green-100">
-        {/* <Header/> */}
-      <h1 className="text-4xl font-bold text-green-700">Booking Successful!</h1>
-      <p className="text-lg mt-4 text-gray-600">
-        Your booking has been successfully processed. You will receive a confirmation email shortly.
-      </p>
-      <p className="text-md mt-2 text-gray-500">Booking ID: {bookingId}</p>
-      <div className="mt-6">
-        <img
-          src="https://example.com/success-image.jpg"
-          alt="Booking Success"
-          className="w-64 h-64 object-cover rounded-full"
-        />
-      </div>
-      <p className="mt-4 text-center text-gray-600">
-        You will be redirected shortly. If not, click{" "}
-        <a href={`/bookings/${bookingId}`} className="text-blue-500">here</a>.
-      </p>
-    </div>
+    <>
+    {bookingDetails}
+    </>
+  // <div
+  //   className="relative min-h-screen bg-cover bg-center"
+  //   style={{
+  //     backgroundImage: "url('/pro_own/auth_bg.jpg')"
+  //     // backgroundImage: `${bookingDetails.booking_image_url}`
+  //   }}
+  // >
+  //   <div className="absolute inset-0 bg-[#221a1a] bg-opacity-35  z-0"></div>
+  //   <div className="relative z-10 flex justify-center items-center min-h-screen">
+  //   {bookingDetails.booking_image_url}fsdgds  
+  //   </div>
+  // </div>
   );
 };
 
-export default BookingSuccessPage;
+export {BookingSuccessPage};
+// ============================Booking=========================================
 
+
+function WebSocketTest() {
+    const [socket, setSocket] = useState(null);
+    const [message, setMessage] = useState('');
+    const [receivedMessages, setReceivedMessages] = useState([]);
+
+    useEffect(() => {
+        const ws = new WebSocket('ws://localhost:8000/ws/test/');
+        
+        ws.onopen = () => {
+            console.log('WebSocket Connected');
+            setSocket(ws);
+        };
+
+        ws.onmessage = (event) => {
+          console.log('messaging socket');
+            const data = JSON.parse(event.data);
+            setReceivedMessages(prev => [...prev, data.message]);
+        };
+
+        return () => {
+            ws.close();
+        };
+    }, []);
+
+    const sendMessage = () => {
+        if (socket && message) {
+            socket.send(JSON.stringify({ message }));
+            setMessage('');
+        }
+    };
+
+    return (
+        <div>
+            <input 
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Enter message"
+            />
+            <button onClick={sendMessage}>Send</button>
+            <div>
+                {receivedMessages.map((msg, index) => (
+                    <p key={index}>{msg}</p>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export default WebSocketTest;
