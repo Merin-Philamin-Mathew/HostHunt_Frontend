@@ -12,6 +12,7 @@ export default {
     extend: {
       colors: {
         themeColor: '#e76608',  // orange for major_buttons, highlights, logo 
+        // themeColor: '#ff0080',  // orange for major_buttons, highlights, logo 
         themeColorli8: '#e49a6594',  // orange for major_buttons, highlights, logo 
         themeColor2: '#0A2342', //  Dark navy for headers, footer, highlights and buttons
         themeColor2li8: '#334155', //  Dark navy for headers, footer, highlights and buttons
@@ -52,6 +53,15 @@ export default {
         'md': '768px',    // small laptop
         'lg': '1024px',   // laptop
         'xl': '1280px',   // desktop
+      },
+      keyframes: {
+        skeleton: {
+          '0%': { backgroundPosition: '200% 0' },
+          '100%': { backgroundPosition: '-200% 0' },
+        },
+      },
+      animation: {
+        skeleton: 'skeleton 1.5s ease-in-out infinite',
       },
     },
   },

@@ -13,12 +13,10 @@ import OTPVerificationForm from '../components/forms/OTPVerificationForm';
 
 
 import OwnerDashboardLayout from '../components/Layouts/Owner/OwnerDashboardLayout';
-import PODashboard from '../components/property_owner/PODashboard';
-import POManageListings from '../components/property_owner/POMangeListings';
-import POReviews from '../components/property_owner/POReviews';
-import POMessages from '../components/property_owner/POMessages';
-import POBookings from '../components/property_owner/POBookings';
-import PONotifications from '../components/property_owner/PONotifications';
+import PODashboard from '../pages/property_owner/PODashboard';
+import POManageListings from '../pages/property_owner/POMangeListings';
+import POReviews from '../pages/property_owner/POReviews';
+import POBookings from '../pages/property_owner/booking/POBookings';
 
 import ListPropertySteps from '../components/property_owner/new_listings/ListPropertySteps';
     import NewListingPage from '../pages/property_owner/newListing.jsx/NewLIstingPage';
@@ -41,7 +39,6 @@ import PropertyConfigurations from '../pages/admin/Property_configurations/Prope
 import AdminDashboardPage from '../pages/admin/dashboarf.jsx/AdminDashboardPage';
 import PropertyResultsPage from '../pages/users/PropertyResultsPage';
 import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPage';
-import Trial from '../pages/Trial';
 import PropertyDisplayPage from '../pages/users/PropertyDisplayPage';
 import PropertyImages from '../components/property_owner/onboardinag/PropertyImages';
 import PreviewProperty from '../pages/property_owner/onboarding.jsx/PreviewProperty';
@@ -50,19 +47,19 @@ import MyStays from '../components/user/ManageAccounts/MyStays';
 import ManageAccount from '../components/user/ManageAccounts/ManageAccount';
 import BookingSuccessModal from '../components/utils/Modals/BookingSuccessModal';
 import WebSocketTest from '../pages/Trial';
+import BookingDetailsPage from '../pages/property_owner/booking/BookingDetailPage';
+import RentManagement from '../pages/property_owner/booking/RentManagement';
+import Trial from '../pages/Trial';
 
 let const_data = {
     REACT_ROUTER_PATH: [
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // USER SIDE AND AUTHENTICATION PATHS
-        // {
-        //     path: "/trial-page",
-        //     element: <Trial/>
-        // },
         {
             path: "/trial-page",
-            element: <WebSocketTest/>
+            element: <Trial/>
         },
+       
         {
             path: "/",
             element: <Home/>
@@ -119,9 +116,9 @@ let const_data = {
                 {path: "/host/dashboard",element: <PODashboard/>},
                 {path: "/host/listings",element: <POManageListings/> },
                 {path: "/host/reviews",element: <POReviews/> },
-                {path: "/host/messages",element: <POMessages/> },
-                {path: "/host/notifications",element: <PONotifications/> },
                 {path: "/host/bookings",element: <POBookings/> },
+                {path: "/host/bookings/:id",element: <BookingDetailsPage/> },
+                {path: "/host/bookings/:id/monthly-rent",element: <RentManagement/> },
             ]
         },
         {

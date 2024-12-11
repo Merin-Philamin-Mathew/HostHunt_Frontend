@@ -42,7 +42,12 @@ const URLS = {
 
     BOOKING: {
         'booking_detials_by_id':'booking/booking-details',
-        'user_booking_details_by_userId':'booking/userbookings'
+        'update_booking_status':'booking/update-status',
+        // user
+        'user_booking_details_by_userId':'booking/userbookings',
+
+        // host
+        'host_booking_details':'booking/hostbookings',
     },
 
     ADMINMANAGEMENT: {

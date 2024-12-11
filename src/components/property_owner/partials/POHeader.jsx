@@ -5,6 +5,7 @@ import { FaBuilding, FaSignOutAlt, FaUser } from "react-icons/fa";
 import Dropdown from '../../utils/Dropdown';   
 import {  handleDropdownAction, handleDropdownActionOwner } from '../../utils/logic';
 import { navigatetoUserHome } from '../../../config/constant';
+import { toast } from 'sonner';
 
 const POHeader = () => {
   const { user } = useSelector((state) => state.user);
@@ -15,6 +16,7 @@ const POHeader = () => {
   const [dropdownPosition, setDropdownPosition] = useState({ left: 0, top: 0 });
 
   const [messages, setMessages] = useState([]);
+  const [pushNotification, setPushNotification] = useState([]);
   const user_id = user?.data.id
 
   useEffect(() => {
@@ -25,7 +27,13 @@ const POHeader = () => {
     socket.onmessage = (event) => {
         const data = JSON.parse(event.data);
         console.log('notifications from the backend', data);
-        setMessages((prevMessages) => [...prevMessages, data]);
+        if (data.pushmessage) {
+          setPushNotification(data.pushmessage)
+        
+          toast(data.pushmessage);
+        } else{
+          setMessages((prevMessages) => [...prevMessages, data]);
+        }
         console.log('notifications from the backend', data);
         
     };
@@ -64,8 +72,8 @@ const POHeader = () => {
       <div className="flex justify-between items-center mx- auto lessThan404 px-6 ">
         <button className="flex items-center space-x-1"
               onClick={()=>{navigate(navigatetoUserHome)}}>
-          <img src="/logo/white_invert.png" className="w-10 bg-orange-600 py-1 px-0 rounded-md" alt="Logo"/>
-          <div className="text-2xl font-extrabold text-orange-600">HOSTHUNT</div>
+          <img src="/logo/white_invert.png" className="w-10 bg-themeColor py-1 px-0 rounded-md" alt="Logo"/>
+          <div className="text-2xl font-extrabold text-themeColor">HOSTHUNT</div>
         </button>
         <div className="flex items-center space-x-5 px-2">
 

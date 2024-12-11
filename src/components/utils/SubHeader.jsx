@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { FaPlus } from "react-icons/fa6";
 
-function SubHeader() {
+function SubHeader({ title,buttonProps }) {
     const { user } = useSelector((state) => state.user);
     
     const name = user?.data?.name.split(' ')[0]
@@ -14,6 +14,8 @@ function SubHeader() {
                     <p className="text-gray-600">This is where you can manage all your listings.</p>
               
                 </div>
+
+                {/* <h1 className='font-semibold'>{title}</h1> */}
                 {/* Spread the buttonProps */}
             </header>
         </div>

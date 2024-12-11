@@ -1,93 +1,95 @@
-// import React, { useRef } from 'react'
-// import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api'
-// import { Input } from '@nextui-org/react';
-// import StripeTrial from '../components/StripeTrial';
-// import { loadStripe } from "@stripe/stripe-js";
-// import { Elements } from '@stripe/react-stripe-js';
+import React, { useRef } from 'react'
+import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api'
+import { Input } from '@nextui-org/react';
+import StripeTrial from '../components/StripeTrial';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from '@stripe/react-stripe-js';
+import { useLocation, useNavigate } from "react-router-dom";
+import { fetchBookingDetialsByID } from "../features/Booking/BookingActions";
 
-// const key = import.meta.env.VITE_STRIPE_PUBLISH_KEY
 
-// const stripePromise = loadStripe(key);
+const key = import.meta.env.VITE_STRIPE_PUBLISH_KEY
 
-// const containerStyle = {
-//   width: '400px',
-//   height: '400px',
-// }
+const stripePromise = loadStripe(key);
 
-// const center = {
-//   lat: -3.745,
-//   lng: -38.523,
-// }
-// const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+const containerStyle = {
+  width: '400px',
+  height: '400px',
+}
 
-// function Trial() {
-//     const inputref = useRef()
-//   const { isLoaded } = useJsApiLoader({
-//     id: 'google-map-script',
-//     googleMapsApiKey: GOOGLE_API_KEY,
-//     libraries: ["places"]
-//   })
+const center = {
+  lat: -3.745,
+  lng: -38.523,
+}
+const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
-//   const [map, setMap] = React.useState(null)
+function Trial() {
+    const inputref = useRef()
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: GOOGLE_API_KEY,
+    libraries: ["places"]
+  })
 
-//   const onLoad = React.useCallback(function callback(map) {
-//     // This is just an example of getting and using the map instance!!! don't just blindly copy!
-//     const bounds = new window.google.maps.LatLngBounds(center)
-//     map.fitBounds(bounds)
+  const [map, setMap] = React.useState(null)
 
-//     setMap(map)
-//   }, [])
+  const onLoad = React.useCallback(function callback(map) {
+    // This is just an example of getting and using the map instance!!! don't just blindly copy!
+    const bounds = new window.google.maps.LatLngBounds(center)
+    map.fitBounds(bounds)
 
-//   const onUnmount = React.useCallback(function callback(map) {
-//     setMap(null)
-//   }, [])
+    setMap(map)
+  }, [])
 
-//   const handleOnPlacesChanged = ()=>{
-//     let address = inputref.current.getPlaces()
-//     console.log("address",add);
+  const onUnmount = React.useCallback(function callback(map) {
+    setMap(null)
+  }, [])
+
+  const handleOnPlacesChanged = ()=>{
+    let address = inputref.current.getPlaces()
+    console.log("address",add);
     
-//   }
+  }
 
 
-//   return isLoaded ? (
-//     <div>
-//         <StandaloneSearchBox
-//         onLoad={(ref)=>inputref.current=ref}
-//         onPlacesChanged={handleOnPlacesChanged}
-//         >
+  return isLoaded ? (
+    <>
+    {/*  */}
+    <div>
+        <StandaloneSearchBox
+        onLoad={(ref)=>inputref.current=ref}
+        onPlacesChanged={handleOnPlacesChanged}
+        >
             
-//          <div className="flex w-full flex-wrap md:flex-nowrap gap-4 p-10">
-//       <Input type="text" label="Search location" placeholder='Search Location'
-//         className="max-w-xs"
-//         />
-//     </div>
-//         </StandaloneSearchBox>
-//     {/* <GoogleMap
-//       mapContainerStyle={containerStyle}
-//       center={center}
-//       zoom={10}
-//       onLoad={onLoad}
-//       onUnmount={onUnmount}
-//     >
-//       <></>
-//     </GoogleMap> */}
-//     <Elements stripe={stripePromise}>
-//     <StripeTrial stripePromise={stripePromise}/>
-//     </Elements>
-//     </div>
-//   ) : (
-//     <></>
-//   )
-// }
+         <div className="flex w-full flex-wrap md:flex-nowrap gap-4 p-10">
+      <Input type="text" label="Search location" placeholder='Search Location'
+        className="max-w-xs"
+        />
+    </div>
+        </StandaloneSearchBox>
+    {/* <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={10}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+    >
+      <></>
+    </GoogleMap> */}
+    <Elements stripe={stripePromise}>
+    <StripeTrial stripePromise={stripePromise}/>
+    </Elements>
+    </div>
+    </>
+  ) : (
+    <></>
+  )
+}
 
-// export default React.memo(Trial)
+export default React.memo(Trial)
 
 // ============================Booking=========================================
 
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import Header from "../components/user/partials/header";
-import { fetchBookingDetialsByID } from "../features/Booking/BookingActions";
 
 const BookingSuccessPage = () => {
   const location = useLocation();
@@ -178,4 +180,8 @@ function WebSocketTest() {
     );
 }
 
-export default WebSocketTest;
+export  {WebSocketTest};
+
+// ==========================COMPONENT TESTING=================================
+
+

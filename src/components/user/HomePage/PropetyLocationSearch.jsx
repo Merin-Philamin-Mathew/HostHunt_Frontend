@@ -57,7 +57,7 @@ function PropertyLocationSearch() {
           className="flex-1 px-4 py-3 text-gray-800 bg-transparent focus:outline-none"
           />
         <button
-          className="m-1 px-3 md:px-8 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
+          className="m-1 px-3 md:px-8 py-2 bg-themeColor text-white rounded-md hover:bg-orange-600 transition-colors"
           onClick={handleHomePageSearchButton}
           >
           <span className="hidden md:inline">Search</span>
