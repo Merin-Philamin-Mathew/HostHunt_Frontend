@@ -1,13 +1,26 @@
-import React, { useState } from 'react'
-import { Calendar, Bell, DollarSign, IndianRupee } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { Calendar, Bell, IndianRupee } from 'lucide-react'
 import { Popover, Transition } from '@headlessui/react'
-import { format } from 'date-fns'
+import { format, addMonths, startOfMonth } from 'date-fns'
 import { DayPicker } from 'react-day-picker'
 import 'react-day-picker/dist/style.css'
-import { FaRupeeSign } from 'react-icons/fa'
 
 const RentDetailsSection = ({ rentDetails, handleRentDetailsChange }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState(() => {
+    // Set default date to the 1st of next month
+    const nextMonthFirstDay = startOfMonth(addMonths(new Date(), 1))
+    return nextMonthFirstDay
+  })
+
+  useEffect(() => {
+    // Update rent details with the initial date when component mounts
+    handleRentDetailsChange({
+      target: {
+        name: 'due_date',
+        value: format(selectedDate, 'yyyy-MM-dd')
+      }
+    })
+  }, [])
 
   const handleDateSelect = (date) => {
     setSelectedDate(date)
@@ -27,9 +40,50 @@ const RentDetailsSection = ({ rentDetails, handleRentDetailsChange }) => {
       </h2>
       <div className="space-y-6">
         <div className="grid md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label htmlFor="booking_id" className="block text-sm font-medium text-themeColor2li8">
+            Booking ID
+          </label>
+          <div className="relative rounded-md shadow-sm">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <IndianRupee className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="number"
+              id="booking_id"
+              name="booking_id"
+              value={rentDetails.booking_id}
+              disabled
+              
+              step="0.01"
+              className="block w-full pl-10 pr-3 py-2 border bg-gray-100 text-gray-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="0.00"
+            />
+          </div>
+        </div>
+          <div className="space-y-2">
+          <label htmlFor="amount" className="block text-sm font-medium text-themeColor2li8">
+            Amount
+          </label>
+          <div className="relative rounded-md shadow-sm">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <IndianRupee className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="number"
+              id="amount"
+              name="amount"
+              value={rentDetails.amount}
+              onChange={handleRentDetailsChange}
+              step="0.01"
+              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="0.00"
+            />
+          </div>
+        </div>  
           <div className="space-y-2">
             <label htmlFor="due_date" className="block text-sm font-medium text-themeColor2li8">
-              Due Date
+             Coming Month Due Date
             </label>
             <Popover className="relative">
               <Popover.Button className="w-full px-3 py-2 text-left bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -77,26 +131,7 @@ const RentDetailsSection = ({ rentDetails, handleRentDetailsChange }) => {
               />
             </div>
           </div>
-        </div>
-        <div className="space-y-2">
-          <label htmlFor="amount" className="block text-sm font-medium text-themeColor2li8">
-            Amount
-          </label>
-          <div className="relative rounded-md shadow-sm">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <IndianRupee className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="number"
-              id="amount"
-              name="amount"
-              value={rentDetails.amount}
-              onChange={handleRentDetailsChange}
-              step="0.01"
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="0.00"
-            />
-          </div>
+  
         </div>
       </div>
     </section>

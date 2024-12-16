@@ -49,8 +49,8 @@ const POManageListings = () => {
   };
 
   const buttonProps = {
-    title: 'Add Listings',
     icon: <FaPlus />, // Added the icon
+    title: 'Add Listings',
     onClick: handleAddListing,
     bg_color: 'bg-gray-200',
   };
@@ -63,15 +63,40 @@ const POManageListings = () => {
         title="My Listings" 
         buttonProps={buttonProps} 
       />
-      
-      {/* Search Input */}
-      <div className="mb-4">
+      <div className='flex justify-between gap-8'>
+         {/* Search Input */}
+         <div className="mb-4 flex-auto">
         <Input 
           placeholder="Search listings" 
           value={searchQuery}
           onChange={handleSearchChange}
+          classNames={{
+            inputWrapper: [
+              "hover:bg-black",
+              "shadow-xl",
+              "hover:placeholder:bg-black ",
+
+              "dark:hover:bg-default/70",
+              "group-data-[focus=true]:bg-default-200/50",
+              "dark:group-data-[focus=true]:bg-default/60",
+              "!cursor-t ext",
+            ],
+          input: [
+            "placeholder:text-default-700/50 ",            
+
+          ],
+          innerWrapper: "bg-transparent",
+       
+
+          }}
         />
       </div>
+
+      <Button {...buttonProps}/>
+
+      </div>
+      
+     
 
       {/* Hostel Listings */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

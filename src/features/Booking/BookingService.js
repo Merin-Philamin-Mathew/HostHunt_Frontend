@@ -20,3 +20,13 @@ export const updateBookingStatus_Service =(booking_id,update_status) =>{
       booking_status: update_status,
       })
   }
+
+
+export const createRentInstance_Service =(rentDetails) =>{
+    return api.post(`${URLS.BOOKING.host_rent_instance_creation}`, {
+      rentDetails: rentDetails,
+    })
+  }
+export const getUpcomingRent_Servie =(booking_id) =>{
+    return api.get(`${URLS.BOOKING.rent_upcoming}${booking_id}/`)
+  }

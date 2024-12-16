@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBuilding, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { BsBuildingAdd } from "react-icons/bs";
-import Dropdown from '../../utils/Dropdown';
 import { AiFillMessage } from 'react-icons/ai';
 import { handleDropdownAction } from '../../utils/logic';
 import PropertyLocationSearch from '../HomePage/PropetyLocationSearch';

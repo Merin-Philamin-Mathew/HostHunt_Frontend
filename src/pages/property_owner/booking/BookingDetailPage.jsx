@@ -13,6 +13,7 @@ const BookingDetailsPage = () => {
   const [newStatus, setNewStatus] = useState('')
   const [showMonthlyRentOption, setShowMonthlyRentOption] = useState(false)
   const navigate = useNavigate()
+  
 
   const { id } = useParams()
 
@@ -43,6 +44,16 @@ const BookingDetailsPage = () => {
       setError(err.message)
     }
   }
+
+  const handleNavigation = () => {
+    navigate(`/host/bookings/${id}/monthly-rent`, {
+      state: {
+        monthly_rent:booking.room_details.monthly_rent,
+        is_rent:booking.is_rent
+      },
+    });
+  };
+  
 
 
 
@@ -95,21 +106,43 @@ const BookingDetailsPage = () => {
         </div>
 
         
-        {/* Monthly Rent Option Card */}
-        {showMonthlyRentOption && (
-          <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-            <h3 className="text-xl font-semibold mb-4">Monthly Rent Option</h3>
-            <p className="mb-4 text-gray-600">
-              The guest has checked in. Would you like to offer them the option to join our monthly rent program?
-            </p>
-            <button
-              className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-teal-600 transition-colors"
-              onClick={() => navigate(`/host/bookings/${id}/monthly-rent`)}
-              >
-              Offer Monthly Rent Option
-            </button>
-          </div>
-        )}
+    {/* Monthly Rent Option Card */}
+{showMonthlyRentOption && (
+  <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+
+    {booking.is_rent ? (
+      // If booking.is_rent is true, show the Rent Management section
+      <>
+      {/* <h3 className="text-xl font-semibold mb-4"></h3> */}
+
+      <p className="mb-4 text-gray-600 font-semibold">
+        This booking is already part of the monthly rent program. Manage the rent details below.
+      </p>
+        <button
+          className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-teal-600 transition-colors"
+          onClick={handleNavigation}
+        >      
+        Manage Rent
+        </button>
+        </>
+    ) : (
+      // If booking.is_rent is false, show the invitation message
+      <>
+          <h3 className="text-xl font-semibold mb-4">Monthly Rent Option</h3>
+
+        <p className="mb-4 text-gray-600">
+          The guest has checked in. Would you like to offer them the option to join our monthly rent program?
+        </p>
+        <button
+          className="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-teal-600 transition-colors"
+          onClick={handleNavigation}
+        >
+          Offer Monthly Rent Option
+        </button>
+      </>
+    )}
+  </div>
+)}
 
         {/* Property Details Card */}
         <div className="grid md:grid-cols-2 gap-6 mb-6">

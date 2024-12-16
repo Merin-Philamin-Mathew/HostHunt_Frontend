@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBuilding, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { BsBuildingAdd } from "react-icons/bs";
-import Dropdown from '../../utils/Dropdown';
 import { AiFillMessage } from 'react-icons/ai';
 import { handleDropdownAction } from '../../utils/logic';
+import ProfileIcon_dropDown from '../../utils/dropDown/profileIcon_dropDown';
 
 const Header = () => {
   const { user,userLoggedIn } = useSelector((state) => state.user);
@@ -57,21 +57,12 @@ const Header = () => {
           </button>
 
           { userLoggedIn ?    (
-  <div className="relative">
-    <div onClick={toggleDropdown} className="flex items-center space-x-4 cursor-pointer">
-      {user.userProPic ? (
-        <img src={user.userProPic} alt="Profile" className="w-9 h-9 rounded-full" />
-      ) : (
-        <button className="w-9 h-9 bg-gray-700 text-slate-300 rounded-full flex items-center outline outline-offset-1 outline-1  outline-themeColor2 justify-center">
-          <span className="text-base font-semibold">
-            {user?.data?.name?.charAt(0).toUpperCase() || user?.data?.email?.charAt(0).toUpperCase() || ''}
-          </span>
-        </button>
-      )}
-      <i className="fa fa-bell text-xl"></i>
-     
-    </div>
-  </div>
+            <>
+
+
+      <ProfileIcon_dropDown/>
+
+  </>
 ) : (
   <div className='flex justify-center'>
   <Link to="/login" className='flex items-center space-x-2'>

@@ -43,11 +43,13 @@ const URLS = {
     BOOKING: {
         'booking_detials_by_id':'booking/booking-details',
         'update_booking_status':'booking/update-status',
+        'rent_upcoming':'booking/rents/upcoming/',
         // user
         'user_booking_details_by_userId':'booking/userbookings',
 
         // host
         'host_booking_details':'booking/hostbookings',
+        'host_rent_instance_creation':'booking/rent/',
     },
 
     ADMINMANAGEMENT: {

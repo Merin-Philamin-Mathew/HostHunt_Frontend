@@ -1,6 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { Calendar, User, CreditCard, ChevronRight } from 'lucide-react';
+import { Calendar, User, CreditCard, ChevronRight, Home } from 'lucide-react';
 import { useNavigate } from 'react-router';
 
 const HOwnerBookingCard = ({ booking, loading }) => {
@@ -34,6 +34,12 @@ const HOwnerBookingCard = ({ booking, loading }) => {
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      {booking.is_rent && (
+        <div className="bg-teal-500 text-white text-xs font-semibold px-3 py-1 flex items-center justify-center">
+          <Home className="w-3 h-3 mr-1" />
+          Rent Management Subscribed
+        </div>
+      )}
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-lg font-semibold text-gray-900 truncate">
@@ -50,7 +56,7 @@ const HOwnerBookingCard = ({ booking, loading }) => {
         <p className="text-sm text-gray-600 mb-2">{booking.room_details.name}</p>
         <div className="flex items-center text-sm text-gray-500 mb-2">
           <Calendar className="w-4 h-4 mr-1" />
-          {format(new Date(booking.check_in_date), 'MMM dd, yyyy')}
+          {format(new Date(booking.booking_date), 'MMM dd, yyyy')}
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center text-sm text-gray-500">

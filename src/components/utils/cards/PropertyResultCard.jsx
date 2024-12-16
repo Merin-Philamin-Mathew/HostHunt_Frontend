@@ -18,7 +18,7 @@ function PropertyResultCard({ allPropertyResults }) {
   };
 
   return (
-    <div className="grid gap-4">
+    <div >
       {allPropertyResults?.map((property) => (
         <div
           key={property?.id}
@@ -27,7 +27,7 @@ function PropertyResultCard({ allPropertyResults }) {
         >
           <div className="flex">
             {/* Thumbnail Image */}
-            <div className="w-1/4 ">
+            <div className="w-1/4 overflow-hidden">
               {property.thumbnail_image_url ? (
                 <img
                   src={property.thumbnail_image_url}
