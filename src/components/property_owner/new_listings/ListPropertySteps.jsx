@@ -132,6 +132,16 @@ const ListPropertySteps = () => {
                      Complete Onboarding
                     </button>
                   </div>
+                  : index === 3 ? 
+                  <div>
+                     <button
+                      className="bg-themeColor text-white font-bold py-2 px-4 rounded-lg ml-auto"
+                      // onClick={handleNextStep}
+                      onClick={handleOnboarding}
+                      >
+                     Manage Property Details
+                    </button>
+                  </div>
                 :''}
                 </>
               )}

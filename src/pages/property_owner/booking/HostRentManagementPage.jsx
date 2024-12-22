@@ -7,7 +7,7 @@ import { createRentInstance } from '../../../features/Booking/BookingActions';
 import NextRent_RentTransactions from '../../../components/property_owner/bookings/rentmanagement/NextRent_RentTransactions';
 
 
-const RentManagement = () => {
+const HostRentManagementPage = () => {
     const { id } = useParams()
       const location = useLocation();
       const { monthly_rent } = location.state || {}
@@ -114,4 +114,4 @@ const RentManagement = () => {
     )
 }
 
-export default RentManagement
+export default HostRentManagementPage

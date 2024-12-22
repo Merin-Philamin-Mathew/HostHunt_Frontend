@@ -26,6 +26,8 @@ const adminSlice = createSlice({
             state.success = '';
         },
         logoutAdmin: (state) => {
+            console.log("sdklfjdslfjdslfjdsl",state.adminAToken);
+            
             state.adminData = null;
             state.adminAToken = null;
             state.usersData = null;
@@ -47,6 +49,7 @@ const adminSlice = createSlice({
             if (state.adminData) {
               state.adminAToken = action.payload;
             }
+            
           },
     },
     extraReducers: (builder) => {

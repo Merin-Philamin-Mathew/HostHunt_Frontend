@@ -1,20 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react'
 import { useLocation, useParams } from 'react-router'
 import { format } from 'date-fns'
 import { Calendar, IndianRupee, Bell, Edit2, Check } from 'lucide-react'
-import { createRentInstance, fetchUpcomingRent } from '../../../../features/Booking/BookingActions'
+import { createRentInstance, fetchPaid_OverdueRent, fetchUpcomingRent } from '../../../../features/Booking/BookingActions'
+import { useSelector } from 'react-redux'
+import UserPaymentButton from '@/components/bookings/UserPaymentButton'
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from '@stripe/react-stripe-js';
 
 const NextRent_RentTransactions = () => {
+
+    const key = import.meta.env.VITE_STRIPE_PUBLISH_KEY
+    const stripePromise = loadStripe(key);
+
     const { id } = useParams()
+    const user = useSelector((state) => state.user.user);
+    const [isOwner, setIsOwner] = useState(false)
+    const [userPayment, setUserPayment] = useState(false)
     const location = useLocation();
     const { monthly_rent } = location.state || {}
     const [upcomingRent, setUpcomingRent] = useState({
         booking_id: id || '',
-        due_date: format(new Date(new Date().setMonth(new Date().getMonth() + 1)), 'yyyy-MM-dd'),
+        due_date: '',
         amount: monthly_rent || '',
         rent_method: '',
-        notification_period: 4,
+        notification_period: '',
         status: 'pending'
     })
     const [isEditing, setIsEditing] = useState(false)
@@ -22,18 +32,27 @@ const NextRent_RentTransactions = () => {
     const [error, setError] = useState('')
 
     useEffect(() => {
-        // Fetch rent history here
-        // This is a placeholder. Replace with actual API call
+
+  
+        
         setRentHistory([
-            { id: 1, due_date: '2023-11-01', amount: 1000, status: 'paid' },
-            { id: 2, due_date: '2023-12-01', amount: 1000, status: 'paid' },
-            { id: 3, due_date: '2024-01-01', amount: 1000, status: 'overdue' },
+            
         ])
         const fetchData = async () => {
             try {
+                const paid_overdue_response = await fetchPaid_OverdueRent(id)
+
                 const upcomingRentResponse = await fetchUpcomingRent(id);
+                console.log(paid_overdue_response,'paid or overdue response');
+                if (paid_overdue_response){
+                    setRentHistory(paid_overdue_response)
+                }
                 if (upcomingRentResponse) {
+                    
                     setUpcomingRent(upcomingRentResponse); // Ensure the response matches the state structure
+                    setIsOwner(user?.data?.email===upcomingRentResponse.host_email)
+                    console.log('dfsdfsdfdsfsdgsdgsgfbcfy5645745745754',user?.data?.email===upcomingRentResponse.host_email);
+                    
                 }
             } catch (error) {
                 console.error("Error fetching upcoming rent:", error);
@@ -52,8 +71,24 @@ const NextRent_RentTransactions = () => {
             [name]: value
         }))
     }
+    useEffect(() => {
+        if (!isOwner && upcomingRent.due_date) {
+            // Calculate the date with the notification period
+            const notificationDate = new Date(new Date(upcomingRent.due_date).setDate(new Date(upcomingRent.due_date).getDate() - upcomingRent.notification_period));
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); 
 
-    const handleSubmit = (event) => {
+            if (notificationDate <= today) {
+                setUserPayment(true);
+            } else {
+                setUserPayment(false);
+            }
+        } else {
+            setUserPayment(false);
+        }
+    }, [isOwner, upcomingRent.due_date, upcomingRent.notification_period]);
+    
+    const handleRentUpdation = (event) => {
         event.preventDefault();
         if (upcomingRent.rent_method && upcomingRent.due_date && upcomingRent.amount && upcomingRent.notification_period) {
             const updatedRentDetails = {
@@ -69,6 +104,8 @@ const NextRent_RentTransactions = () => {
             setError('Please fill in all required fields');
         }
     };
+
+  
     
 
     return (
@@ -77,10 +114,10 @@ const NextRent_RentTransactions = () => {
                 <p className="text-lg text-gray-600 mb-4">Booking ID: {id}</p>
 
                 {/* Upcoming Rent Card */}
-                <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div className="bg-white rounded-lg shadow-medium p-6 mb-8">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-2xl font-semibold text-gray-800">Upcoming Rent</h2>
-                        {!isEditing && (
+                        {!isEditing && isOwner && (
                             <button 
                                 onClick={() => setIsEditing(true)}
                                 className="text-themeColor hover:text-opacity-80"
@@ -89,7 +126,7 @@ const NextRent_RentTransactions = () => {
                             </button>
                         )}
                     </div>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleRentUpdation}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Due Date</label>
@@ -102,7 +139,11 @@ const NextRent_RentTransactions = () => {
                                         name="due_date"
                                         value={upcomingRent.due_date}
                                         onChange={handleUpcomingRentChange}
-                                        disabled={!isEditing}
+                                        disabled={!isEditing || !isOwner}
+                                        // min={format(
+                                        //     new Date(new Date().setDate(new Date().getDate() + upcomingRent.notification_period + 1 )),
+                                        //     'yyyy-MM-dd'
+                                        // )}
                                         className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
                                     />
                                 </div>
@@ -118,7 +159,7 @@ const NextRent_RentTransactions = () => {
                                         name="amount"
                                         value={upcomingRent.amount}
                                         onChange={handleUpcomingRentChange}
-                                        disabled={!isEditing}
+                                        disabled={!isEditing || !isOwner}
                                         className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
                                     />
                                 </div>
@@ -129,7 +170,7 @@ const NextRent_RentTransactions = () => {
                                     name="rent_method"
                                     value={upcomingRent.rent_method}
                                     onChange={handleUpcomingRentChange}
-                                    disabled={!isEditing}
+                                    disabled={!isEditing || !isOwner}
                                     className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                                 >
                                     <option value="">Select a method</option>
@@ -148,13 +189,13 @@ const NextRent_RentTransactions = () => {
                                         name="notification_period"
                                         value={upcomingRent.notification_period}
                                         onChange={handleUpcomingRentChange}
-                                        disabled={!isEditing}
+                                        disabled={!isEditing || !isOwner}
                                         className="focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md"
                                     />
                                 </div>
                             </div>
                         </div>
-                        {isEditing && (
+                        {isOwner &&isEditing && (
     <div className="mt-4 flex justify-end space-x-3">
         <button
             type="button"
@@ -180,20 +221,25 @@ const NextRent_RentTransactions = () => {
 
                     </form>
                     {error && <p className="text-red-500 mt-2">{error}</p>}
-                    <div className='flex justify-center pt-8 ' >
-                        {upcomingRent.rent_method === 'notificationsOnly' && !isEditing && (
+                    <div className='flex justify-center pt-8 font-semibold' >
+                        {isOwner && upcomingRent.rent_method === 'notificationsOnly' && !isEditing && (
                             <button className='bg-green-400 px-8 py-2  rounded-md text-themeColor2li8'
-                                
                             >
                                 PAYMENT COMPLETED
                             </button>
                             )}
 
+                        {userPayment && 
+                            <Elements stripe={stripePromise}>
+                            <UserPaymentButton id={upcomingRent.id} amount={upcomingRent.amount} stripePromise={stripePromise}/>
+                            </Elements>
+                        }
+
                     </div>
                 </div>
 
                 {/* Rent History Table */}
-                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="bg-white rounded-lg shadow-medium overflow-hidden">
                     <h2 className="text-2xl font-semibold text-gray-800 p-6">Rent History</h2>
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">

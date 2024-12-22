@@ -43,13 +43,19 @@ const URLS = {
     BOOKING: {
         'booking_detials_by_id':'booking/booking-details',
         'update_booking_status':'booking/update-status',
+        // rent
         'rent_upcoming':'booking/rents/upcoming/',
+        'rent_paid_overdue_by_booking_id':'booking/rents/paid-overdue/',
         // user
         'user_booking_details_by_userId':'booking/userbookings',
 
         // host
         'host_booking_details':'booking/hostbookings',
         'host_rent_instance_creation':'booking/rent/',
+    },
+
+    REVIEWS: {
+        'reviews_by_booking_id':'booking/reviews/'
     },
 
     ADMINMANAGEMENT: {

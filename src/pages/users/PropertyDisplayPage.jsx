@@ -8,6 +8,9 @@ import SmContainer from '../../components/utils/Containers/SmContainer'
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from '@stripe/react-stripe-js';
 import PD_ReviewSection from '../../components/user/PropertyDisplayPage/PD_ReviewSection'
+import { Dialog } from '@headlessui/react'
+import { DialogContent } from '@radix-ui/react-dialog'
+import PropertyDisplayImageSection from '@/components/properties/PropertyDisplayImageSection'
 
 
 export default function PropertyDisplayPage(
@@ -67,9 +70,9 @@ export default function PropertyDisplayPage(
     { id: 'reviews', label: 'Guest Reviews' }
   ]
 
-  const key = import.meta.env.VITE_STRIPE_PUBLISH_KEY
+    const key = import.meta.env.VITE_STRIPE_PUBLISH_KEY
 
-  const stripePromise = loadStripe(key);
+    const stripePromise = loadStripe(key);
 
   return (
     <>
@@ -78,84 +81,9 @@ export default function PropertyDisplayPage(
     <div className="min-h-screen bg-gray-50 ">
       {/* Hero Image */}
       <>
-      <div className="relative overflow-hidden rounded-2xl mt-1">
-  <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
-    {/* Main Thumbnail Image */}
-<div class="relative h-[51vh] overflow-hidden md:col-span-8">
-      <img
-        src={`${propertyDetails?.property_details?.thumbnail_image_url}`}
-        alt="Property thumbnail"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-    </div>
-
-    {/* Grid of Additional Images */}
-    <div className="hidden md:grid grid-cols-2 gap-2 md:col-span-4">
-      {propertyDetails?.property_images?.slice(0, 4).map((image, index) => (
-        <div
-          key={image.id}
-          className="relative h-[25vh] overflow-hidden"
-        >
-          <img
-            src={`${image.property_image_url}`}
-            alt={`Property view ${index + 1}`}
-            className="h-full w-full object-cover"
-          />
-          {index === 3 && (
-            <button
-              onClick={() => setShowAllPhotos(true)}
-              className="absolute inset-0 text-sm bg-black/50 flex items-center justify-center gap-2 text-white group-hover:bg-black/60 transition-colors"
-            >
-              <Grid className="w-5 h-5" />
-              Show all photos
-            </button>
-          )}
-        </div>
-      ))}
-    </div>
-
-    {/* Mobile Show All Button */}
-    <button
-      onClick={() => setShowAllPhotos(true)}
-      className="md:hidden absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm text-black px-4 py-2 rounded-full flex items-center gap-2 shadow-lg"
-    >
-      <Grid className="w-4 h-4" />
-      Show all
-    </button>
-  </div>
-</div>
-
-
-      {/* Full Gallery Modal */}
-      {/* <Dialog open={showAllPhotos} onOpenChange={setShowAllPhotos}>
-        <DialogContent className="max-w-7xl w-full h-[90vh] p-6">
-          <div className="relative h-full overflow-y-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {images.map((image) => (
-                <div
-                  key={image.id}
-                  className="relative aspect-[4/3] group overflow-hidden rounded-lg"
-                >
-                  <img
-                    src={image.property_image_url}
-                    alt={`Property view - ${image.image_name}`}
-                    className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog> */}
+      <PropertyDisplayImageSection propertyDetails={propertyDetails}/>
     </>
-      {/* <div className="h-[400px] relative">
-        <img
-          src={`${propertyDetails?.property_details?.thumbnail_image_url}`}
-          alt={propertyDetails?.property_details?.property_name}
-          className="w-full h-full object-cover"
-        />
-      
-      </div> */}
+   
 
       {/* Content */}
       <div className="py-8">
@@ -233,7 +161,7 @@ export default function PropertyDisplayPage(
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-lg p-6">
+            <div className="bg-white rounded-lg shadow-lg p-6  hidden">
               <h2 className="text-xl font-semibold mb-4">Location</h2>
               <div className="space-y-3">
                 {property?.nearbyPlaces?.map((place, index) => (

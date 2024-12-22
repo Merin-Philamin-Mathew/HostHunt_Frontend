@@ -6,6 +6,7 @@ import PublishedRoomCard from '../../../components/utils/cards/Rooms/PublishedRo
 import { fetchDetailedDisplay_property, handlePublishingProperty } from '../../../features/Property/PropertyActions';
 import { Grid, Image } from 'lucide-react'
 import { useNavigate } from 'react-router';
+import PropertyDisplayImageSection from '@/components/properties/PropertyDisplayImageSection';
 
 
 
@@ -74,84 +75,10 @@ export default function PreviewProperty(
     <div className="min-h-screen ">
       {/* Hero Image */}
       <>
-      <div className="relative aspect-[12/9] md:aspect-[2/1] overflow-hidden rounded-2xl">
-  <div className="grid grid-cols-1 md:grid-cols-4 gap-2 h-full">
-    {/* Main Thumbnail Image */}
-    <div className="relative h-full md:col-span-2">
-      <img
-        src={`${propertyDetails?.property_details?.thumbnail_image_url}`}
-        alt="Property thumbnail"
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-    </div>
 
-    {/* Grid of Additional Images */}
-    <div className="hidden md:grid grid-cols-2 gap-2 md:col-span-2">
-      {propertyDetails?.property_images?.slice(0, 4).map((image, index) => (
-        <div
-          key={image.id}
-          className="relative aspect-square overflow-hidden"
-        >
-          <img
-            src={`${image.property_image_url}`}
-            alt={`Property view ${index + 1}`}
-            className="h-full w-full object-cover"
-          />
-          {index === 3 && (
-            <button
-              onClick={() => setShowAllPhotos(true)}
-              className="absolute inset-0 text-sm bg-black/50 flex items-center justify-center gap-2 text-white group-hover:bg-black/60 transition-colors"
-            >
-              <Grid className="w-5 h-5" />
-              Show all photos
-            </button>
-          )}
-        </div>
-      ))}
-    </div>
-
-    {/* Mobile Show All Button */}
-    <button
-      onClick={() => setShowAllPhotos(true)}
-      className="md:hidden absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm text-black px-4 py-2 rounded-full flex items-center gap-2 shadow-lg"
-    >
-      <Grid className="w-4 h-4" />
-      Show all
-    </button>
-  </div>
-</div>
-
-
-      {/* Full Gallery Modal */}
-      {/* <Dialog open={showAllPhotos} onOpenChange={setShowAllPhotos}>
-        <DialogContent className="max-w-7xl w-full h-[90vh] p-6">
-          <div className="relative h-full overflow-y-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {images.map((image) => (
-                <div
-                  key={image.id}
-                  className="relative aspect-[4/3] group overflow-hidden rounded-lg"
-                >
-                  <img
-                    src={image.property_image_url}
-                    alt={`Property view - ${image.image_name}`}
-                    className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog> */}
+      <PropertyDisplayImageSection propertyDetails={propertyDetails}></PropertyDisplayImageSection>
     </>
-      {/* <div className="h-[400px] relative">
-        <img
-          src={`${propertyDetails?.property_details?.thumbnail_image_url}`}
-          alt={propertyDetails?.property_details?.property_name}
-          className="w-full h-full object-cover"
-        />
-      
-      </div> */}
+
 
       {/* Content */}
       <div className="py-8">

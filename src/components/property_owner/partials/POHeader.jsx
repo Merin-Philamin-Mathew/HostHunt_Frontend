@@ -8,12 +8,15 @@ import { navigatetoUserHome } from '../../../config/constant';
 import { toast } from 'sonner';
 
 import { format } from 'date-fns';
+import ProfileIcon_dropDown from '@/components/utils/dropDown/ProfileIcon_dropDown';
 
 const NotificationBar = ({ messages, onClose }) => {
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return format(date, 'MMMM dd, yyyy, hh:mm a'); // Example: December 13, 2024, 07:33 AM
   };
+
+  const navigate = useNavigate()
 
   return (
     <div className="absolute right-0 w-80 bg-white rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
@@ -30,7 +33,9 @@ const NotificationBar = ({ messages, onClose }) => {
         <p className="p-4 text-gray-500">No new notifications</p>
       ) : (
         messages.map((msg, index) => (
-          <div key={index} className="p-4 border-b hover:bg-gray-50">
+          <div key={index} className="p-4 border-b hover:bg-gray-50"
+            onClick={()=>{navigate('/host/bookings')}}
+          >
             <p className="text-sm text-gray-800">{msg.message}</p>
             <p className="text-xs text-gray-500 mt-1">
               {formatDate(msg.timestamp)} {/* Formatted timestamp */}
@@ -86,20 +91,6 @@ const POHeader = () => {
     return () => socket.close();
   }, [user_id]);
 
-  const dropdownItems = [
-    { title: 'Manage account', icon: <FaUser/> },
-    { title: 'Manage Listings', icon: <FaBuilding/> },
-    { title: 'Sign out', icon: <FaSignOutAlt/>}
-  ];
-
-  const toggleDropdown = (event) => {
-    const iconPosition = event.target.getBoundingClientRect();
-    setDropdownPosition({
-      left: iconPosition.right - 176,
-      top: iconPosition.bottom + window.scrollY + 20,
-    });
-    setDropdownOpen(!dropdownOpen);
-  };
 
   const toggleNotificationBar = () => {
     setNotificationBarOpen(!notificationBarOpen);
@@ -113,33 +104,31 @@ const POHeader = () => {
           <div className="text-2xl font-extrabold text-themeColor">HOSTHUNT</div>
         </button>
         <div className="flex items-center space-x-6 px-2">
-          <div className='text-white text-2xl relative'>
-            <button onClick={toggleNotificationBar}>
-              <MdNotifications />
+          {/* notification icon */}
+          <div className="relative">
+            <button
+              onClick={toggleNotificationBar}
+              className="bg-themeColor2li8 text-white p-2 rounded-full flex items-center justify-center shadow-md relative w-10 h-10 "
+            >
+              <MdNotifications className="text-2xl hover:animate-pulse" />
               {messages.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 p-2  flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center shadow">
                   {messages.length}
                 </span>
               )}
             </button>
             {notificationBarOpen && (
-              <NotificationBar messages={messages} onClose={() => setNotificationBarOpen(false)} />
+              <NotificationBar
+                messages={messages}
+                onClose={() => setNotificationBarOpen(false)}
+              />
             )}
           </div>
+
+
           {user ? (
-            <div className="relative">
-              <div onClick={toggleDropdown} className="flex items-center space-x-4 cursor-pointer">
-                {user?.profilePic ? (
-                  <img src={user.profilePic} alt="Profile" className="w-9 h-9 rounded-full" />
-                ) : (
-                  <button className="w-9 h-9 bg-gray-300 text-slate-900 rounded-full flex items-center outline outline-offset-1 outline-1 outline-gray-200 justify-center">
-                    <span className="text-base font-semibold">
-                      {user?.data?.name?.charAt(0).toUpperCase() || user?.data?.email?.charAt(0).toUpperCase() || ''}
-                    </span>
-                  </button>
-                )}
-              </div>
-            </div>
+            <ProfileIcon_dropDown classname={'text-themeColor2li8 bg-slate-400'}/>
+
           ) : (
             <Link to="/host/login">
               <FaUser />
@@ -148,18 +137,7 @@ const POHeader = () => {
         </div>
       </div>
 
-      {dropdownOpen && (
-        <Dropdown
-          user_type={'user'}
-          items={dropdownItems}
-          onClick={(itemName) => {
-            console.log(`${itemName} clicked`);
-            handleDropdownAction(itemName, dispatch, navigate);
-            setDropdownOpen(false); 
-          }}
-          position={dropdownPosition}
-        />
-      )}
+
     </header>
   );
 };

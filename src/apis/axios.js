@@ -1,8 +1,9 @@
 // Import axios and store
 import axios from 'axios';
 import store from '../redux/store';
-import { updateAccessToken } from '../redux/userSlice';
-import { updateAdminAccessToken } from '../redux/admin/adminSlice';
+import { logoutUser, updateAccessToken } from '../redux/userSlice';
+import { logoutAdmin, updateAdminAccessToken } from '../redux/admin/adminSlice';
+import { toast } from 'sonner';
 
 const BASE_URL = import.meta.env.VITE_BASEURL;
 
@@ -35,13 +36,19 @@ api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
         
-        // if (originalRequest.url.includes('/auth/token/refresh/')) {
-        //     return Promise.reject(error);
-        // }
+        if (originalRequest.url.includes('/auth/token/refresh/')) {
+            store.dispatch(logoutUser())
+            toast.warning('Your session has been exprired')
+            return Promise.reject(error);
+        }
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
+                console.log('calling refresh token=================')
+
                 const { data } = await api.post('/auth/token/refresh/');
+                console.log('refresh token called=============== ',data);
+
                 store.dispatch(updateAccessToken(data.access));
                 originalRequest.headers['Authorization'] = `Bearer ${data.access}`;
                 return api(originalRequest);
@@ -49,31 +56,6 @@ api.interceptors.response.use(
                 return Promise.reject(refreshError);
             } 
         }
-        return Promise.reject(error);
-    }
-);
-
-//  OWNER API
-const owner_api = axios.create({
-    baseURL: BASE_URL,
-    withCredentials: true,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-owner_api.interceptors.request.use(
-    (config) => {
-        
-        const token = store.getState()?.owner?.owner?.access;
-        
-        if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
-        }
-        // console.log('owner Request config:', config);  // Check if Authorization header is being set correctly
-
-        return config;
-    },
-    (error) => {
         return Promise.reject(error);
     }
 );
@@ -107,14 +89,19 @@ admin_api.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
         
-        // if (originalRequest.url.includes('/auth/token/refresh/')) {
-        //     return Promise.reject(error);
-        // }
+        if (originalRequest.url.includes('/auth/token/refresh/')) {
+            console.log('goining to logout');
+            store.dispatch(logoutAdmin())
+            toast.warning('Your session has been exprired')
+            console.log('logged out');
+            return Promise.reject(error);
+        }
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             try {
+                console.log('calling refresh token=================')
                 const { data } = await admin_api.post('/auth/token/refresh/');
-                console.log('refresh token called');
+                console.log('refresh token called=============== ',data);
                 
                 store.dispatch(updateAdminAccessToken(data.access));
                 originalRequest.headers['Authorization'] = `Bearer ${data.access}`;
@@ -129,7 +116,7 @@ admin_api.interceptors.response.use(
 
 
 
-export { BASE_URL, api, owner_api,admin_api };
+export { BASE_URL, api,admin_api };
 
 
 

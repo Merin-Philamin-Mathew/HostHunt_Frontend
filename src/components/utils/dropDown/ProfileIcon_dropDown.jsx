@@ -12,18 +12,18 @@ import { useNavigate } from "react-router";
 import { logoutUser } from "../../../redux/userSlice";
 
 
-  export default function ProfileIcon_dropDown() {
+  export default function ProfileIcon_dropDown({classname}) {
     const user = useSelector((state) => state.user.user);
     const dispatch = useDispatch()
 const navigate = useNavigate()
 
 const handleDropdownAction = (key) => {
   switch (key) {
-    case "dashboard":
-      navigate("/dashboard");
+    case "account":
+      navigate("/account");
       break;
-    case "settings":
-      navigate("/settings");
+    case "listings":
+      navigate("/host/listings");
       break;
     case "logout":
       dispatch(logoutUser());
@@ -38,14 +38,23 @@ const handleDropdownAction = (key) => {
     return (
       <div className="flex items-center gap-4">
         <Dropdown placement="bottom-end">
-          <DropdownTrigger>
-            <Avatar
-              isBordered
-              as="button"
-              className="transition-transform"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
-            />
-          </DropdownTrigger>
+        <DropdownTrigger>
+        {user?.profileIcon ? (
+          <Avatar
+            isBordered
+            as="button"
+            className="transition-transform"
+            src={user.profileIcon}
+            alt="User Profile"
+          />
+        ) : (
+          <div className={`w-10 h-10 ${classname} rounded-full flex items-center justify-center cursor-pointer`}>
+            <span className="">
+              {user?.data?.name?.charAt(0).toUpperCase() || user?.data?.email?.charAt(0).toUpperCase()}
+            </span>
+          </div>
+        )}
+      </DropdownTrigger>
           <DropdownMenu
             onAction={(key) => handleDropdownAction(key)} // Action handler
 
@@ -81,8 +90,8 @@ const handleDropdownAction = (key) => {
               name={user.data.name}
             />
           </DropdownItem>
-          <DropdownItem key="dashboard">Dashboard</DropdownItem>
-          <DropdownItem key="settings">Settings</DropdownItem>
+          <DropdownItem key="account">Account</DropdownItem>
+          <DropdownItem key="listings">Manage Listings</DropdownItem>
         </DropdownSection>
 
 

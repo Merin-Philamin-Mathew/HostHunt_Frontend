@@ -43,13 +43,18 @@ import PropertyDisplayPage from '../pages/users/PropertyDisplayPage';
 import PropertyImages from '../components/property_owner/onboardinag/PropertyImages';
 import PreviewProperty from '../pages/property_owner/onboarding.jsx/PreviewProperty';
 import ManageAccountPage from '../pages/users/ManageAccount/ManageAccountPage';
-import MyStays from '../components/user/ManageAccounts/MyStays';
+import MyStays from '../components/user/ManageAccounts/MyStays/MyStays';
 import ManageAccount from '../components/user/ManageAccounts/ManageAccount';
 import BookingSuccessModal from '../components/utils/Modals/BookingSuccessModal';
-import WebSocketTest from '../pages/Trial';
+    import WebSocketTest from '../pages/Trial';
 import BookingDetailsPage from '../pages/property_owner/booking/BookingDetailPage';
-import RentManagement from '../pages/property_owner/booking/RentManagement';
 import Trial from '../pages/Trial';
+import ProfilePage from '@/pages/users/ManageAccount/ProfilePage';
+import AccountPage from '@/pages/users/ManageAccount/AccountPage';
+import ManageAccountLayout from '@/components/Layouts/User/ManageAccountLayout';
+import UserBookingDetailsPage from '@/pages/users/ManageAccount/MyStays/UserBookingDetailsPage';
+import RentManagementPage from '@/pages/users/ManageAccount/MyStays/RentManagementPage';
+import HostRentManagementPage from '../pages/property_owner/booking/HostRentManagementPage';
 
 let const_data = {
     REACT_ROUTER_PATH: [
@@ -85,17 +90,24 @@ let const_data = {
             element: <PropertyDisplayPage/>
         },
 
-        {
-            path: "/manage-account",
-            element:<ProtectedRoute roleRequired={'user'}>
-                <ManageAccountPage><Outlet/></ManageAccountPage>
-                    </ProtectedRoute> ,
-            children: [
-                { path: "/manage-account/manage-account", element: <ManageAccount/>},
-                { path: "/manage-account/my-stays", element: <MyStays/>},
 
+        
+        
+
+        {
+            path: "/account",
+            element:<ProtectedRoute roleRequired={'user'}>
+                <ManageAccountLayout><Outlet/></ManageAccountLayout>
+                </ProtectedRoute> ,
+            children: [
+                { path: "/account", element: <AccountPage/>},
+                {path: "/account/profile",element:<ProfilePage/>},
+                {path: "/account/my-stays",element:<MyStays/>},
+                {path: "/account/my-stays/:id",element: <UserBookingDetailsPage/> },
+                {path: "/account/my-stays/:id/monthly-rent",element: <RentManagementPage/> },
             ]
         },
+
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // OWNER SIDE PATHS
         {
@@ -118,7 +130,7 @@ let const_data = {
                 {path: "/host/reviews",element: <POReviews/> },
                 {path: "/host/bookings",element: <POBookings/> },
                 {path: "/host/bookings/:id",element: <BookingDetailsPage/> },
-                {path: "/host/bookings/:id/monthly-rent",element: <RentManagement/> },
+                {path: "/host/bookings/:id/monthly-rent",element: <HostRentManagementPage/> },
             ]
         },
         {
