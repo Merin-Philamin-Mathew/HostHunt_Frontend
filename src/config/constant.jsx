@@ -13,7 +13,6 @@ import OTPVerificationForm from '../components/forms/OTPVerificationForm';
 
 
 import OwnerDashboardLayout from '../components/Layouts/Owner/OwnerDashboardLayout';
-import PODashboard from '../pages/property_owner/PODashboard';
 import POManageListings from '../pages/property_owner/POMangeListings';
 import POReviews from '../pages/property_owner/POReviews';
 import POBookings from '../pages/property_owner/booking/POBookings';
@@ -55,6 +54,8 @@ import ManageAccountLayout from '@/components/Layouts/User/ManageAccountLayout';
 import UserBookingDetailsPage from '@/pages/users/ManageAccount/MyStays/UserBookingDetailsPage';
 import RentManagementPage from '@/pages/users/ManageAccount/MyStays/RentManagementPage';
 import HostRentManagementPage from '../pages/property_owner/booking/HostRentManagementPage';
+import ManageListingsPage from '@/pages/property_owner/manageListings.jsx/ManageListings';
+import PODashboardPage from '@/pages/property_owner/PODashboardPage';
 
 let const_data = {
     REACT_ROUTER_PATH: [
@@ -125,7 +126,7 @@ let const_data = {
                 <OwnerDashboardLayout><Outlet/></OwnerDashboardLayout>
                     </ProtectedRoute>,
             children: [
-                {path: "/host/dashboard",element: <PODashboard/>},
+                {path: "/host/dashboard",element: <PODashboardPage/>},
                 {path: "/host/listings",element: <POManageListings/> },
                 {path: "/host/reviews",element: <POReviews/> },
                 {path: "/host/bookings",element: <POBookings/> },
@@ -134,7 +135,7 @@ let const_data = {
             ]
         },
         {
-            path: 'host/new-listing',
+            path: 'host/manage-listings',
             element: <ProtectedRoute roleRequired={'user'}>
                 <ListPropertySteps/>
                 </ProtectedRoute>
@@ -164,6 +165,21 @@ let const_data = {
                 { path: "room", element: <AddingRoomPage/>},
                 { path: "finish", element: <PreviewProperty/> }
 
+            ]
+        },
+        {
+            path: "host/manage-listing",
+            element:<ProtectedRoute roleRequired={'user'}>
+                <ManageListingsPage><Outlet/></ManageListingsPage>
+                    </ProtectedRoute> ,
+            children: [
+                { path: "property-details", element: <PropertyDetailsForm/>},
+                { path: "policies&services", element: <Policy_ServicesPage/>},
+                { path: "facilities", element: <PropertyAmenitiesPage/>},
+                { path: "property-images", element: <PropertyImages/>},
+                { path: "rental-appartment", element: <RentalAppartmentForm/>},
+                { path: "room", element: <AddingRoomPage/>},
+                { path: "finish", element: <PreviewProperty/> }
             ]
         },
         {
@@ -206,5 +222,6 @@ let const_data = {
 
 
 export const  navigatetoUserHome = '/'
+
 
 export default const_data

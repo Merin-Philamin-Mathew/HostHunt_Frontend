@@ -38,27 +38,16 @@ const ListPropertySteps = () => {
 
   const handleOnboarding = () => {
     const type = localStorage.getItem('property_type');
-    // in future change to /host/onboarding/property-images later... 
-    // and in there can take this conditions and conditionally render through sidebar
-    console.log('kkk',type);
-    
     if (type === '"apartment"' || type === '"rental"') {
-      console.log('2. aparment ');
       navigate('/host/onboarding/rental-appartment');
-      console.log('2 , kkk');
     } else {
-      console.log('1, llll',type);
       navigate('/host/onboarding/room/');
-      console.log('1, llll');
     }
   };
-  
-  const handleNextStep = () => {
-    
-    // if (currentStep < stepsData.length - 1) {
-    //   setCurrentStep(currentStep + 1);
-    // }
+  const handleManageListings = () => {
+    navigate('/host/manage-listing/property-details')
   };
+  
 
   const getStatusIcon = (stepIndex) => {
     if (stepIndex < currentStep) {
@@ -116,7 +105,6 @@ const ListPropertySteps = () => {
                   <Link  to='/host/new-listing/property-details'>
                     <button
                       className="bg-themeColor text-white font-bold py-2 px-4 rounded-lg ml-auto"
-                      onClick={handleNextStep}
                       >
                       Verify Property
                     </button>
@@ -126,7 +114,6 @@ const ListPropertySteps = () => {
                   <div>
                      <button
                       className="bg-themeColor text-white font-bold py-2 px-4 rounded-lg ml-auto"
-                      // onClick={handleNextStep}
                       onClick={handleOnboarding}
                       >
                      Complete Onboarding
@@ -136,8 +123,7 @@ const ListPropertySteps = () => {
                   <div>
                      <button
                       className="bg-themeColor text-white font-bold py-2 px-4 rounded-lg ml-auto"
-                      // onClick={handleNextStep}
-                      onClick={handleOnboarding}
+                      onClick={handleManageListings}
                       >
                      Manage Property Details
                     </button>

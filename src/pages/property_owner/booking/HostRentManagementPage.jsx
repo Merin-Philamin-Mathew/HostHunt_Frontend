@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react'
-import { useLocation, useParams } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import { NotificationsOnlySection, RentThroughHostHuntSection } from '../../../components/property_owner/bookings/rentmanagement/RentMethods'
 import RentDetailsSection from '../../../components/property_owner/bookings/rentmanagement/RentDetailsForm';
 import { createRentInstance } from '../../../features/Booking/BookingActions';
@@ -10,6 +10,7 @@ import NextRent_RentTransactions from '../../../components/property_owner/bookin
 const HostRentManagementPage = () => {
     const { id } = useParams()
       const location = useLocation();
+      const navigate = useNavigate()
       const { monthly_rent } = location.state || {}
       const { is_rent } = location.state || {}
     const [rentDetails, setRentDetails] = useState({
@@ -57,6 +58,7 @@ const HostRentManagementPage = () => {
             setError('')
             console.log('Rent details:', rentDetails)
             createRentInstance(rentDetails)
+            navigate(`/host/bookings/${id}`)
         } else {
             setError('Please fill in all required fields')
         }

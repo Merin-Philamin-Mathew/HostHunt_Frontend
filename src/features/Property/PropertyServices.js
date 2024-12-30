@@ -24,7 +24,7 @@ export const addingPoliciesAndServices = (property_id,values) => {
   const url = URLS.NEWLISTING['policies_services'].replace('{property_id}', property_id);
   return api.patch(url,values);
 };
-export const getPoliciesByProperty = (property_id) =>{
+export const getPoliciesByProperty_Services = (property_id) =>{
     return api.get(`${URLS.HOSTMANAGEMENT['policies_by_property']}/${property_id}/`) 
 }
 // property amenities

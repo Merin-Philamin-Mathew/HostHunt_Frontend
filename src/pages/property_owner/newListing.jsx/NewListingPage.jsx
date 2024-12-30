@@ -5,7 +5,7 @@ import { FaFile, FaCheckCircle, FaBuilding, FaBed, FaShieldAlt } from 'react-ico
 import GeneralFormsLayout from '../../../components/Layouts/Owner/GeneralFormsLayout';
 
 
-function NewListingPage() {
+function  NewListingPage() {
     const dispatch = useDispatch();
   
     const isPropertyDetailsComplete = useSelector(
@@ -23,11 +23,15 @@ function NewListingPage() {
   
     const updateSidebarState = () => {
       dispatch(setPropertyDetailsComplete(!!localStorage.getItem('property_details')));
+
       const propertyDocs = parseInt(localStorage.getItem('property_docs'), 10);    
       dispatch(setDocumentsComplete(propertyDocs>0));
+
       const policiesData = JSON.parse(localStorage.getItem('policiesData'));
-      dispatch(setPolicyServiceComplete(!!(policiesData && policiesData.check_in_time)));
-      dispatch(setPropertyAmenitiesComplete(!!localStorage.getItem('amenities')));
+      dispatch(setPolicyServiceComplete(!!(policiesData && policiesData?.check_in_time)));
+      
+      const amenities = JSON.parse(localStorage.getItem('amenities'));
+      dispatch(setPropertyAmenitiesComplete(amenities?.amenities_ids>0));
     };
     
     useEffect(() => {
@@ -46,7 +50,7 @@ function NewListingPage() {
       { title: 'Documents', link: '/host/new-listing/documents', icon: <FaFile />, disabled: !isPropertyDetailsComplete },
       { title: 'Policies & Services', link: '/host/new-listing/policies&services', icon: <FaShieldAlt />, disabled: !isDocumentsComplete },
       { title: 'Facilities', link: '/host/new-listing/facilities', icon: <FaBed />, disabled: !isPolicyServiceComplete },
-      { title: 'Finish', link: '/host/new-listing/finish', icon: <FaCheckCircle />, disabled: !isDocumentsComplete  },
+      { title: 'Finish', link: '/host/new-listing/finish', icon: <FaCheckCircle />, disabled: !isPropertyAmenitiesComplete  },
     ]
   return (
    <GeneralFormsLayout sidebarItems={sidebarItems}/>

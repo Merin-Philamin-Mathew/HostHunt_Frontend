@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { GoogleMap, useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api'
 import { Input } from '@nextui-org/react';
 import StripeTrial from '../components/StripeTrial';
@@ -6,6 +6,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from '@stripe/react-stripe-js';
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchBookingDetialsByID } from "../features/Booking/BookingActions";
+import axios from 'axios';
+import { api } from '@/apis/axios';
 
 
 const key = import.meta.env.VITE_STRIPE_PUBLISH_KEY
@@ -51,7 +53,23 @@ function Trial() {
     
   }
 
+  const [description, setDescription] = useState("");
+  const [question, setQuestion] = useState(""); // State for user input question
 
+
+  const handleDescription = async () => {
+    try {
+      const response = await api.post('/property/description',
+        { question }, // Send question in the request body
+      );
+      console.log("ChatGPT response:", response);
+      setDescription(response.data.response); // Match the response key from the backend
+    } catch (error) {
+      console.error('Error generating description:', error);
+      alert('Failed to generate description. Please try again.');
+    }
+  };
+  
   return isLoaded ? (
     <>
     {/*  */}
@@ -80,7 +98,42 @@ function Trial() {
     <StripeTrial stripePromise={stripePromise}/>
     </Elements>
     </div>
-    </>
+<div className='mt-7'>
+    <Input
+          type="text"
+          label="Ask a Question"
+          placeholder="Enter your question"
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+          className="max-w-lg mb-4"
+        />
+    <button
+        className="p-2 bg-orange-400"
+        onClick={()=>handleDescription()}
+      >
+        Generate Description
+      </button>
+
+
+      {description && (
+  <div className="mt-4 p-4 border rounded bg-gray-100">
+    <h2>Generated Descriptions:</h2>
+    <ul>
+      {Object.entries(description).map(([key, desc], index) => (
+        <div className='bg-violet-300 my-3 p-3'>
+          
+          <li key={key} style={colorStyle}>
+          <strong>Description {index + 1}:</strong> {desc}
+        </li>;
+        </div>
+      ))}
+    </ul>
+  </div>
+)}
+
+  
+      </div>
+       </>
   ) : (
     <></>
   )

@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { createRentInstance_Service, createReviewByBookingID_Service, getbookingDetailsByIdService, getHostBooking_Service, getPaid_Overdue_Servie, getUpcomingRent_Servie, getUserBookingByUserID_Service, updateBookingStatus_Service, updateReviewByBookingID_Service } from "./BookingService";
+import { createRentInstance_Service, createReviewByBookingID_Service, getbookingDetailsByIdService, getDashboardSummary_service, getHostBooking_Service, getPaid_Overdue_Servie, getUpcomingRent_Servie, getUserBookingByUserID_Service, updateBookingStatus_Service, updateReviewByBookingID_Service } from "./BookingService";
 
 
 export const fetchBookingDetialsByID = async(booking_id, navigate) => {
@@ -104,6 +104,19 @@ export const updateBookingStatus = async(booking_id, newStatus,booking) => {
         const response = await updateBookingStatus_Service(booking_id, newStatus)
         toast.success('Status updated successfully!')
         return response.data.status
+    }
+    catch(error){
+        console.error(error)
+    }
+}
+
+
+// ==================================================
+export const fetchDashboardSummary = async() => {
+    try {        
+        const response = await getDashboardSummary_service()
+        console.log('fetchDashboardSummary',response)
+        return response.data
     }
     catch(error){
         console.error(error)

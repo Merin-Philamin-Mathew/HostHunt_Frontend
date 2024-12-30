@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import PropertyAmenitiesForm from '../../../components/property_owner/new_listings/PropertyAmenitiesForm';
 
 function PropertyAmenitiesPage() {
-    const [canDisplayForm, setCanDisplayForm] = useState(false);
+    const [canDisplayForm, setCanDisplayForm] = useState(true);
     const isPropertyDetailsComplete = useSelector(
     (state) => state.property.isPropertyDetailsComplete
   );

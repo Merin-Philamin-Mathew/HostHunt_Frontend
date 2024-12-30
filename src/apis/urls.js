@@ -7,7 +7,7 @@ const URLS = {
     },
 
     NEWLISTING: {
-        'property_details':'property/new-listing/property-details/',
+        'property_details':'property/new-listing/property-details',
         'documents':'property/new-listing/documents/',
         'facilities':'property/new-listing/facilities/',
         'policies_services':'property/new-listing/{property_id}/policies/',
@@ -21,13 +21,14 @@ const URLS = {
         'rental_appartement':'property/onboarding/rental-appartment/',
         'rooms':'property/onboarding/rooms/',       
         'property_images':'property/onboarding/property-images/',
-        'uploaded_image':'property/onboarding/uploaded-image/'
+        'uploaded_image':'property/onboarding/uploaded-image/',
+        'save_description':'property/onboarding/save-description/',
     },
     
     HOSTMANAGEMENT: {
         'host_properties':'/property/host-properties/',
         'room_by_property':'/property/property-rooms',
-        'policies_by_property':'/property/get-policies-services',
+        'policies_by_property':'/property/policies-services',
     },
     
     FETCHINGMANAGEMENT: {
@@ -38,6 +39,11 @@ const URLS = {
         
         'hh_all_property_results':'/property/property-results/',
         'hh_published_property_display':'property/property-display/'
+    },
+
+    OWNER_DASHBOARD: {
+        'booking_graph':'/booking/booking-data/',
+        'dashboard_summary':'/booking/summary/'
     },
 
     BOOKING: {

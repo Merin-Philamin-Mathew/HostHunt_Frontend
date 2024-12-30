@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { addingPoliciesAndServices, createAmenitiesByPropertyService, createPropertyImagesService, createRoomsService, deletePropertyImageService, deleteRoomDetailsService, getActiveBedTypes, getActiveRoomFacilities, getActiveRoomTypes, getAllAmenitiesService, getAllPropertyResults, getAmenitiesByPropertyService, getDetailedDisplay_property, getPoliciesByProperty, getPropertyImagesService, reviewAndSubmitSteps_ChangeStatus } from "./PropertyServices";
+import { addingPoliciesAndServices, createAmenitiesByPropertyService, createPropertyImagesService, createRoomsService, deletePropertyImageService, deleteRoomDetailsService, getActiveBedTypes, getActiveRoomFacilities, getActiveRoomTypes, getAllAmenitiesService, getAllPropertyResults, getAmenitiesByPropertyService, getDetailedDisplay_property, getPoliciesByProperty_Services, getPropertyImagesService, reviewAndSubmitSteps_ChangeStatus } from "./PropertyServices";
 import { addRoomToProperty, deleteRoomById, resetRoomForm, setAllPropertyResults, setAllRoomsByProperty, setPolicyServiceComplete, setPropertyAmenitiesComplete, setPropertyDetailsComplete } from './PropertySlice';
 
 
@@ -42,7 +42,10 @@ export const handlePolicyAndServicesSubmit_Newlisting = async (values, setSubmit
 
 export const fetchPolicies_ServicesByProperty = async (property_id) => {
     try{
-        const policies = await getPoliciesByProperty(property_id)        
+        console.log('policaties kedakkapore');
+        const policies = await getPoliciesByProperty_Services(property_id)     
+        console.log(policies,'policaties kedachach');
+           
         localStorage.setItem('policiesData',JSON.stringify(policies.data))
       }
       catch(e){

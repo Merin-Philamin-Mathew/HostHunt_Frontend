@@ -114,7 +114,19 @@ export default {
   			lg: '1024px',
   			xl: '1280px'
   		},
+		  animation: {
+			shake: 'shake 1.5s ease-in-out',
+			skeleton: 'skeleton 0.5s ease-in-out infinite',
+		  },
+		
+		
   		keyframes: {
+			shake: {
+				'0%, 100%': { transform: 'translateX(0)' },
+				'25%': { transform: 'translateX(-4px)' },
+				'50%': { transform: 'translateX(4px)' },
+				'75%': { transform: 'translateX(-4px)' },
+			  },
   			skeleton: {
   				'0%': {
   					backgroundPosition: '200% 0'
@@ -123,9 +135,6 @@ export default {
   					backgroundPosition: '-200% 0'
   				}
   			}
-  		},
-  		animation: {
-  			skeleton: 'skeleton 1.5s ease-in-out infinite'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

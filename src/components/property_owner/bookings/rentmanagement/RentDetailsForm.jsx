@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Calendar, Bell, IndianRupee } from 'lucide-react'
+import { Calendar, Bell, IndianRupee, FileDigit, ListOrdered } from 'lucide-react'
 import { Popover, Transition } from '@headlessui/react'
 import { format, addMonths, startOfMonth } from 'date-fns'
 import { DayPicker } from 'react-day-picker'
@@ -13,7 +13,6 @@ const RentDetailsSection = ({ rentDetails, handleRentDetailsChange }) => {
   })
 
   useEffect(() => {
-    // Update rent details with the initial date when component mounts
     handleRentDetailsChange({
       target: {
         name: 'due_date',
@@ -35,7 +34,6 @@ const RentDetailsSection = ({ rentDetails, handleRentDetailsChange }) => {
   return (
     <section className="bg-white rounded-lg shadow-md p-6">
       <h2 className="md:text-2xl font-semibold text-themeColor2li8 mb-6 flex items-center">
-        <IndianRupee className="mr-2" />
         Rent Details
       </h2>
       <div className="space-y-6">
@@ -46,7 +44,7 @@ const RentDetailsSection = ({ rentDetails, handleRentDetailsChange }) => {
           </label>
           <div className="relative rounded-md shadow-sm">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <IndianRupee className="h-5 w-5 text-gray-400" />
+              <ListOrdered className="h-5 w-5 text-gray-400" />
             </div>
             <input
               type="number"
@@ -57,7 +55,7 @@ const RentDetailsSection = ({ rentDetails, handleRentDetailsChange }) => {
               
               step="0.01"
               className="block w-full pl-10 pr-3 py-2 border bg-gray-100 text-gray-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="0.00"
+              placeholder={rentDetails.booking_id}
             />
           </div>
         </div>

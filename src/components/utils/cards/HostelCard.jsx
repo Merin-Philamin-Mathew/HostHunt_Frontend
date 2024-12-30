@@ -1,7 +1,7 @@
 import React from 'react'
 import { MapPin, Ban, Edit2, Home, Bed, CheckCircle, XCircle, AlertCircle, Building, BookCheck, LoaderCircle } from 'lucide-react'
 import { useNavigate } from 'react-router'
-import { getAllDocumentsofProperty, getPoliciesByProperty } from '../../../features/Property/PropertyServices'
+import { getAllDocumentsofProperty } from '../../../features/Property/PropertyServices'
 import { fetchAllAmenities_ByProperty, fetchPolicies_ServicesByProperty } from '../../../features/Property/PropertyActions';
 
 
@@ -32,7 +32,7 @@ const HostelCard = ({ property }) => {
     localStorage.setItem('property_id',property.id)
     const status = property.status
     localStorage.setItem('property_status',status)
-    if (status==='in_progress' || status==='rejected' ){
+    if (status==='in_progress' || status==='rejected' || status=='published'){
       localStorage.setItem('property_details',JSON.stringify(property))
       try{
         console.log('1');
@@ -49,10 +49,10 @@ const HostelCard = ({ property }) => {
       fetchAllAmenities_ByProperty(property.id)
       fetchPolicies_ServicesByProperty(property.id)
     }
-    if (status==='verified'){
+    if (status==='verified'|| status=='published'){
       localStorage.setItem('property_type',JSON.stringify(property.property_type))
     }
-    navigate('/host/new-listing')
+    navigate('/host/manage-listings')
     
   }
 

@@ -3,7 +3,7 @@ import PropertyPoliciesForm from '../../../components/property_owner/new_listing
 import { useSelector } from 'react-redux';
 
 function Policy_ServicesPage() {
-  const [canDisplayForm, setCanDisplayForm] = useState(false);
+  const [canDisplayForm, setCanDisplayForm] = useState(true);
   const isPropertyDetailsComplete = useSelector(
   (state) => state.property.isPropertyDetailsComplete
 );

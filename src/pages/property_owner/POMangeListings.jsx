@@ -45,7 +45,7 @@ const POManageListings = () => {
   const handleAddListing = () => {
     localStorage.setItem('property_status', 'in_progress');
     localStorage.setItem('property_docs', 0);
-    navigate('/host/new-listing/');
+    navigate('/host/manage-listings/');
   };
 
   const buttonProps = {

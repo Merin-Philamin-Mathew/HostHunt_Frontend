@@ -46,7 +46,12 @@ export const getPaid_Overdue_Servie =(booking_id) =>{
   export const updateReviewByBookingID_Service =(data,review_id) =>{
     return api.put(`${URLS.REVIEWS.reviews_by_booking_id}${review_id}/`, data)
   }
-  // 
-
+  // ==================== OWNER DASHBOARD ==================================
+  export const getDashboardBookingDetails_service =(frequency,user_id) =>{
+    return api.put(`${URLS.OWNER_DASHBOARD.dashboard_summary}${review_id}/`, data)
+  }
+  export const getDashboardSummary_service =() =>{
+    return api.get(`${URLS.OWNER_DASHBOARD.dashboard_summary}`)
+  }
 
 
