@@ -40,11 +40,7 @@ import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPag
 import PropertyDisplayPage from '../pages/users/PropertyDisplayPage';
 import PropertyImages from '../components/property_owner/onboardinag/PropertyImages';
 import PreviewProperty from '../pages/property_owner/onboarding.jsx/PreviewProperty';
-import ManageAccountPage from '../pages/users/ManageAccount/ManageAccountPage';
 import MyStays from '../components/user/ManageAccounts/MyStays/MyStays';
-import ManageAccount from '../components/user/ManageAccounts/ManageAccount';
-import BookingSuccessModal from '../components/utils/Modals/BookingSuccessModal';
-    import WebSocketTest from '../pages/Trial';
 import BookingDetailsPage from '../pages/property_owner/booking/BookingDetailPage';
 import Trial from '../pages/Trial';
 import ProfilePage from '@/pages/users/ManageAccount/ProfilePage';
