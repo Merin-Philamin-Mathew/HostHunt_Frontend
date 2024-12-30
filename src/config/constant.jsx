@@ -18,11 +18,11 @@ import POReviews from '../pages/property_owner/POReviews';
 import POBookings from '../pages/property_owner/booking/POBookings';
 
 import ListPropertySteps from '../components/property_owner/new_listings/ListPropertySteps';
-    import NewListingPage from '../pages/property_owner/newListing.jsx/NewLIstingPage';
+    import NewListingPage from '../pages/property_owner/newListing/NewLIstingPage';
     import PropertyDetailsForm from '../components/property_owner/new_listings/PropertyDetailsForm';
     import DocumentsForm from '../components/property_owner/new_listings/DocumentsForm';
-    import Policy_ServicesPage from '../pages/property_owner/newListing.jsx/Policy_ServicesPage';
-    import PropertyAmenitiesPage from '../pages/property_owner/newListing.jsx/PropertyAmenitiesPage';
+    import Policy_ServicesPage from '../pages/property_owner/newListing/Policy_ServicesPage';
+    import PropertyAmenitiesPage from '../pages/property_owner/newListing/PropertyAmenitiesPage';
     import ReviewAndSubmit from '../components/property_owner/new_listings/ReviewAndSubmit';
 
     import OnboardingPage from '../pages/property_owner/onboarding.jsx/OnboardingPage';
