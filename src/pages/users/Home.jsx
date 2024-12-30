@@ -2,9 +2,9 @@ import React from 'react';
 import CategoryCard from '../../components/user/CategoryCard';
 import ReviewCard from '../../components/user/ReviewCard';
 import Footer from '../../components/user/partials/Footer';
-import Header from '../../components/user/partials/header';
 import Container from '../../components/utils/Containers/Container';
 import Banner from '../../components/user/HomePage/Banner';
+import Header from '@/components/user/partials/Header';
 
 const Home = () => {
   const categories = [
