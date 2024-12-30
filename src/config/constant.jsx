@@ -27,7 +27,6 @@ import ListPropertySteps from '../components/property_owner/new_listings/ListPro
     import OnboardingPage from '../pages/property_owner/onboarding.jsx/OnboardingPage';
     import RentalAppartmentForm from '../components/property_owner/onboardinag/RentalAppartmentForm';
 
-import AdminOutlet from '../components/Layouts/admin/AdminLayout';
 import AdminLogin from '../pages/admin/Login/AdminLogin';
 import PropertyList from '../pages/admin/Properties/PropertyListPage';
 import ReviewPropertyDetailedPageAdminSide from '../pages/admin/Properties/ReviewPropertyDetailPageAdmin';
@@ -52,6 +51,7 @@ import HostRentManagementPage from '../pages/property_owner/booking/HostRentMana
 import ManageListingsPage from '@/pages/property_owner/manageListings.jsx/ManageListings';
 import PODashboardPage from '@/pages/property_owner/PODashboardPage';
 import NewListingPage2 from '@/pages/property_owner/newListing/NewListingPage2';
+import AdminOutlet from '@/components/Layouts/Admin/AdminLayout';
 
 let const_data = {
     REACT_ROUTER_PATH: [
