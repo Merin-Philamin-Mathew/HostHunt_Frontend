@@ -18,7 +18,6 @@ import POReviews from '../pages/property_owner/POReviews';
 import POBookings from '../pages/property_owner/booking/POBookings';
 
 import ListPropertySteps from '../components/property_owner/new_listings/ListPropertySteps';
-    import NewListingPage from '../pages/property_owner/newListing/NewLIstingPage';
     import PropertyDetailsForm from '../components/property_owner/new_listings/PropertyDetailsForm';
     import DocumentsForm from '../components/property_owner/new_listings/DocumentsForm';
     import Policy_ServicesPage from '../pages/property_owner/newListing/Policy_ServicesPage';
@@ -56,6 +55,7 @@ import RentManagementPage from '@/pages/users/ManageAccount/MyStays/RentManageme
 import HostRentManagementPage from '../pages/property_owner/booking/HostRentManagementPage';
 import ManageListingsPage from '@/pages/property_owner/manageListings.jsx/ManageListings';
 import PODashboardPage from '@/pages/property_owner/PODashboardPage';
+import NewListingPage from '@/pages/property_owner/newListing/NewListingPage';
 
 let const_data = {
     REACT_ROUTER_PATH: [
