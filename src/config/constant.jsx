@@ -51,7 +51,7 @@ import HostRentManagementPage from '../pages/property_owner/booking/HostRentMana
 import ManageListingsPage from '@/pages/property_owner/manageListings.jsx/ManageListings';
 import PODashboardPage from '@/pages/property_owner/PODashboardPage';
 import NewListingPage2 from '@/pages/property_owner/newListing/NewListingPage2';
-import AdminOutlet from '@/components/Layouts/admin/AdminLayout';
+import AdminOutlet from '@/components/Layouts/admin/AdminOutlet';
 
 let const_data = {
     REACT_ROUTER_PATH: [
