@@ -51,7 +51,7 @@ import RentManagementPage from '@/pages/users/ManageAccount/MyStays/RentManageme
 import HostRentManagementPage from '../pages/property_owner/booking/HostRentManagementPage';
 import ManageListingsPage from '@/pages/property_owner/manageListings.jsx/ManageListings';
 import PODashboardPage from '@/pages/property_owner/PODashboardPage';
-import NewListingPage from '@/pages/property_owner/newListing/NewListingPage';
+import NewListingPage2 from '@/pages/property_owner/newListing/NewListingPage2';
 
 let const_data = {
     REACT_ROUTER_PATH: [
@@ -140,7 +140,7 @@ let const_data = {
         {
             path: "host/new-listing",
             element:<ProtectedRoute roleRequired={'user'}>
-                <NewListingPage><Outlet/></NewListingPage>
+                <NewListingPage2><Outlet/></NewListingPage2>
                     </ProtectedRoute> ,
             children: [
                 { path: "property-details", element: <PropertyDetailsForm/>},
