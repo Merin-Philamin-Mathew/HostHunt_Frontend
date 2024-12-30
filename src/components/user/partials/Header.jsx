@@ -5,7 +5,7 @@ import { FaBuilding, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { BsBuildingAdd } from "react-icons/bs";
 import { AiFillMessage } from 'react-icons/ai';
 import { handleDropdownAction } from '../../utils/logic';
-import ProfileIcon_dropDown from '../../utils/dropDown/profileIcon_dropDown';
+import ProfileIcon_dropDown from '@/components/utils/dropDown/ProfileIcon_dropDown';
 
 const Header = () => {
   const { user,userLoggedIn } = useSelector((state) => state.user);
