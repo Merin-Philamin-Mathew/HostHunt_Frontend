@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 
 const BASE_URL = import.meta.env.VITE_BASEURL;
 
+console.log(BASE_URL,'baseurl consoling') 
 // USER API
 const api = axios.create({
     baseURL: BASE_URL,
