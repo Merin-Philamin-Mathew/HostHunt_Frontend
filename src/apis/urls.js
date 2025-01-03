@@ -43,7 +43,8 @@ const URLS = {
 
     OWNER_DASHBOARD: {
         'booking_graph':'/booking/booking-data/',
-        'dashboard_summary':'/booking/summary/'
+        'dashboard_summary':'/booking/summary/',
+        'payment_record':'/booking/payment-record/',
     },
 
     BOOKING: {
@@ -61,7 +62,8 @@ const URLS = {
     },
 
     REVIEWS: {
-        'reviews_by_booking_id':'booking/reviews/'
+        'reviews_by_booking_id':'booking/reviews/',
+        'all_reviews_public_api':'booking/all-reviews/'
     },
 
     ADMINMANAGEMENT: {

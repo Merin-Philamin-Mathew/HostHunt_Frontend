@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { format } from 'date-fns'
-import { Calendar, User, CreditCard, MapPin, Bed, Clock, Mail, MessageCircle, CheckCircle, XCircle, AlertCircle } from 'lucide-react'
+import { Calendar, User, CreditCard, MapPin, Bed, Clock, Mail, MessageCircle, CheckCircle, XCircle, AlertCircle, FileDigit } from 'lucide-react'
 import { useNavigate, useParams } from 'react-router'
 import { createReviewsByBookingId, fetchBookingDetialsByID, updateBookingStatus, updateReviewByBookingId } from '@/features/Booking/BookingActions'
 import SlenderRing from '@/components/utils/loaders/SlenderRing'
@@ -183,6 +183,14 @@ const UserBookingDetails = () => {
   
   <h3 className="text-xl font-semibold mb-4">Booking Information</h3>
 <div className="space-y-4">
+    {/* Booking id */}
+    <div className="flex items-center justify-between">
+      <div className="flex items-center text-gray-600">
+        <FileDigit className="w-4 h-4 mr-2" />
+        Booking Id
+      </div>
+      <span className="">{booking.booking_id}</span>
+    </div>
     {/* Check-in Date */}
     <div className="flex items-center justify-between">
       <div className="flex items-center text-gray-600">

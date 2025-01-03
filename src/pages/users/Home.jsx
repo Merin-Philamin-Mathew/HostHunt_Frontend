@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CategoryCard from '../../components/user/CategoryCard';
 import ReviewCard from '../../components/user/ReviewCard';
 import Footer from '../../components/user/partials/Footer';
 import Container from '../../components/utils/Containers/Container';
 import Banner from '../../components/user/HomePage/Banner';
 import Header from '@/components/user/partials/Header';
+import { getAllReviewsForHomeCarosal } from '@/features/Booking/BookingActions';
+import ReviewCarousel from '@/components/user/HomePage/ReviewCarousel';
 
 const Home = () => {
   const categories = [
@@ -14,11 +16,31 @@ const Home = () => {
     { title: 'Appartments', description: 'Find affordable appartments', image: '/property_details/categories/appartments.jpg' },
   ];
 
-  const reviews = [
-    { name: 'John Doe', role: 'Accountant', review: 'Great experience!', image: '/user1.jpg' },
-    { name: 'Jane Smith', role: 'Doctor', review: 'Loved the stay!', image: '/user2.jpg' },
-    { name: 'Tom Bell', role: 'Designer', review: 'Highly recommend!', image: '/user3.jpg' },
-  ];
+  // const reviews = [
+  //   { name: 'John Doe', role: 'Accountant', review: 'Great experience!', image: '/user1.jpg' },
+  //   { name: 'Jane Smith', role: 'Doctor', review: 'Loved the stay!', image: '/user2.jpg' },
+  //   { name: 'Tom Bell', role: 'Designer', review: 'Highly recommend!', image: '/user3.jpg' },
+  // ];
+
+  const [reviews, setReviews] = useState('')
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        console.log('reveiws')
+        // setLoading(true);
+        const data = await getAllReviewsForHomeCarosal();
+        console.log(data,'reveiws')
+        setReviews(data.results); // Assuming the API returns reviews in a `results` key
+      } catch (err) {
+        setError('Failed to fetch reviews');
+        console.error(err);
+      } finally {
+        // setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
 
   return (
     <div>
@@ -39,11 +61,7 @@ const Home = () => {
         <section className="py-8 ">
         <h2 className="text-3xl font-semibold py-1">Hosteller’s Experiences</h2>
         <div className='h-0.5  bg-themeColor w-52'></div>        
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 container mx-auto">
-            {reviews.map((review, index) => (
-              <ReviewCard key={index} {...review} />
-            ))}
-          </div>
+            <ReviewCarousel reviews={reviews}/>
         </section>
           </Container>
       <Footer />

@@ -47,6 +47,7 @@
     "sonner": "^1.6.1",
     "sweetalert2": "^11.14.4",
     "tailwind-merge": "^2.5.5",
+    "tailwind-scrollbar-hide": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "use-places-autocomplete": "^4.0.1",
     "yup": "^1.4.0"

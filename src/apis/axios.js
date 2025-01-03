@@ -20,7 +20,7 @@ api.interceptors.request.use(
     (config) => {
         const token = store.getState()?.user?.user?.access;
         if (token) {
-        // console.log(token,'tokennn');
+        console.log(token,'tokennn');
             config.headers['Authorization'] = `Bearer ${token}`;
             
         }
@@ -73,7 +73,7 @@ admin_api.interceptors.request.use(
     (config) => {
         const token = store.getState()?.admin?.adminAToken;
         if (token) {
-            // console.log(token,'tokennn');
+            console.log(token,'admin tokennn');
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
         // console.log('admin Request config:', config);  // Check if Authorization header is being set correctly

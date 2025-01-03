@@ -15,7 +15,7 @@ function PD_OverviewSection({ propertyDetails, onSave }) {
 
     try {
       // This is a mock API call - replace with your actual AI endpoint
-      const response = await  api.post('/property/description', {
+      const response = await  api.post('/property/onboarding/generate-description', {
       
         body: JSON.stringify({
           propertyDetails: propertyDetails, // You can pass more context here

@@ -70,7 +70,7 @@ export default function PropertyDisplayPage(
     <>
       <SearchHeader />
       <Container>
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 mb-4">
           {/* Photos Section */}
           <div ref={photosRef}>
             <PropertyDisplayImageSection propertyDetails={propertyDetails}/>
@@ -118,7 +118,7 @@ export default function PropertyDisplayPage(
                     <section ref={overviewRef}>
                       <h2 className="text-xl font-semibold mb-4">Overview</h2>
                       <p className="text-gray-600 whitespace-pre-line">
-                        {property?.description}
+                        {propertyDetails?.property_details?.description}
                       </p>
                     </section>
 
@@ -134,22 +134,18 @@ export default function PropertyDisplayPage(
                       </div>
                     </section>
 
-                    <section  ref={roomsRef}>
-                      <h2 className="text-xl font-semibold mb-4">Available rooms</h2>
+                    <section >
+                      <h2 className="text-xl font-semibold mb-4"  ref={roomsRef}>Available rooms</h2>
                       <div className="space-y-4">
                         <Elements stripe={stripePromise}>
                           <PublishedRoomCard rooms={propertyDetails?.rooms} stripePromise={stripePromise}/>
                         </Elements>
                       </div>
                     </section>
-                  </div>
-              
-               </div>
 
-              {/* Sidebar */}
-              {/*3333333 <div className="lg:col-span-1"> */}
-                <div className="bg-white rounded-lg shadow-lg p-6 ">
-                  <h2 className="text-xl font-semibold mb-4">Location</h2>
+                    <seciton className="my-6">
+                  <h2 className="text-xl font-semibold mt-8">Location</h2>
+                    <div className="bg-white rounded-lg shadow-lg p-6">
                   <div className="space-y-3">
                     {property?.nearbyPlaces?.map((place, index) => (
                       <div key={index} className="flex items-center justify-between">
@@ -166,6 +162,14 @@ export default function PropertyDisplayPage(
                     </div>
                   </div>
                 </div>
+                    </seciton>
+                  </div>
+              
+               </div>
+
+              {/* Sidebar right section */}
+              {/*3333333 <div className="lg:col-span-1"> */}
+             
               {/*3333333 </div> */}
             </div>
           </div>

@@ -57,7 +57,6 @@ const PaymentDownloadDashboard = () => {
       'Room Number',
       'Check-in Date',
       'Amount',
-      'Payment Status',
       'Payment Date',
       'Payment Type',
       'Property Name'
@@ -87,7 +86,7 @@ const PaymentDownloadDashboard = () => {
   };
 
   return (
-    <div className=" space-y-6">
+    <div className=" space-y-6 ">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
           <CardTitle className="text-2xl font-bold">Payment Records</CardTitle>

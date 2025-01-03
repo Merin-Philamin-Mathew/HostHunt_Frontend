@@ -253,7 +253,7 @@ export const handlePublishingProperty = async (property,navigate) => {
     try{
         const response = await reviewAndSubmitSteps_ChangeStatus(property,'published')
         localStorage.setItem('property_status','published');
-        navigate('/host/new-listing/',{replace:true});
+        navigate('/host/manage-listings/',{replace:true});
         toast.success('Property has been published!')
 
     }

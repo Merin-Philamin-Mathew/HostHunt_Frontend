@@ -8,6 +8,8 @@ import { Grid, Image } from 'lucide-react'
 import { useNavigate } from 'react-router';
 import PropertyDisplayImageSection from '@/components/properties/PropertyDisplayImageSection';
 import PD_OverviewSection from '@/components/user/PropertyDisplayPage/PD_OverviewSection';
+import { api } from '@/apis/axios';
+import { toast } from 'sonner';
 
 export default function PreviewProperty(
     
@@ -73,6 +75,8 @@ export default function PreviewProperty(
       handleTabClick('overview')
       const generateButton = document.getElementById('generate-description-btn');
       console.log('generateButton',generateButton);
+      console.log('generateBusdstton',propertyDetails?.property_details?.description,generateButton);
+
       
       if (generateButton) {
         generateButton.classList.add('animate-shake');
@@ -81,12 +85,13 @@ export default function PreviewProperty(
         }, 2800);
       }
     } else {
-      handlePublishingProperty(propertyDetails, navigate);
+      handlePublishingProperty(propertyDetails.property_details.id, navigate);
     }
   };
 
-  const handleSaveDescription = (newDescription) => {
-    console.log('description saving ........ ')
+  const handleSaveDescription = async (newDescription) => {
+    console.log("description saving ........ ");
+  
     const updatedDetails = {
       ...propertyDetails,
       property_details: {
@@ -94,10 +99,35 @@ export default function PreviewProperty(
         description: newDescription,
       },
     };
+  
+    try {
+      // Replace `propertyDetails.id` with the appropriate property ID
+      const propertyId = propertyDetails.property_details.id;
+      console.log("property id: ", propertyId);
+    
+      // Make the API call
+      const response = await api.post(`/property/onboarding/save-description/${propertyId}/`, {
+        description: newDescription,
+      });
+    
+      if (response.status !== 200) {
+        throw new Error(`Failed to save description: ${response.status}`);
+      }
+    
+      // Log the response (or handle it as needed)
+      console.log("Description saved successfully:", response.data);
+    
+      // Update the state or UI
+      setPropertyDetails(updatedDetails);
+    } catch (error) {
+      console.error("Error saving description:", error);
+      // Optionally show a user notification for error
+    }
 
-    setPropertyDetails(updatedDetails);
-    console.log('Saving description:', newDescription);
+    toast.success('Description was successfully updated!...')
+    
   };
+  
 
   return (
     <>
@@ -201,7 +231,7 @@ export default function PreviewProperty(
 
     <div className="flex justify-center mt-8">
       <button
-        onClick={()=>handlePublishingPropertyView(propertyDetails.property_details)}
+        onClick={()=>handlePublishingPropertyView(propertyDetails)}
         className="px-6 py-2 bg-themeColor text-white rounded-xl hover:opacity-90 shadow-md"
       >
         Submit and Publish Property

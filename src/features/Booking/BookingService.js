@@ -1,4 +1,4 @@
-import { api } from "../../apis/axios"
+import { admin_api, api } from "../../apis/axios"
 import URLS from "../../apis/urls"
 
 //  ==================== BOOKING DETAILS ================================
@@ -46,12 +46,24 @@ export const getPaid_Overdue_Servie =(booking_id) =>{
   export const updateReviewByBookingID_Service =(data,review_id) =>{
     return api.put(`${URLS.REVIEWS.reviews_by_booking_id}${review_id}/`, data)
   }
+
+  // all review public api
+  export const getAllReviewsByPublicApi_service = (params) => {
+    return api.get(`${URLS.REVIEWS.all_reviews_public_api}${params}`)
+  }
   // ==================== OWNER DASHBOARD ==================================
   export const getDashboardBookingDetails_service =(frequency,user_id) =>{
-    return api.put(`${URLS.OWNER_DASHBOARD.dashboard_summary}${review_id}/`, data)
+    return api.put(`${URLS.OWNER_DASHBOARD.booking_graph}${user_id}/`, data)
   }
   export const getDashboardSummary_service =() =>{
     return api.get(`${URLS.OWNER_DASHBOARD.dashboard_summary}`)
   }
+  export const getDashboardSummary_admin_service =() =>{
+    return admin_api.get(`${URLS.OWNER_DASHBOARD.dashboard_summary}`)
+  }
+  export const getPaymentRecord_service = (params) => {
+    return api.get(`${URLS.OWNER_DASHBOARD.payment_record}`, { params });
+  };
+  
 
 

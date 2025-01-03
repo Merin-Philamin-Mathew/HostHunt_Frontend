@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
-import { api } from "@/apis/axios";
+import { admin_api, api } from "@/apis/axios";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
 
-const MixedBookingsChart = ({ frequency = "monthly", user_id = 2 }) => {
+const MixedBookingsChart = ({ frequency = "monthly", admin=false }) => {
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log('chart details')
       setLoading(true);
+      let response;
+
       try {
-        const response = await api.get(`/booking/booking-data?frequency=${frequency}&user_id=${user_id}`);
-        console.log("response of dashboard", response.data.data);
+        response = admin ? await admin_api.get(`/booking/booking-data?frequency=${frequency}`)
+         : await api.get(`/booking/booking-data?frequency=${frequency}`) 
 
         if (response.data.status === "success" && response.data.data) {
           const bookingsSummary = response.data.data.bookings_summary;
@@ -70,7 +73,7 @@ const MixedBookingsChart = ({ frequency = "monthly", user_id = 2 }) => {
     };
 
     fetchData();
-  }, [frequency, user_id]);
+  }, [frequency]);
 
   const options = {
     responsive: true,

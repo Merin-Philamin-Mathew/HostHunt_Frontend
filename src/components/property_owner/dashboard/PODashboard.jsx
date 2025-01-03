@@ -14,8 +14,8 @@ const PODashboard = () => {
     const fetchData = async () => {
       try {
         const response = await fetchDashboardSummary();
-        console.log("Fetched Data:", response);
-        setDashboardData(response);
+        console.log("dashboard data:", response.data);
+        setDashboardData(response.data);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       }

@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { createRentInstance_Service, createReviewByBookingID_Service, getbookingDetailsByIdService, getDashboardSummary_service, getHostBooking_Service, getPaid_Overdue_Servie, getUpcomingRent_Servie, getUserBookingByUserID_Service, updateBookingStatus_Service, updateReviewByBookingID_Service } from "./BookingService";
+import { createRentInstance_Service, createReviewByBookingID_Service, getAllReviewsByPublicApi_service, getbookingDetailsByIdService, getDashboardSummary_service, getHostBooking_Service, getPaid_Overdue_Servie, getUpcomingRent_Servie, getUserBookingByUserID_Service, updateBookingStatus_Service, updateReviewByBookingID_Service } from "./BookingService";
 
 
 export const fetchBookingDetialsByID = async(booking_id, navigate) => {
@@ -86,6 +86,28 @@ export const updateReviewByBookingId = async(data,review_id) => {
         console.error(error)
     }
 }
+
+// all reviews public
+// All reviews for the homepage carousel with page_size = 3
+export const getAllReviewsForHomeCarosal = async () => {
+    try {
+      // Fetch reviews with a page size of 3
+      const response = await getAllReviewsByPublicApi_service('?page_size=3')
+      
+      if (response.status === 200) {
+        // Return the reviews data if the response is successful
+        return response.data;
+      } else {
+        // Handle errors gracefully
+        console.error("Error fetching reviews:", response.statusText);
+        throw new Error(response.statusText);
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching reviews:", error);
+      throw error;
+    }
+  };
+  
 // =================================HOST BOOKING MANAGEMENT=======================================
 export const fetchHostBookings = async() => {
     try {
