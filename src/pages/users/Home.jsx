@@ -49,7 +49,7 @@ const Home = () => {
         {/* <br></br> */}
       <Banner />
         <section className="py-12   pt-28 w-full">
-          <h2 className="text-3xl font-semibold py-1">Uncover the Best Stays: Explore Our Top categories</h2>
+          <h2 className="text-3xl font-semibold py-1">-Uncover the Best Stays: Explore Our Top categories</h2>
           <div className='h-0.5  bg-themeColor w-52'></div>
           <div className="mt-6 grid sm:grid-cols-2 grid-cols-1  lg:grid-cols-4 gap-4 ">
             {categories.map((category, index) => (
