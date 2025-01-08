@@ -59,7 +59,7 @@ const Home = () => {
         </section>
 
         <section className="py-8 ">
-        <h2 className="text-3xl font-semibold py-1">Hosteller’s Experiences</h2>
+        <h2 className="text-3xl font-semibold py-1">Hosteller’s Experiences git added</h2>
         <div className='h-0.5  bg-themeColor w-52'></div>        
             <ReviewCarousel reviews={reviews}/>
         </section>
