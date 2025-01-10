@@ -7,7 +7,7 @@ const URLS = {
     },
 
     NEWLISTING: {
-        'property_details':'property/new-listing/property-details',
+        'property_details':'property/new-listing/property-details/',
         'documents':'property/new-listing/documents/',
         'facilities':'property/new-listing/facilities/',
         'policies_services':'property/new-listing/{property_id}/policies/',

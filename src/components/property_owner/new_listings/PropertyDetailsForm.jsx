@@ -102,12 +102,12 @@ const PropertyDetailsForm = () => {
             });
             setLoading(false)
           } else {
+            console.log('=================*****===================');
             setLoading(true)
-            response = await api.post(URLS.NEWLISTING['property_details'], formData, {
+            response = await api.post(`${URLS.NEWLISTING['property_details']}/`, formData, {
               headers: { 'Content-Type': 'multipart/form-data' },
             });
             setLoading(false)
-            console.log('post property details... no error till here');
             
             dispatch(setPropertyDetailsComplete(true));
           }
