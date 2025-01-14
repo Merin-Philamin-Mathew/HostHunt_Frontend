@@ -7,7 +7,6 @@ import { toast } from 'sonner';
 
 const BASE_URL = import.meta.env.VITE_BASEURL;
 
-console.log(BASE_URL,'baseurl consoling') 
 // USER API
 const api = axios.create({
     baseURL: BASE_URL,
@@ -21,12 +20,9 @@ api.interceptors.request.use(
     (config) => {
         const token = store.getState()?.user?.user?.access;
         if (token) {
-        console.log(token,'tokennn');
             config.headers['Authorization'] = `Bearer ${token}`;
             
         }
-        console.log('Request data:', config.data); // Debug the outgoing data
-        console.log('user Request config:', config);  // Check if Authorization header is being set correctly
         return config;
     },
     (error) => Promise.reject(error)
@@ -48,7 +44,6 @@ api.interceptors.response.use(
                 console.log('calling refresh token=================')
 
                 const { data } = await api.post('/auth/token/refresh/');
-                console.log('refresh token called=============== ',data);
 
                 store.dispatch(updateAccessToken(data.access));
                 originalRequest.headers['Authorization'] = `Bearer ${data.access}`;
@@ -74,10 +69,8 @@ admin_api.interceptors.request.use(
     (config) => {
         const token = store.getState()?.admin?.adminAToken;
         if (token) {
-            console.log(token,'admin tokennn');
             config.headers['Authorization'] = `Bearer ${token}`; // Add JWT token to headers if it exists
         }
-        // console.log('admin Request config:', config);  // Check if Authorization header is being set correctly
         return config;
     },
     (error) => {
@@ -102,7 +95,6 @@ admin_api.interceptors.response.use(
             try {
                 console.log('calling refresh token=================')
                 const { data } = await admin_api.post('/auth/token/refresh/');
-                console.log('refresh token called=============== ',data);
                 
                 store.dispatch(updateAdminAccessToken(data.access));
                 originalRequest.headers['Authorization'] = `Bearer ${data.access}`;

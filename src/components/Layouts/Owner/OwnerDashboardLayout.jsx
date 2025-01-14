@@ -23,11 +23,11 @@ function OwnerDashboardLayout({ children }) {
       </div>
 
       <div className="flex flex-grow py-8 bg-muted_bg">
-        <aside className="relative  p-6  pt-9 ">
+        {/* <aside className="relative  p-6  pt-9 ">
           <div className="sticky top-[100px] py-3 px-1 rounded-3xl bg-white shadow-xl shadow-[#48484899] ">
             <Sidebar items={sidebarItems} />
           </div>
-        </aside>
+        </aside> */}
 {}
         <main className="flex-grow p-8 overflow-y-auto">
           {children}

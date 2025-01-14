@@ -97,19 +97,23 @@ const PropertyDetailsForm = () => {
             // Update existing property
             setLoading(true)
             console.log('====================================');
-            response = await api.put(`${URLS.NEWLISTING['property_details']}/${storedPropertyId}/`, formData, {
+            response = await api.put(`${URLS.NEWLISTING['property_details']}${storedPropertyId}/`, formData, {
               headers: { 'Content-Type': 'multipart/form-data' },
             });
             setLoading(false)
+            navigate('/host/manage-listing/policies&services', {replace:true});
+
           } else {
-            console.log('=================*****===================');
+            console.log('=================**mmm***===================');
             setLoading(true)
-            response = await api.post(`${URLS.NEWLISTING['property_details']}/`, formData, {
+            response = await api.post(`${URLS.NEWLISTING['property_details']}`, formData, {
               headers: { 'Content-Type': 'multipart/form-data' },
             });
             setLoading(false)
             
             dispatch(setPropertyDetailsComplete(true));
+            navigate('/host/new-listing/documents', {replace:true});
+
           }
 
           const updatedPropertyDetails = {
@@ -119,7 +123,6 @@ const PropertyDetailsForm = () => {
           localStorage.setItem('property_details', JSON.stringify(updatedPropertyDetails));
           localStorage.setItem('property_id', response?.data?.property_id);
           toast.success('Property details successfully saved');
-          navigate('/host/new-listing/documents', {replace:true});
         } catch (e) {
           console.log('error', e);
         

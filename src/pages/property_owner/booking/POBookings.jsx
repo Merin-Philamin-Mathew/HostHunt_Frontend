@@ -19,6 +19,8 @@ function POBookings() {
   }, []);
 
   return (
+    <div className="max-w-6xl mx-auto">
+
     <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-8">
       {loading
         ? Array(9)
@@ -27,6 +29,7 @@ function POBookings() {
         : bookingDetails?.map((booking, index) => (
             <HOwnerBookingCard key={index} booking={booking} />
           ))}
+    </div>
     </div>
   );
 }

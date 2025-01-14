@@ -1,50 +1,51 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react'
 import { format } from 'date-fns'
+import ReviewCard from '../ReviewCard'
 
-const ReviewCard = ({ review }) => {
-  const formatDate = (dateString) => {
-    return format(new Date(dateString), 'MMM d, yyyy')
-  }
+// const ReviewCard = ({ review }) => {
+//   const formatDate = (dateString) => {
+//     return format(new Date(dateString), 'MMM d, yyyy')
+//   }
 
-  return (
-    <div className="min-w-[calc(50%-16px)] lg:min-w-[calc((100%-96px)/2.5)] bg-white rounded-xl shadow-md p-6 mx-4 flex flex-col gap-4 border border-gray-100">
-      <div className="flex items-start justify-between">
-        <div>
-          <h3 className="font-semibold text-lg">{review.user_name}</h3>
-          <p className="text-sm text-gray-500">{formatDate(review.created_at)}</p>
-        </div>
-        <div className="flex items-center gap-1">
-          <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-          <span className="font-semibold">{review.overall_rating.toFixed(1)}</span>
-        </div>
-      </div>
+//   return (
+//     <div className="min-w-[calc(50%-16px)] lg:min-w-[calc((100%-96px)/2.5)] bg-white rounded-xl shadow-md p-6 mx-4 flex flex-col gap-4 border border-gray-100">
+//       <div className="flex items-start justify-between">
+//         <div>
+//           <h3 className="font-semibold text-lg">{review.user_name}</h3>
+//           <p className="text-sm text-gray-500">{formatDate(review.created_at)}</p>
+//         </div>
+//         <div className="flex items-center gap-1">
+//           <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+//           <span className="font-semibold">{review.overall_rating.toFixed(1)}</span>
+//         </div>
+//       </div>
 
-      <div className="grid grid-cols-2 gap-2 text-sm">
-        <div className="flex items-center justify-between">
-          <span className="text-gray-600">Cleanliness</span>
-          <span className="font-medium">{review.cleanliness}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-600">Location</span>
-          <span className="font-medium">{review.location}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-600">Check-in</span>
-          <span className="font-medium">{review.check_in}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span className="text-gray-600">Value</span>
-          <span className="font-medium">{review.value}</span>
-        </div>
-      </div>
+//       <div className="grid grid-cols-2 gap-2 text-sm">
+//         <div className="flex items-center justify-between">
+//           <span className="text-gray-600">Cleanliness</span>
+//           <span className="font-medium">{review.cleanliness}</span>
+//         </div>
+//         <div className="flex items-center justify-between">
+//           <span className="text-gray-600">Location</span>
+//           <span className="font-medium">{review.location}</span>
+//         </div>
+//         <div className="flex items-center justify-between">
+//           <span className="text-gray-600">Check-in</span>
+//           <span className="font-medium">{review.check_in}</span>
+//         </div>
+//         <div className="flex items-center justify-between">
+//           <span className="text-gray-600">Value</span>
+//           <span className="font-medium">{review.value}</span>
+//         </div>
+//       </div>
 
-      {review.review_text && (
-        <p className="text-gray-700 line-clamp-3">{review.review_text}</p>
-      )}
-    </div>
-  )
-}
+//       {review.review_text && (
+//         <p className="text-gray-700 line-clamp-3">{review.review_text}</p>
+//       )}
+//     </div>
+//   )
+// }
 
 const ReviewCarousel = ({ reviews }) => {
   const scrollContainerRef = useRef(null)
@@ -52,7 +53,7 @@ const ReviewCarousel = ({ reviews }) => {
   const [showRightButton, setShowRightButton] = useState(true)
 
   useEffect(()=>{
-    console.log(reviews,"reveiwfldsjfldsjflds")
+    console.log(reviews,"==========")
   })
 
   const scroll = (direction) => {
@@ -112,11 +113,11 @@ const ReviewCarousel = ({ reviews }) => {
 
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-4 py-4"
+        className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 py-4"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {reviews?.map((review) => (
-          <div key={review.id} className="snap-start">
+          <div key={review.id} className="snap-start flex">
             <ReviewCard review={review} />
           </div>
         ))}

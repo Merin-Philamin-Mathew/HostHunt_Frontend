@@ -65,7 +65,7 @@ const ReviewAndSubmitPage = () => {
       
       // Navigate to host listings
       localStorage.setItem('property_status', 'in_review');
-      navigate('/host/new-listing', { replace: true });
+      navigate('/host/manage-listings', { replace: true });
       toast.success('Property successfully submitted!');
       
     } catch (error) {

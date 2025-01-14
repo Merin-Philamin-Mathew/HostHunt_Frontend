@@ -108,6 +108,35 @@ export const getAllReviewsForHomeCarosal = async () => {
     }
   };
   
+
+  export const getAllReviewsForHost = async () => {
+    try {
+      // Fetch reviews with a page size of 3
+      const response = await getAllReviewsByPublicApi_service('?page_size=3')
+      console.log('all reviews for host',response.data)
+      if (response.status === 200) {
+        // Return the reviews data if the response is successful
+        return response.data;
+      } else {
+        // Handle errors gracefully
+        console.error("Error fetching reviews:", response.statusText);
+        throw new Error(response.statusText);
+      }
+    } catch (error) {
+      console.error("An error occurred while fetching reviews:", error);
+      throw error;
+    }
+  };
+
+
+  export const handleReply_Action = async (review_id, replyText) => {
+    try {
+      const response = await hostReplayToReviews_service(review_id, replyText);
+      console.log(response.data.success);
+    } catch (error) {
+      console.error(error.response.data.error);
+    }
+  };
 // =================================HOST BOOKING MANAGEMENT=======================================
 export const fetchHostBookings = async() => {
     try {

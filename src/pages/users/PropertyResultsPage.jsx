@@ -64,41 +64,7 @@ function PropertyResultsPage() {
         <div className="flex flex-grow py-8">
           <SmContainer>
             <div className="flex gap-16">
-              {/* Sidebar */}
-              <aside className="lg:w-2/5 min-w-52">
-                <div className="sticky top-[100px] space-y-4">
-                  {/* Search Box */}
-                  <div className="pt-5 pb-3 px-3 rounded-3xl bg-gray-300 shadow">
-                    <Input
-                      type="email"
-                      label="Search by property name"
-                      placeholder="e.g., Zostel Hostel"
-                      labelPlacement="outside"
-                      startContent={<Search className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />}
-                    />
-                  </div>
-
-                  {/* Filters */}
-                  <div className="py-3 px-1 rounded-3xl bg-gray-300 shadow">
-                    <div className="px-3 pb-1 text-sm font-semibold">Filter by</div>
-                    <Accordion variant="splitted" isCompact>
-                      {filters.map((filter, index) => (
-                        <AccordionItem key={index} aria-label={filter.title} title={filter.title}>
-                          <div className="space-y-2">
-                            {filter.items.map((item, itemIndex) => (
-                              <div key={itemIndex} className="flex items-center justify-between">
-                                <Checkbox size="sm" color="warning" radius="full">
-                                  {item.label}
-                                </Checkbox>
-                              </div>
-                            ))}
-                          </div>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
-                  </div>
-                </div>
-              </aside>
+             
 
               {/* Results Content */}
               <main className="py-6">

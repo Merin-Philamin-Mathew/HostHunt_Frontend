@@ -63,7 +63,8 @@ const URLS = {
 
     REVIEWS: {
         'reviews_by_booking_id':'booking/reviews/',
-        'all_reviews_public_api':'booking/all-reviews/'
+        'all_reviews_public_api':'booking/all-reviews/',
+        'host_replay_to_reviews':'booking/reviews/reply/'
     },
 
     ADMINMANAGEMENT: {

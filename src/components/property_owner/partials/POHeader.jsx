@@ -61,9 +61,12 @@ const POHeader = () => {
   const [messages, setMessages] = useState([]);
   const [pushNotification, setPushNotification] = useState([]);
   const user_id = user?.data.id
+  const BASE_URL = import.meta.env.VITE_BASEURL_KEYWORD;
 
   useEffect(() => {
-    const socket = new WebSocket(`ws://localhost:8000/ws/notifications/${user_id}/`);
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const socket = new WebSocket(`${protocol}://${BASE_URL}/ws/notifications/${user_id}/`);
+
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -96,6 +99,17 @@ const POHeader = () => {
     setNotificationBarOpen(!notificationBarOpen);
   };
 
+  const isActiveRoute = (path) => {
+    return location.pathname === path;
+  };
+
+    const navBarItems = [
+      { title: 'Dashboard', link: '/host/dashboard'  },
+      { title: 'Hostels Listed', link: '/host/listings' },
+      { title: 'Reviews', link: '/host/reviews'  },
+      { title: 'Bookings', link: '/host/bookings' }
+    ];
+
   return (
     <header className="w-full py-3 bg-themeColor2 shadow-xl shadow-white relative">
       <div className="flex justify-between items-center mx-auto lessThan404 px-6">
@@ -103,6 +117,27 @@ const POHeader = () => {
           <img src="/logo/white_invert.png" className="w-10 bg-themeColor py-1 px-0 rounded-md" alt="Logo"/>
           <div className="text-2xl font-extrabold text-themeColor">HOSTHUNT</div>
         </button>
+
+     
+
+        <div className="flex items-center space-x-6 px-2">
+        <nav className="hidden md:flex space-x-8">
+            {navBarItems.map((item) => (
+              <Link
+                key={item.title}
+                to={item.link}
+                className={`inline-flex items-center px-1 pt-1 text-sm font-medium border-b-2 transition-colors duration-200 ${
+                  isActiveRoute(item.link)
+                    ? 'border-slate-500 text-slate-50'
+                    : 'border-transparent text-slate-300 hover:border-gray-300 hover:animate-pulse'
+                }`}
+              >
+                {item.title}
+              </Link>
+            ))}
+          </nav>
+
+        </div>
         <div className="flex items-center space-x-6 px-2">
           {/* notification icon */}
           <div className="relative">

@@ -41,10 +41,10 @@ const UserListingPage = () => {
     { key: 'name', label: 'User Name' },
     { key: 'email', label: 'Email' },
     {
-      key: 'is_active_user', label: 'Active User',
+      key: 'is_active', label: 'Active User',
       render: (row) => (
         <div>
-          <button className={row.is_active_user ? "text-green-600" : "text-red-600"}>
+          <button className={row.is_active ? "text-green-600" : "text-red-600"}>
             {row.is_listed ? "Active" : "Inactive"}
           </button>
         </div>
@@ -55,8 +55,8 @@ const UserListingPage = () => {
       label: 'Action',
       render: (row) => (
         <div className="flex items-center space-x-2">
-        <button className={`${row.is_active_user ? 'bg-red-600' : 'bg-green-600'} py-1 px-3 rounded-md`}>
-  {row.is_active_user ? 'Block' : 'Unblock'}
+        <button className={`${row.is_active ? 'bg-red-600' : 'bg-green-600'} py-1 px-3 rounded-md`}>
+  {row.is_active ? 'Block' : 'Unblock'}
 </button>
 
         </div>

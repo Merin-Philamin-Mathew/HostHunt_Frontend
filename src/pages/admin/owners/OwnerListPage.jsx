@@ -41,7 +41,7 @@ const OwnerListPage = () => {
     { key: 'name', label: 'User Name' },
     { key: 'email', label: 'Email' },
     {
-      key: 'is_active_user', label: 'Active User',
+      key: 'is_active', label: 'Active User',
       render: (row) => (
         <div>
           <button className={row.is_active_owner ? "text-green-600" : "text-red-600"}>
