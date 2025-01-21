@@ -9,9 +9,18 @@ const ReviewCard = ({ review, isHost }) => {
   const [isReplying, setIsReplying] = useState(false)
 
   const handleReply = () => {
-    handleReply_Action(review.id, replyText)
-    setReplyText('')
-    setIsReplying(false)
+    console.log('replyingText');
+    handleReply_Action(review.id, replyText).then((response) => {
+
+      console.log('replyText', response);
+      review.review_replay = replyText
+      setReplyText('')
+      setIsReplying(false)
+
+    }).catch((error) => {
+      console.error(error)
+    })
+
   }
 
   return (

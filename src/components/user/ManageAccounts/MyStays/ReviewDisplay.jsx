@@ -1,5 +1,5 @@
 import React from 'react'
-import { Star, Edit, MapPin, Home, Clock, MessageCircle, Sparkles, DollarSign } from 'lucide-react'
+import { Star, Edit, MapPin, Home, Clock, MessageCircle, Sparkles, DollarSign, Reply } from 'lucide-react'
 import { MdStarRate } from 'react-icons/md'
 
 const ReviewDisplay = ({ review, onEditReview }) => {
@@ -18,7 +18,7 @@ const ReviewDisplay = ({ review, onEditReview }) => {
   }
 
   return (
-    <div className="bg-white  rounded-lg shadow-md p-6 space-y-6">
+    <div className="bg-white rounded-lg shadow-md p-6 space-y-6">
       <div className="flex justify-between items-start">
         <div>
           <h2 className="text-2xl font-bold text-gray-800">Your Review</h2>
@@ -33,12 +33,24 @@ const ReviewDisplay = ({ review, onEditReview }) => {
         </button>
       </div>
 
-{(review.review_text) &&
-      <div className="bg-gray-50 rounded-lg p-4">
-        <p className="text-gray-700 italic">"{review.review_text}"</p>
-      </div>
-}
-      <div className="grid grid-cols-2  gap-x-8 gap-y-4">
+      {review.review_text && (
+        <div className="bg-gray-50 rounded-lg p-4">
+          <p className="text-gray-700 italic">"{review.review_text}"</p>
+        </div>
+      )}
+
+      {/* Host Reply Section */}
+      {review.review_replay && (
+        <div className="bg-blue-50 rounded-lg p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Reply className="w-4 h-4 text-themeColor2" />
+            <span className="text-sm font-semibold text-themeColor2">Host Reply</span>
+          </div>
+          <p className="text-gray-700">{review.review_replay}</p>
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 gap-x-8 gap-y-4">
         {ratingCategories.map(({ name, icon: Icon, label }) => (
           <div key={name} className="flex items-center gap-2">
             <Icon className="w-5 h-5 text-gray-400" />
@@ -84,4 +96,3 @@ const ReviewDisplay = ({ review, onEditReview }) => {
 }
 
 export default ReviewDisplay
-

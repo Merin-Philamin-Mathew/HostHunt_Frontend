@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { createRentInstance_Service, createReviewByBookingID_Service, getAllReviewsByPublicApi_service, getbookingDetailsByIdService, getDashboardSummary_service, getHostBooking_Service, getPaid_Overdue_Servie, getUpcomingRent_Servie, getUserBookingByUserID_Service, updateBookingStatus_Service, updateReviewByBookingID_Service } from "./BookingService";
+import { createRentInstance_Service, createReviewByBookingID_Service, getAllReviewsByPublicApi_service, getbookingDetailsByIdService, getDashboardSummary_service, getHostBooking_Service, getPaid_Overdue_Servie, getUpcomingRent_Servie, getUserBookingByUserID_Service, hostReplayToReviews_service, updateBookingStatus_Service, updateReviewByBookingID_Service } from "./BookingService";
 
 
 export const fetchBookingDetialsByID = async(booking_id, navigate) => {
@@ -109,10 +109,10 @@ export const getAllReviewsForHomeCarosal = async () => {
   };
   
 
-  export const getAllReviewsForHost = async () => {
+  export const getAllReviewsForHost = async (params) => {
     try {
       // Fetch reviews with a page size of 3
-      const response = await getAllReviewsByPublicApi_service('?page_size=3')
+      const response = await getAllReviewsByPublicApi_service(params)
       console.log('all reviews for host',response.data)
       if (response.status === 200) {
         // Return the reviews data if the response is successful

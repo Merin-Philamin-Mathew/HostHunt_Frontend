@@ -10,6 +10,7 @@ import { PropertyDetailsSchema } from './new_listing_data';
 import { FaEdit } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { setPropertyDetailsComplete } from '../../../features/Property/PropertySlice';
+import LocationField from './LocationField';
 
 
 const PropertyDetailsForm = () => {
@@ -37,7 +38,6 @@ const PropertyDetailsForm = () => {
   }
 
 
-
   const [initialValues, setInitialValues] = useState({
     property_type: '',
     property_name: '',
@@ -48,6 +48,9 @@ const PropertyDetailsForm = () => {
     thumbnail_image_url: '',
     total_bed_rooms: '',
     no_of_beds: '',
+    lat:'',
+    lng:'',
+    location:'',
   });
 
   useEffect(() => {
@@ -61,7 +64,7 @@ const PropertyDetailsForm = () => {
     if (storedPropertyDetails) {
       const propertyDetails = JSON.parse(storedPropertyDetails);
       setThumbnailPreview(propertyDetails.thumbnail_image_url)
-      console.log('property details from localstorage',propertyDetails.thumbnail_image_url);
+      console.log('property details from localstorage',propertyDetails);
 
       setInitialValues({
         property_name: propertyDetails.property_name || '',
@@ -72,8 +75,13 @@ const PropertyDetailsForm = () => {
         total_bed_rooms: propertyDetails.total_bed_rooms || '',
         no_of_beds: propertyDetails.no_of_beds || '',
         thumbnail_image_url: propertyDetails.thumbnail_image_url || '',
+        lat: propertyDetails.lat || '',
+        lng: propertyDetails.lng || '',
+        location: propertyDetails.location || '',
       });
     }
+    console.log('initial details from localstorage', initialValues);
+
   }, []);
 
 
@@ -153,8 +161,9 @@ const PropertyDetailsForm = () => {
     >
       {({ setFieldValue, errors, touched }) => (
         <Form className="flex flex-col gap-6 p-4 md:p-8 rounded-3xl bg-white shadow-xl ">
+       
           <div className="grid gap-6 xl:grid-cols-2">
-            <div>
+              <div>
               <label htmlFor="property_name" className="block text-h5 font-heading">Property Name</label>
               <Field 
                 name="property_name" 
@@ -163,63 +172,85 @@ const PropertyDetailsForm = () => {
               {errors.property_name && touched.property_name && (
                 <div className="text-error text-small">{errors.property_name}</div>
               )}
-            </div>
+              </div>
+              
+              <div>
+                <label htmlFor="property_type" className="block text-h5 font-heading">Property Type</label>
+                <Field 
+                  name="property_type" 
+                  as="select" 
+                  className="w-full p-2 border border-gray-300 focus:ring-1 focus:ring-themeColor2 focus:outline-none shadow-md rounded-xl"
+                >
+                  <option value="">Select Type</option>
+                  <option value="pg">PG</option>
+                  <option value="rental">Rental</option>
+                  <option value="hostel">Hostel</option>
+                  <option value="apartment">Apartment</option>
+                </Field>
+                {errors.property_type && touched.property_type && (
+                  <div className="text-error text-small">{errors.property_type}</div>
+                )}
+              </div>
+          
+             </div>
+             <div>
+            <label htmlFor="location" className="block text-h5 font-heading">Property Location</label>
+            <LocationField 
+              setFieldValue={setFieldValue} 
+            />
+            {/* Move error display here for better accessibility */}
+            {errors.location && touched.location && (
+              <div className="text-error text-sm mt-1">{errors.location}</div>
+            )}
+          </div>
 
-            <div>
-              <label htmlFor="property_type" className="block text-h5 font-heading">Property Type</label>
-              <Field 
-                name="property_type" 
-                as="select" 
-                className="w-full p-2 border border-gray-300 focus:ring-1 focus:ring-themeColor2 focus:outline-none shadow-md rounded-xl"
-              >
-                <option value="">Select Type</option>
-                <option value="pg">PG</option>
-                <option value="rental">Rental</option>
-                <option value="hostel">Hostel</option>
-                <option value="apartment">Apartment</option>
-              </Field>
-              {errors.property_type && touched.property_type && (
-                <div className="text-error text-small">{errors.property_type}</div>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="city" className="block text-h5 font-heading">City</label>
-              <Field 
-                name="city" 
-                className="w-full p-2 border border-gray-300 focus:ring-1 focus:ring-themeColor2 focus:outline-none shadow-md rounded-xl" 
-                placeholder="City"
-              />
-              {errors.city && touched.city && (
-                <div className="text-error text-small">{errors.city}</div>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="postcode" className="block text-h5 font-heading">Postcode</label>
-              <Field 
-                name="postcode" 
-                type="number" 
-                className="w-full p-2 border border-gray-300 focus:ring-1 focus:ring-themeColor2 focus:outline-none shadow-md rounded-xl" 
-              />
-              {errors.postcode && touched.postcode && (
-                <div className="text-error text-small">{errors.postcode}</div>
-              )}
-            </div>
-
-            <div>
-              <label htmlFor="address" className="block text-h5 font-heading">Address</label>
-              <Field 
-                name="address" 
-                className="w-full p-2 border border-gray-300 focus:ring-1 focus:ring-themeColor2 focus:outline-none shadow-md rounded-xl" 
-                placeholder="Full address of your property"
-              />
-              {errors.address && touched.address && (
-                <div className="text-error text-small">{errors.address}</div>
-              )}
-            </div>
-
+          {/* Hidden fields for lat/lng */}
+          <Field type="hidden" name="lat" />
+          <Field type="hidden" name="lng" />
+            <div className="grid gap-6 xl:grid-cols-2">
          
+
+              <div>
+                <label htmlFor="city" className="block text-h5 font-heading">City</label>
+                <Field 
+                  name="city" 
+                  className="w-full p-2 border border-gray-300 focus:ring-1 focus:ring-themeColor2 focus:outline-none shadow-md rounded-xl" 
+                  placeholder="City"
+                />
+                {errors.city && touched.city && (
+                  <div className="text-error text-small">{errors.city}</div>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="postcode" className="block text-h5 font-heading">Postcode</label>
+                <Field 
+                  name="postcode" 
+                  type="text" 
+                  className="w-full p-2 border border-gray-300 focus:ring-1 focus:ring-themeColor2 focus:outline-none shadow-md rounded-xl" 
+                />
+                {errors.postcode && touched.postcode && (
+                  <div className="text-error text-small">{errors.postcode}</div>
+                )}
+              </div>
+            
+          </div>
+          <div className="grid gap-6 xl:grid-cols-2">
+
+          <div>
+            <label htmlFor="address" className="block text-h5 font-heading">Address</label>
+            <Field 
+              name="address" 
+              as="textarea" 
+              className="w-full p-2 border border-gray-300 focus:ring-1 focus:ring-themeColor2 focus:outline-none shadow-md rounded-xl" 
+              placeholder="Full address of your property"
+            />
+            {errors.address && touched.address && (
+              <div className="text-error text-small">{errors.address}</div>
+            )}
+          </div>
+
+
             <div>
             <label htmlFor="thumbnail_image" className="block text-h5 font-heading">Thumbnail Image</label>
             <input
@@ -262,6 +293,9 @@ const PropertyDetailsForm = () => {
                 <div className="text-error text-small">{errors.thumbnail_image}</div>
               )}
             </div>
+            </div>
+           <div className="grid gap-6 xl:grid-cols-2">
+
 
             <div>
               <label htmlFor="total_bed_rooms" className="block text-h5 font-heading">Total Bedrooms</label>

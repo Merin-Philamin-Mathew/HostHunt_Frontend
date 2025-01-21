@@ -5,8 +5,9 @@ export const PropertyDetailsSchema = Yup.object().shape({
     property_type: Yup.string().required('Property Type is required'),
     city: Yup.string().required('City is required'),
     address: Yup.string().required('Address is required'),
-    postcode: Yup.number().required('Postcode is required').integer('Invalid postcode'),
+    postcode: Yup.string().required('Postcode is required'),
     thumbnail_image: Yup.mixed(),
     total_bed_rooms: Yup.number().required('Total Bedrooms is required').integer(),
     no_of_beds: Yup.number().required('Number of Beds is required').integer(),
+    location: Yup.string().required('Select Location of your property'),
   });

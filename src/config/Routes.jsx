@@ -1,59 +1,64 @@
 import { Outlet } from 'react-router';
+import { lazy, Suspense } from 'react';
 import ProtectedRoute from './ProtectedRoute';
+import { createBrowserRouter, RouterProvider, Route } from 'react-router-dom';
 
-import Home from '../pages/users/Home';
+const Home = lazy(() => import('../pages/users/Home'));
 
-import AuthOutlet from '../components/Layouts/AuthOutlet';
-import LoginPage from '../pages/users/LoginPage';
-import POLoginForm from '../components/forms/POLoginForm';
-import RegisterPage from '../pages/users/RegisterPage';
-import RegistrationForm from '../components/forms/RegistrationForm';
-import OTPVerificationPage from '../pages/users/OTPVerificationPage';
-import OTPVerificationForm from '../components/forms/OTPVerificationForm';
+const AuthOutlet = lazy(() => import('../components/Layouts/AuthOutlet'));
+const LoginPage = lazy(() => import('../pages/users/LoginPage'));
+const POLoginForm = lazy(() => import('../components/forms/POLoginForm'));
+const RegisterPage = lazy(() => import('../pages/users/RegisterPage'));
+const RegistrationForm = lazy(() => import('../components/forms/RegistrationForm'));
+const OTPVerificationPage = lazy(() => import('../pages/users/OTPVerificationPage'));
+const OTPVerificationForm = lazy(() => import('../components/forms/OTPVerificationForm'));
+
+const OwnerDashboardLayout = lazy(() => import('../components/Layouts/Owner/OwnerDashboardLayout'));
+const POManageListings = lazy(() => import('../pages/property_owner/POMangeListings'));
+const POReviews = lazy(() => import('../pages/property_owner/POReviews'));
+const POBookings = lazy(() => import('../pages/property_owner/booking/POBookings'));
+
+const ListPropertySteps = lazy(() => import('../components/property_owner/new_listings/ListPropertySteps'));
+const PropertyDetailsForm = lazy(() => import('../components/property_owner/new_listings/PropertyDetailsForm'));
+const DocumentsForm = lazy(() => import('../components/property_owner/new_listings/DocumentsForm'));
+const Policy_ServicesPage = lazy(() => import('../pages/property_owner/newListing/Policy_ServicesPage'));
+const PropertyAmenitiesPage = lazy(() => import('../pages/property_owner/newListing/PropertyAmenitiesPage'));
+const ReviewAndSubmit = lazy(() => import('../components/property_owner/new_listings/ReviewAndSubmit'));
+
+const OnboardingPage = lazy(() => import('../pages/property_owner/onboarding.jsx/OnboardingPage'));
+const RentalAppartmentForm = lazy(() => import('../components/property_owner/onboardinag/RentalAppartmentForm'));
+
+const AdminLogin = lazy(() => import('../pages/admin/Login/AdminLogin'));
+const PropertyList = lazy(() => import('../pages/admin/Properties/PropertyListPage'));
+const ReviewPropertyDetailedPageAdminSide = lazy(() => import('../pages/admin/Properties/ReviewPropertyDetailPageAdmin'));
+const UserListingPage = lazy(() => import('../pages/admin/Users/UsersListingPage'));
+const OwnerListPage = lazy(() => import('../pages/admin/owners/OwnerListPage'));
+const PropertyConfigurations = lazy(() => import('../pages/admin/Property_configurations/PropertyConfigurations'));
+const AdminDashboardPage = lazy(() => import('../pages/admin/dashboarf.jsx/AdminDashboardPage'));
+
+const PropertyResultsPage = lazy(() => import('../pages/users/PropertyResultsPage'));
+const AddingRoomPage = lazy(() => import('../pages/property_owner/onboarding.jsx/AddingRoomPage'));
+const PropertyDisplayPage = lazy(() => import('../pages/users/PropertyDisplayPage'));
+const PropertyImages = lazy(() => import('../components/property_owner/onboardinag/PropertyImages'));
+const PreviewProperty = lazy(() => import('../pages/property_owner/onboarding.jsx/PreviewProperty'));
+
+const MyStays = lazy(() => import('../components/user/ManageAccounts/MyStays/MyStays'));
+const BookingDetailsPage = lazy(() => import('../pages/property_owner/booking/BookingDetailPage'));
+const Trial = lazy(() => import('../pages/Trial'));
+const ProfilePage = lazy(() => import('@/pages/users/ManageAccount/ProfilePage'));
+const AccountPage = lazy(() => import('@/pages/users/ManageAccount/AccountPage'));
+const ManageAccountLayout = lazy(() => import('@/components/Layouts/User/ManageAccountLayout'));
+const UserBookingDetailsPage = lazy(() => import('@/pages/users/ManageAccount/MyStays/UserBookingDetailsPage'));
+const RentManagementPage = lazy(() => import('@/pages/users/ManageAccount/MyStays/RentManagementPage'));
+const HostRentManagementPage = lazy(() => import('../pages/property_owner/booking/HostRentManagementPage'));
+const ManageListingsPage = lazy(() => import('@/pages/property_owner/manageListings.jsx/ManageListings'));
+const PODashboardPage = lazy(() => import('@/pages/property_owner/PODashboardPage'));
+const NewListingPage2 = lazy(() => import('@/pages/property_owner/newListing/NewListingPage2'));
+const AdminOutlet = lazy(() => import('@/components/Layouts/admin/AdminOutlet'));
 
 
-import OwnerDashboardLayout from '../components/Layouts/Owner/OwnerDashboardLayout';
-import POManageListings from '../pages/property_owner/POMangeListings';
-import POReviews from '../pages/property_owner/POReviews';
-import POBookings from '../pages/property_owner/booking/POBookings';
+const routes = createBrowserRouter([
 
-import ListPropertySteps from '../components/property_owner/new_listings/ListPropertySteps';
-    import PropertyDetailsForm from '../components/property_owner/new_listings/PropertyDetailsForm';
-    import DocumentsForm from '../components/property_owner/new_listings/DocumentsForm';
-    import Policy_ServicesPage from '../pages/property_owner/newListing/Policy_ServicesPage';
-    import PropertyAmenitiesPage from '../pages/property_owner/newListing/PropertyAmenitiesPage';
-    import ReviewAndSubmit from '../components/property_owner/new_listings/ReviewAndSubmit';
-
-    import OnboardingPage from '../pages/property_owner/onboarding.jsx/OnboardingPage';
-    import RentalAppartmentForm from '../components/property_owner/onboardinag/RentalAppartmentForm';
-
-import AdminLogin from '../pages/admin/Login/AdminLogin';
-import PropertyList from '../pages/admin/Properties/PropertyListPage';
-import ReviewPropertyDetailedPageAdminSide from '../pages/admin/Properties/ReviewPropertyDetailPageAdmin';
-import UserListingPage from '../pages/admin/Users/UsersListingPage';
-import OwnerListPage from '../pages/admin/owners/OwnerListPage';
-import PropertyConfigurations from '../pages/admin/Property_configurations/PropertyConfigurations';
-import AdminDashboardPage from '../pages/admin/dashboarf.jsx/AdminDashboardPage';
-import PropertyResultsPage from '../pages/users/PropertyResultsPage';
-import AddingRoomPage from '../pages/property_owner/onboarding.jsx/AddingRoomPage';
-import PropertyDisplayPage from '../pages/users/PropertyDisplayPage';
-import PropertyImages from '../components/property_owner/onboardinag/PropertyImages';
-import PreviewProperty from '../pages/property_owner/onboarding.jsx/PreviewProperty';
-import MyStays from '../components/user/ManageAccounts/MyStays/MyStays';
-import BookingDetailsPage from '../pages/property_owner/booking/BookingDetailPage';
-import Trial from '../pages/Trial';
-import ProfilePage from '@/pages/users/ManageAccount/ProfilePage';
-import AccountPage from '@/pages/users/ManageAccount/AccountPage';
-import ManageAccountLayout from '@/components/Layouts/User/ManageAccountLayout';
-import UserBookingDetailsPage from '@/pages/users/ManageAccount/MyStays/UserBookingDetailsPage';
-import RentManagementPage from '@/pages/users/ManageAccount/MyStays/RentManagementPage';
-import HostRentManagementPage from '../pages/property_owner/booking/HostRentManagementPage';
-import ManageListingsPage from '@/pages/property_owner/manageListings.jsx/ManageListings';
-import PODashboardPage from '@/pages/property_owner/PODashboardPage';
-import NewListingPage2 from '@/pages/property_owner/newListing/NewListingPage2';
-import AdminOutlet from '@/components/Layouts/admin/AdminOutlet';
-
-const REACT_ROUTER_PATH = [
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // USER SIDE AND AUTHENTICATION PATHS
         {
@@ -205,11 +210,7 @@ const REACT_ROUTER_PATH = [
             ]
         },
         
-        
-    ]
+    
+]);
 
-
-export const  navigatetoUserHome = '/'
-
-
-export default REACT_ROUTER_PATH
+export default routes;

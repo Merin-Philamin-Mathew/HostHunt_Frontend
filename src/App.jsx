@@ -1,6 +1,6 @@
 // import './App.css'
 
-import const_data from './config/constant'
+import REACT_ROUTER_PATH from './config/constant'
 import { createBrowserRouter, RouterProvider} from "react-router-dom"
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,7 +10,7 @@ import { Toaster } from 'sonner';
 
 function App() {
   
-  let routerProvider = createBrowserRouter(const_data.REACT_ROUTER_PATH)
+  let routerProvider = createBrowserRouter(REACT_ROUTER_PATH)
   return (
     <>
      <ToastContainer
@@ -27,7 +27,7 @@ function App() {
       />
 
       <Toaster position="top-right" richColors={true} />
-      <RouterProvider router={routerProvider} />
+        <RouterProvider router={routerProvider} />
     </>
   )
 }

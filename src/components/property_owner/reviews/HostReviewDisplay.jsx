@@ -12,8 +12,7 @@ function HostReviewDisplay() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const userId = useSelector((state) => state.user?.user?.id)
-  const dispatch = useDispatch()
+  const userId = useSelector((state) => state?.user?.user?.data?.id)
 
   useEffect(() => {
     fetchReviews(currentPage)
@@ -22,7 +21,9 @@ function HostReviewDisplay() {
   const fetchReviews = async (page) => {
     try {
       setLoading(true)
-      const data = await getAllReviewsForHost(`?page=${page}&page_size=9&host_id=${userId}`)
+      console.log(userId)
+
+      const data = await getAllReviewsForHost(`?page=${page}&page_size=${9}&host_id=${parseInt(userId)}`)
       setReviews(data.results)
       setTotalPages(Math.ceil(data.count / 9))
     } catch (err) {
@@ -33,12 +34,7 @@ function HostReviewDisplay() {
     }
   }
 
-  const handleReply = async (reviewId, replyText) => {
-    // Implement the API call to submit the reply
-    console.log(`Replying to review ${reviewId}: ${replyText}`)
-    // After successful reply, refetch the reviews
-    fetchReviews(currentPage)
-  }
+
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error: {error}</div>
@@ -51,7 +47,6 @@ function HostReviewDisplay() {
             key={review.id}
             review={review}
             isHost={userId === review.host.id}
-            onReply={handleReply}
           />
         ))}
       </div>
