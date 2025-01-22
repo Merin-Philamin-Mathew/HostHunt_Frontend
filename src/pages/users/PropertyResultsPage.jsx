@@ -3,25 +3,16 @@ import SearchHeader from '../../components/user/partials/SearchHeader';
 import { Accordion, AccordionItem, Checkbox, Input } from '@nextui-org/react';
 import { Search } from 'lucide-react';
 import { useLocation } from 'react-router';
-import { fetchAllPropertyResults } from '../../features/Property/PropertyActions';
-import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../../components/user/partials/Footer';
 import PropertyResultCard from '../../components/utils/cards/PropertyResultCard';
 import SmContainer from '../../components/utils/Containers/SmContainer';
+import ResultsContent from '@/components/user/PropertyResultsPage/ResultsContent';
 
 function PropertyResultsPage() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const Term = queryParams.get('query');
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    fetchAllPropertyResults(Term, dispatch);
-  }, [Term, dispatch]);
-
-  const allPropertyResults = useSelector((state) => state.property.allPropertyResults);
-  console.log('Property Resultds:', allPropertyResults);
 
   const filters = [
     {
@@ -55,23 +46,15 @@ function PropertyResultsPage() {
 
   return (
     <>
-      <div className="relative min-h-screen flex flex-col bg-gray-100">
+      <div className="relative min-h-screen  bg-gray-100">
         <div className="sticky top-0 z-50">
           <SearchHeader />
         </div>
 
         {/* Main Content */}
-        <div className="flex flex-grow py-8">
+        <div className=" py-8">
           <SmContainer>
-            <div className="flex gap-16">
-             
-
-              {/* Results Content */}
-              <main className="py-6">
-                <h1 className="text-xl font-semibold mb-4">Property Results for "{Term}"</h1>
-                <PropertyResultCard allPropertyResults={allPropertyResults} />
-              </main>
-            </div>
+            <ResultsContent/>
           </SmContainer>
         </div>
 

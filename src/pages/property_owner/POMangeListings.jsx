@@ -103,7 +103,6 @@ const POManageListings = () => {
           {isLoading 
            ?  <>{
             Array(6).fill().map((_, index) => (
-         
                 <POHostelListingCardSkeleton key={index} />
               ))
             }
@@ -111,9 +110,10 @@ const POManageListings = () => {
             :properties.length > 0 ?  properties.map((property, index) => (
                   <HostelCard key={property.id} property={property} />
                 ))
-              :   <div className="col-span-full text-center text-gray-500">
-                    <EmptyListings onAddListing={handleAddListing}/>
-                  </div>
+            :   
+            <div className="col-span-full text-center text-gray-500">
+              <EmptyListings onAddListing={handleAddListing}/>
+            </div>
           }
         </div>
         </>

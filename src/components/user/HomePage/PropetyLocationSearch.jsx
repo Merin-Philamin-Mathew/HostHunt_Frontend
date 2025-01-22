@@ -1,18 +1,41 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MapPin, Search } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router';
 import { useJsApiLoader, StandaloneSearchBox } from '@react-google-maps/api';
+import { getAllPropertiesNearby } from '@/features/Property/PropertyServices';
+import { useDispatch } from 'react-redux';
+import { setAllPropertyResults } from '@/features/Property/PropertySlice';
 
 const PropertyLocationSearch = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const inputRef = useRef();
+  const dispatch = useDispatch();
+  
   
   const [searchTerm, setSearchTerm] = useState('');
   const [coordinates, setCoordinates] = useState({
     lat: null,
     lng: null
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const queryParam = params.get('query');
+    const latParam = params.get('lat');
+    const lngParam = params.get('lng');
+
+    if (queryParam) {
+      setSearchTerm(decodeURIComponent(queryParam));
+    }
+
+    if (latParam && lngParam) {
+      setCoordinates({
+        lat: parseFloat(latParam),
+        lng: parseFloat(lngParam)
+      });
+    }
+  }, [location.search]);
 
   const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
@@ -41,12 +64,15 @@ const PropertyLocationSearch = () => {
     }
 
     try {
-      const response = await fetch(`/api/properties/nearby/?lat=${coordinates.lat}&lng=${coordinates.lng}`);
-      if (!response.ok) {
+      console.log('Searching properties nearby:', coordinates);
+      const response = await getAllPropertiesNearby(coordinates.lat, coordinates.lng);
+      console.log(response.data.properties,'response')
+      dispatch(setAllPropertyResults(response.data));
+       if (!response.data) {
+        console.log('Search failed:', response);
         throw new Error('Search failed');
       }
       
-      // Navigate to results page with coordinates
       navigate(`/property-results?lat=${coordinates.lat}&lng=${coordinates.lng}&query=${encodeURIComponent(searchTerm)}`);
     } catch (error) {
       console.error('Search error:', error);
@@ -61,6 +87,8 @@ const PropertyLocationSearch = () => {
       </div>
       <input
         type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         placeholder="Where do you want to go?"
         className="flex-1 px-4 py-3 text-gray-800 bg-transparent focus:outline-none"
       />

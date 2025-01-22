@@ -332,3 +332,29 @@ const PropertyDetailsForm = () => {
 };
 
 export default PropertyDetailsForm;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -113,6 +113,12 @@ export const getAllPropertyResults = (city) => {
     params: { city: city }
   });
 };
+export const getAllPropertiesNearby = (latitude,lontitude) => {
+  console.log(`Requesting properties of nearby:`);
+  return api.get(URLS.FETCHINGMANAGEMENT.hh_all_property_nearby, {
+    params: { lat:latitude,lng:lontitude }
+  });
+};
 export const getDetailedDisplay_property = (property_id) => {
   console.log(`Requesting properties for city: ${property_id}`);
   return api.get(`${URLS.FETCHINGMANAGEMENT.hh_published_property_display}${property_id}/`);

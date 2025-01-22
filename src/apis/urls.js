@@ -37,8 +37,8 @@ const URLS = {
         'hh_active_room_types':'/property/active-room-types/',
         'hh_active_bed_types':'/property/active-bed-types/',
         
-        // 'hh_all_property_results':'/property/property-results/',
         'hh_all_property_results':'/property/property-results/',
+        'hh_all_property_nearby':'/property/property-nearby/',
         'hh_published_property_display':'property/property-display/'
     },
 

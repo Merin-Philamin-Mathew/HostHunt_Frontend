@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 import { addingPoliciesAndServices, createAmenitiesByPropertyService, createPropertyImagesService, createRoomsService, deletePropertyImageService, deleteRoomDetailsService, getActiveBedTypes, getActiveRoomFacilities, getActiveRoomTypes, getAllAmenitiesService, getAllPropertyResults, getAmenitiesByPropertyService, getDetailedDisplay_property, getPoliciesByProperty_Services, getPropertyImagesService, reviewAndSubmitSteps_ChangeStatus } from "./PropertyServices";
 import { addRoomToProperty, deleteRoomById, resetRoomForm, setAllPropertyResults, setAllRoomsByProperty, setPolicyServiceComplete, setPropertyAmenitiesComplete, setPropertyDetailsComplete } from './PropertySlice';
+import { api } from "@/apis/axios";
 
 
 //===================================NEW LISTING=====================================
@@ -305,7 +306,7 @@ export const fetchAllPropertyResults = async(city,dispatch) => {
     try {
         const response = await getAllPropertyResults(city)
         console.log('all property results...',response,response.data);
-        dispatch(setAllPropertyResults(response?.data))
+        // dispatch(setAllPropertyResults(response?.data))
         console.log('done');
         
     }
@@ -313,6 +314,28 @@ export const fetchAllPropertyResults = async(city,dispatch) => {
         console.error(error)
     }
 }
+export const fetchPropertyCardDetailsUserSide = async (property_ids) => {
+    if (!property_ids || !property_ids.length) {
+      return [];
+    }
+  
+    try {
+      const response = await api.post('/property/property-cards/', {
+        property_ids: property_ids
+      });
+      
+      if (!response?.data) {
+        throw new Error('No data received from server');
+      }
+      
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching property cards:', error);
+      throw error; // Re-throw to handle in component
+    }
+  };
+
+  
 export const fetchDetailedDisplay_property = async(property_id,setPropertyDetails) => {
     try {
         const response = await getDetailedDisplay_property(property_id)

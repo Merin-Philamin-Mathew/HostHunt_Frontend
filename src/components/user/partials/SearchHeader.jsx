@@ -12,11 +12,7 @@ import ProfileIcon_dropDown from '@/components/utils/dropDown/ProfileIcon_dropDo
 
 const SearchHeader = () => {
   const { user,userLoggedIn } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-
-
 
   return (
     <header className=" w-full py-3 bg-white shadow-xl relative">
@@ -30,7 +26,7 @@ const SearchHeader = () => {
           <div className="hidden lg:block text-2xl font-extrabold text-orange-600">HOSTHUNT</div>
         </button>
      <div className=" bg-white rounded-lg border border-gray-400 w-1/2 md:w-3/4 lg:w-3/6">
-        <PropertyLocationSearch/>
+        <PropertyLocationSearch />
         </div>
         <div className="flex items-center ">
      
