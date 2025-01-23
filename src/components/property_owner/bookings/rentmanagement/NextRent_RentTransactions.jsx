@@ -48,7 +48,6 @@ const NextRent_RentTransactions = () => {
                     setRentHistory(paid_overdue_response)
                 }
                 if (upcomingRentResponse) {
-                    
                     setUpcomingRent(upcomingRentResponse); // Ensure the response matches the state structure
                     setIsOwner(user?.data?.email===upcomingRentResponse.host_email)
                     console.log('dfsdfsdfdsfsdgsdgsgfbcfy5645745745754',user?.data?.email===upcomingRentResponse.host_email);

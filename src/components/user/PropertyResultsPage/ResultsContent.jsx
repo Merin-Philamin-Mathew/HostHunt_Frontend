@@ -21,6 +21,7 @@ function ResultsContent() {
         setIsLoading(true);
         setError(null);
         const data = await fetchPropertyCardDetailsUserSide(allPropertyResults.property_ids);
+        console.log(data,'property data');
         
         if (data) {
           setProperties(data);

@@ -61,11 +61,11 @@ const POHeader = () => {
   const [messages, setMessages] = useState([]);
   const [pushNotification, setPushNotification] = useState([]);
   const user_id = user?.data.id
-  const BASE_URL = import.meta.env.VITE_BASEURL_KEYWORD;
+  const BASE_URL_KEYWORD = import.meta.env.VITE_BASEURL_KEYWORD;
 
   useEffect(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const socket = new WebSocket(`${protocol}://${BASE_URL}/ws/notifications/${user_id}/`);
+    const socket = new WebSocket(`${protocol}://${BASE_URL_KEYWORD}/ws/notifications/${user_id}/`);
 
 
     socket.onmessage = (event) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { MapPin, Wifi, Wind, Car, Music, Monitor, Grid } from 'lucide-react'
 import SearchHeader from '../../components/user/partials/SearchHeader'
 import Container from '../../components/utils/Containers/Container'
@@ -11,6 +11,9 @@ import PD_ReviewSection from '../../components/user/PropertyDisplayPage/PD_Revie
 import { Dialog } from '@headlessui/react'
 import { DialogContent } from '@radix-ui/react-dialog'
 import PropertyDisplayImageSection from '@/components/properties/PropertyDisplayImageSection'
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
+import PropertyMap from '@/components/utils/map/PropertyMap'
+
 
 export default function PropertyDisplayPage(
   { property = {
@@ -31,7 +34,7 @@ export default function PropertyDisplayPage(
     const photosRef = useRef(null)
     const overviewRef = useRef(null)
     const roomsRef = useRef(null)
-  
+
   
   useEffect(() => {
     const property_id = localStorage.getItem('property_id') 
@@ -70,7 +73,7 @@ export default function PropertyDisplayPage(
     <>
       <SearchHeader />
       <Container>
-        <div className="min-h-screen bg-gray-50 mb-4">
+        <div className="min-h-screen  mb-4">
           {/* Photos Section */}
           <div ref={photosRef}>
             <PropertyDisplayImageSection propertyDetails={propertyDetails}/>
@@ -134,6 +137,7 @@ export default function PropertyDisplayPage(
                       </div>
                     </section>
 
+
                     <section >
                       <h2 className="text-xl font-semibold mb-4"  ref={roomsRef}>Available rooms</h2>
                       <div className="space-y-4">
@@ -143,34 +147,30 @@ export default function PropertyDisplayPage(
                       </div>
                     </section>
 
-                    <seciton className="my-6">
-                  <h2 className="text-xl font-semibold mt-8">Location</h2>
+                    <section className="my-6">
+                    <h2 className="text-xl font-semibold mb-4">Location</h2>
+                    
                     <div className="bg-white rounded-lg shadow-lg p-6">
-                  <div className="space-y-3">
-                    {property?.nearbyPlaces?.map((place, index) => (
-                      <div key={index} className="flex items-center justify-between">
-                        <span className="text-gray-600">{place.name}</span>
-                        <span className="text-gray-500 text-sm">
-                          {place.distance}
-                        </span>
+                      <PropertyMap 
+                        lat={propertyDetails?.property_details?.lat}
+                        lng={propertyDetails?.property_details?.lng}
+                      />
+                      <div className="space-y-3 mt-4">
+                        {property?.nearbyPlaces?.map((place, index) => (
+                          <div key={index} className="flex items-center justify-between">
+                            <span className="text-gray-600">{place.name}</span>
+                            <span className="text-gray-500 text-sm">{place.distance}</span>
+                          </div>
+                        ))}
+
                       </div>
-                    ))}
-                  </div>
-                  <div className="mt-4 h-48 bg-gray-200 rounded-lg">
-                    <div className="w-full h-full flex items-center justify-center text-gray-500">
-                      Map View
                     </div>
-                  </div>
-                </div>
-                    </seciton>
+                  </section>
+
                   </div>
               
                </div>
 
-              {/* Sidebar right section */}
-              {/*3333333 <div className="lg:col-span-1"> */}
-             
-              {/*3333333 </div> */}
             </div>
           </div>
         </div>

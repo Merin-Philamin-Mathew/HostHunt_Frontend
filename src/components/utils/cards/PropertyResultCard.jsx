@@ -1,6 +1,7 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { useNavigate } from 'react-router';
 
 const PropertyCard = ({ property = ''}) => {
   const {
@@ -17,6 +18,13 @@ const PropertyCard = ({ property = ''}) => {
     total_reviews,
     caution_deposit
   } = property;
+ const navigate = useNavigate ();
+  const navigatePropertyDisplayPage = (propertyName,property_id) => {
+    console.log('property_id',property_id,propertyName,'property_name');
+    localStorage.setItem('property_id',property_id);
+    
+    navigate(`/hosteldetails?hostel=${encodeURIComponent(propertyName)}`);
+  }
 
   const formatGenderRestriction = (restriction) => {
     return restriction.split('_').map(word => 
@@ -26,7 +34,10 @@ const PropertyCard = ({ property = ''}) => {
 
   return (
     <Card className="w-full max-w-sm hover:shadow-lg transition-shadow duration-300">
-      <div className="relative">
+      <div className="relative"
+        onClick={() => navigatePropertyDisplayPage(property?.property_name,property?.id)}
+
+      >
         <img
           src={thumbnail_image_url || "/api/placeholder/400/300"}
           alt={property_name}

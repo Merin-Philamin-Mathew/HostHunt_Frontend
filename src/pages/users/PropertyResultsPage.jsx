@@ -46,13 +46,13 @@ function PropertyResultsPage() {
 
   return (
     <>
-      <div className="relative min-h-screen  bg-gray-100">
+      <div className="relative bg-gray-100">
         <div className="sticky top-0 z-50">
           <SearchHeader />
         </div>
 
         {/* Main Content */}
-        <div className=" py-8">
+        <div className=" py-8 ">
           <SmContainer>
             <ResultsContent/>
           </SmContainer>

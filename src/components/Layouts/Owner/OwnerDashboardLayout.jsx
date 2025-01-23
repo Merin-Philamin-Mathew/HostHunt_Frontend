@@ -17,19 +17,19 @@ function OwnerDashboardLayout({ children }) {
   ];
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-gray-100">
+    <div className="relative flex flex-col bg-gray-100">
       <div className="sticky top-0 z-50">
         <POHeader />
       </div>
 
-      <div className="flex flex-grow py-8 bg-muted_bg">
+      <div className="flex flex-grow py-8 bg-primary-50">
         {/* <aside className="relative  p-6  pt-9 ">
           <div className="sticky top-[100px] py-3 px-1 rounded-3xl bg-white shadow-xl shadow-[#48484899] ">
             <Sidebar items={sidebarItems} />
           </div>
         </aside> */}
 {}
-        <main className="flex-grow p-8 overflow-y-auto">
+        <main className="flex-grow min-h-screen  p-8 overflow-y-auto">
           {children}
         </main>
       </div>
