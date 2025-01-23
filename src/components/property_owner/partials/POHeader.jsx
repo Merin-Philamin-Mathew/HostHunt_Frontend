@@ -65,7 +65,7 @@ const POHeader = () => {
 
   useEffect(() => {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const socket = new WebSocket(`${protocol}://${BASE_URL_KEYWORD}/ws/notifications/${user_id}/`);
+    const socket = new WebSocket(`${protocol}://${BASE_URL_KEYWORD}/ws/notificatffffions/${user_id}/`);
 
 
     socket.onmessage = (event) => {
