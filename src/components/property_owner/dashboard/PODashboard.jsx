@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
+// import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
 import MixedBookingsChart from "./charts/BookingsBarChart";
 import DashboardTopSection from "./charts/DashboardOverview";
 import { fetchDashboardSummary } from "@/features/Booking/BookingActions";
 import PaymentDownloadDashboard from "./PaymentDownload/PaymentDownloadDashboard";
 
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+// ChartJS.register( CategoryScale, LinearScale, Tooltip, Legend);
 
 const PODashboard = () => {
   const [dashboardData, setDashboardData] = useState(null);
@@ -37,7 +37,7 @@ const PODashboard = () => {
       {/* Charts Section */}
         {/* Booking Trends Chart */}
         <div className= " bg-white rounded-lg py-4 my-8">
-          {/* <MixedBookingsChart /> */}
+          <MixedBookingsChart />
         </div>
 
         <div>
