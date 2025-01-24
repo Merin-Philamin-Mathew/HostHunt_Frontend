@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend } from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, BarController, LineElement, PointElement, Title, Tooltip, Legend } from "chart.js";
 import { Chart } from "react-chartjs-2";
 import { admin_api, api } from "@/apis/axios";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, BarController, LineElement, PointElement, Title, Tooltip, Legend);
 
 const MixedBookingsChart = ({ frequency = "monthly", admin=false }) => {
   const [chartData, setChartData] = useState(null);
