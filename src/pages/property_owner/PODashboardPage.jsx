@@ -4,8 +4,8 @@ import React from 'react'
 function PODashboardPage() {
   return (
     <div className="max-w-6xl mx-auto">
-dashboard
-    {/* <PODashboard/> */}
+
+    <PODashboard/>
     </div>
   )
 }

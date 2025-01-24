@@ -37,7 +37,7 @@ const PODashboard = () => {
       {/* Charts Section */}
         {/* Booking Trends Chart */}
         <div className= " bg-white rounded-lg py-4 my-8">
-          <MixedBookingsChart />
+          {/* <MixedBookingsChart /> */}
         </div>
 
         <div>
