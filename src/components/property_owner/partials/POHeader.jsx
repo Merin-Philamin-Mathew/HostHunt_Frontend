@@ -104,7 +104,7 @@ const POHeader = () => {
   };
 
     const navBarItems = [
-      { title: 'Dashboard', link: '/host/dashboard'  },
+      { title: 'Dashboardd', link: '/host/dashboard'  },
       { title: 'Hostels Listed', link: '/host/listings' },
       { title: 'Reviews', link: '/host/reviews'  },
       { title: 'Bookings', link: '/host/bookings' }
