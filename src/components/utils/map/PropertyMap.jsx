@@ -5,10 +5,12 @@ const PropertyMap = ({ lat, lng }) => {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   
   const { isLoaded, loadError } = useLoadScript({
-    // id: 'google-map-script',
+    id: 'google-map-script',
     googleMapsApiKey: apiKey,
     libraries: ['places']
   });
+
+  
 
   const center = { 
     lat: lat && !isNaN(parseFloat(lat)) ? parseFloat(lat) : 0, 

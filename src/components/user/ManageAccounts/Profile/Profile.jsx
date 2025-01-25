@@ -13,7 +13,9 @@ export default function Profile() {
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false)
   const user = useSelector((state) => state.user.user);
   const verificationStatus = user?.identity_verification?.status  
-  const profile = user?.profile_pic
+  const profile_pic = user?.profile_pic
+  const profile = user?.profile
+
   // if (!profile) {
   //   return (
   //     <div className="container mx-auto p-8 max-w-2xl text-center space-y-6">
@@ -40,7 +42,7 @@ console.log('user',user)
           <Card className="shadow-xl">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center space-y-3">
-             <ProfilePictureUpload profile={profile} user={user}/>
+             <ProfilePictureUpload profile={profile_pic} user={user}/>
 
 
                 <div>

@@ -10,6 +10,8 @@ const URLS = {
         'user_profile':'auth/profile-details/',
         'identity_verification':'auth/identity-verification/',
         'profile_pic_upload':'auth/profile/upload-pic/',
+        'profile_updation':'auth/profile/update/',
+
     },
 
     NEWLISTING: {

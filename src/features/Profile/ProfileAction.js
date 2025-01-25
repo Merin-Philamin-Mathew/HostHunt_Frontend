@@ -63,6 +63,8 @@ export const createIdentityVerification_action = async (values,setSubmitting,set
       throw error.response.data;
     }
   };
+
+
   export const editUplodedProfilePic = async (file) => {
     console.log('editing uploading')
     const formData = new FormData();
@@ -87,3 +89,18 @@ export const createIdentityVerification_action = async (values,setSubmitting,set
       throw error.response.data;
     }
   };
+  export const profileUpdation = async (values) => {
+    try {
+      console.log('values',values)
+      const response = await api.patch('/auth/profile/update/', values);
+      toast.success('Profile updated successfully');
+      return response.data;
+    } catch (error) {
+      const errorMessages = error.response?.data 
+        ? Object.values(error.response.data).flat().join(' ')
+        : 'Profile update failed';
+      
+      toast.error(errorMessages);
+      throw error;
+    }
+};
