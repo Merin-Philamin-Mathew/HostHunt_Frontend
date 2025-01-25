@@ -27,7 +27,7 @@ const AdminHeader = ({ toggleSidebar }) => {
         </button>
         <h2 className="text-xl font-semibold text-white">{titles[activeItem]}</h2>
       </div>
-      <div className="flex items-center space-x-4">
+      {/* <div className="flex items-center space-x-4">
         <button className="text-white" aria-label="Notifications">
           <FiBell className="h-5 w-5" />
         </button>
@@ -37,7 +37,7 @@ const AdminHeader = ({ toggleSidebar }) => {
         <div className="bg-yellow-500 rounded-full w-8 h-8 flex items-center justify-center">
           <span className="text-slate-900 font-semibold">A</span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

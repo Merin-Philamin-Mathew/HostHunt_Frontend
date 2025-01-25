@@ -165,7 +165,7 @@ const POHeader = () => {
             <ProfileIcon_dropDown classname={'text-themeColor2li8 bg-slate-400'}/>
 
           ) : (
-            <Link to="/host/login">
+            <Link to="/login">
               <FaUser />
             </Link>
           )}

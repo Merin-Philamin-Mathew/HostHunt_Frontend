@@ -9,6 +9,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import URLS from '../../apis/urls';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../../redux/userSlice';
+import { is } from 'date-fns/locale';
 
 const LoginForm = ({user_type='property_owner'}) => {
   const navigate = useNavigate()
@@ -17,6 +18,7 @@ const LoginForm = ({user_type='property_owner'}) => {
   const go_to_signup = ()=> navigate('/signup')
   const go_to_PO_signup = ()=> navigate('/property-owner/signup')
 
+  const [isLoading, setIsLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
@@ -67,19 +69,24 @@ const LoginForm = ({user_type='property_owner'}) => {
     initialValues: LogForm_Data.INITIAL_VALUES,
     validationSchema: LogForm_Data.VALIDATION_SCHEMA,
     onSubmit: (values) => {
+      setIsLoading(true);
       console.log('submiting login form',values);
-
       api.post(URLS.AUTHENTICATION['login'],{...values, user_type:user_type}).then(res=>{
-          console.log('blass');
+          console.log('api response',res);
           
           console.log('login data',res.data);
           const data = res.data
-          // const {access, refresh,data} = res.data;
-          // console.log("lllll",data,access,refresh)
+          console.log('data data',data);
+
           dispatch(setUserDetails(data))
-          user_type === 'user' ? navigate('/',{replace:true})
-                               : navigate('/property_owner_dashboard')
+          console.log('data added to redux')
+
+          // user_type === 'user' ? navigate('/',{replace:true})
+          //                      : navigate('/property_owner_dashboard')
+          navigate('/',{replace:true})
+          console.log('navigated to dashboard')
           })
+
           .catch(error=>{
             console.log(error.response.data, 'errorr');
 
@@ -90,9 +97,17 @@ const LoginForm = ({user_type='property_owner'}) => {
               setmainError('An unknown error occurred. Please try again.');
             }
           })
+          .finally(() => {
+            setIsLoading(false);
+          });
       
     }
   });
+
+  const handleGoogleLogin = () => {
+    setIsLoading(true);
+    login();
+  };
 
   return (
     <div className="bg-black bg-opacity-80 rounded-2xl p-16 shadow-md w-full max-w-md mx-auto">      
@@ -115,7 +130,7 @@ const LoginForm = ({user_type='property_owner'}) => {
           ) : null}
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 relative">
           <input
             type={showPassword ? "text" : "password"}
             name="password"
@@ -126,7 +141,7 @@ const LoginForm = ({user_type='property_owner'}) => {
             value={formik.values.password}
           />
           <span onClick={togglePasswordVisibility} className="absolute right-3 top-3 cursor-pointer">
-          {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+          {showPassword ? <AiFillEyeInvisible color='white' /> : <AiFillEye />}
         </span>
           {formik.touched.password && formik.errors.password ? (
             <div className="text-red-500 text-sm">{formik.errors.password}</div>
@@ -139,9 +154,10 @@ const LoginForm = ({user_type='property_owner'}) => {
 
         <button
           type="submit"
+          disabled={isLoading}
           className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
         >
-          Continue with email
+            {isLoading ? 'Logging...' : 'Login with email'}    
         </button>
 
         <div className="flex items-center justify-center mt-4">
@@ -152,12 +168,14 @@ const LoginForm = ({user_type='property_owner'}) => {
 
         <button
           type="button"
-          onClick={() => login()}
+
+          onClick={handleGoogleLogin}
+          disabled={isLoading}
           className="w-full bg-white text-black font-semibold py-2 px-4 rounded-full flex items-center justify-center mt-4"
         >
           <img src="\icons\icons8-google.svg" alt="Google" className="w-6 h-6 mr-2" />
-          Continue with Google
-        </button>
+          {isLoading ? 'Logging...' : 'Continue with Google'}
+          </button>
       </form>
 
       <p className="text-gray-400 text-sm mt-4 text-center">

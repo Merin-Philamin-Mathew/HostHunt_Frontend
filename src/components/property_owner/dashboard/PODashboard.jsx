@@ -41,7 +41,7 @@ const PODashboard = () => {
         </div>
 
         <div>
-          <PaymentDownloadDashboard/>
+          <PaymentDownloadDashboard admin={false}/>
         </div>
 
   

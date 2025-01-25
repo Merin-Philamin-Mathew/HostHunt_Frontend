@@ -67,7 +67,15 @@ export const getPaid_Overdue_Servie =(booking_id) =>{
     return admin_api.get(`${URLS.OWNER_DASHBOARD.dashboard_summary}`)
   }
   export const getPaymentRecord_service = (params) => {
+    console.log('user payment record',params);
+    
     return api.get(`${URLS.OWNER_DASHBOARD.payment_record}`, { params });
+  };
+  
+  export const getPaymentRecord_Adminservice = (params) => {
+    console.log('admin payment record',params);
+    
+    return admin_api.get(`${URLS.OWNER_DASHBOARD.payment_record}`, { params });
   };
   
 

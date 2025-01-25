@@ -43,16 +43,6 @@ export default function ProfileEditModal({ open, onClose }) {
           <DialogTitle>Edit Profile</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="profile_pic">Profile Picture URL</Label>
-            <Input
-              id="profile_pic"
-              name="profile_pic"
-              value={formData.profile_pic}
-              onChange={handleChange}
-              placeholder="https://example.com/image.jpg"
-            />
-          </div>
 
           <div className="space-y-2">
             <Label htmlFor="phone_number">Phone Number</Label>

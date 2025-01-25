@@ -1,5 +1,6 @@
 // redux/userSlice.js
 import { createSlice } from '@reduxjs/toolkit';
+import { set } from 'date-fns';
 
 
 const initialState = {
@@ -29,12 +30,25 @@ const userSlice = createSlice({
       state.userLoggedIn = false
       state.userProPic = null;
     },
+    setProfile: (state, action) => {
+      state.user.profile = action.payload;
+    },
+    setProfilePic: (state, action) => {
+      state.user.profile_pic = action.payload;
+    },
+    setIdentificationDetails: (state, action) => {
+      state.user.identity_verification = action.payload;
+    },
   },
 });
 
 export const { setUserDetails, 
             updateUseruserProPic, 
             updateAccessToken, 
-            logoutUser } = userSlice.actions;
+            logoutUser ,
+            setProfile,
+            setIdentificationDetails,
+            setProfilePic
+          } = userSlice.actions;
 
 export default userSlice.reducer;

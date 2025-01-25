@@ -11,8 +11,8 @@ const sidebarItems = [
   { icon: FiUsers, text: "Users", key: "users", link:'users' },
   { icon: FiKey, text: "Property Owners", key: "propertyOwners", link:'hosts' },
   { icon: FiBriefcase, text: "Properties", key: "properties", link:'properties' },
-  { icon: FiMessageSquare, text: "Communication", key: "communication", link:'communication' },
-  { icon: FiCalendar, text: "Bookings", key: "bookings", link:'bookings' },
+  // { icon: FiMessageSquare, text: "Communication", key: "communication", link:'communication' },
+  // { icon: FiCalendar, text: "Bookings", key: "bookings", link:'bookings' },
   { icon: TbDatabasePlus, text: "Property Configurations", key: "property_configurations", link:'property_configurations' },
 ];
 const sidebarDict = sidebarItems.reduce((acc, item) => {
@@ -27,7 +27,7 @@ const AdminOutlet = ({ children }) => {
 
 
   return (
-    <div className="flex bg-slate-800 text-white min-h-screen">
+    <div className="flex bg-slate-800 text-white max-h-screen min-h-screen">
       <AdminSidebar
         isOpen={sidebarOpen}
         toggleSidebar={toggleSidebar}

@@ -105,7 +105,7 @@ const DashboardTopSection = ({ data = {} }) => {
 
   const hasPropertiesData = data?.apartments_count || data?.rentals_count || data?.pgs_count || data?.hostels_count;
   const bookingPropertiesData = hasPropertiesData ? {
-    labels: ['Apartments', 'Hostels', 'PG', 'Rental Homes'],
+    labels: ['Apartments',  'Rental Homes', 'PG','Hostels'],
     datasets: [{
       label: 'Property Details',
       data: [

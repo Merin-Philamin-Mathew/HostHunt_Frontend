@@ -42,7 +42,7 @@ function AdminDashboardPage() {
         </div>
 
         <div>
-          <PaymentDownloadDashboard/>
+          <PaymentDownloadDashboard admin={true}/>
         </div>
 
   

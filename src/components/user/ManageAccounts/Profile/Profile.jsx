@@ -6,15 +6,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Check, Edit, Upload } from 'lucide-react'
 import VerificationModal from './VerificationModal'
 import ProfileEditModal from './ProfileEditModal'
+import ProfilePictureUpload from './ProfilePictureUpload'
 
 export default function Profile() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isVerificationModalOpen, setIsVerificationModalOpen] = useState(false)
-  const [profile,setProfile] = useState('')
-  const [verification, setVerification] = useState('')
   const user = useSelector((state) => state.user.user);
-
-  
+  const verificationStatus = user?.identity_verification?.status  
+  const profile = user?.profile_pic
   // if (!profile) {
   //   return (
   //     <div className="container mx-auto p-8 max-w-2xl text-center space-y-6">
@@ -32,7 +31,7 @@ export default function Profile() {
   //     </div>
   //   )
   // }
-
+console.log('user',user)
   return (
     <>
       <div className="grid gap-6 md:grid-cols-[300px_1fr]">
@@ -41,15 +40,7 @@ export default function Profile() {
           <Card className="shadow-xl">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center space-y-3">
-              <Avatar className={`w-32 h-32 ${!profile.profile_pic ? 'bg-black' : ''}`}>
-                    {profile.profile_pic ? (
-                      <AvatarImage src={profile.profile_pic} />
-                    ) : (
-                      <AvatarFallback className="bg-black text-white">
-                        {user?.data?.name?.charAt(0).toUpperCase() || user?.data?.email?.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    )}
-                  </Avatar>
+             <ProfilePictureUpload profile={profile} user={user}/>
 
 
                 <div>
@@ -71,7 +62,13 @@ export default function Profile() {
                   <Check className="w-4 h-4 text-green-500" />
                   Email address
                 </div>
-                {profile.phone_number && (
+                {profile?.phone_number && (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Check className="w-4 h-4 text-green-500" />
+                    Phone number
+                  </div>
+                )}
+                {verificationStatus==='verified' && (
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Check className="w-4 h-4 text-green-500" />
                     Phone number
@@ -81,7 +78,7 @@ export default function Profile() {
             </CardContent>
           </Card>
 
-          {!verification && (
+          {/* {verificationStatus === null ? (
             <Card className="shadow-xl">
               <CardContent className="py-4 space-y-4">
                 <h3 className="font-semibold">Verify your identity</h3>
@@ -97,11 +94,36 @@ export default function Profile() {
                 </Button>
               </CardContent>
             </Card>
-          )}
+          ):verificationStatus==='in_review'?( <Card className="shadow-xl">
+            <CardContent className="py-4 space-y-4">
+              <h3 className="font-semibold">Verificaiton on Review</h3>
+              <p className="text-sm text-muted-foreground">
+              Admin is reviewing your verification request. You will be notified once it is approved.
+              </p>
+            </CardContent>
+          </Card>):verificationStatus==='rejected'?(
+               <Card className="shadow-xl">
+               <CardContent className="py-4 space-y-4">
+                 <h3 className="font-semibold">Verify your identity</h3>
+                 <p className="text-sm text-muted-foreground">
+                  Admin has rejected your verification request. Please try again.
+                 </p>
+                 <Button 
+                   variant="outline" 
+                   className="w-full"
+                   onClick={() => setIsVerificationModalOpen(true)}
+                 >
+                    
+                 </Button>
+               </CardContent>
+             </Card>
+          ):null} */}
+       
+       
         </div>
 
         {/* Right Column */}
-{!profile ? (
+{!profile?.phone_number ? (
   <div className='flex flex-col justify-center'>
   <div className="container mx-auto p-8 max-w-2xl text-center space-y-6">
     <h1 className="text-3xl font-bold">It's time to create your profile</h1>
@@ -120,7 +142,7 @@ export default function Profile() {
 ) : (
   <div className="space-y-6">
     <div className="flex items-center justify-between">
-      <h1 className="text-3xl font-bold">About {profile.user?.email?.split('@')[0]}</h1>
+      <h1 className="text-3xl font-bold">About {profile?.user?.email?.split('@')[0]}</h1>
       <Button variant="outline" onClick={() => setIsEditModalOpen(true)}>
         <Edit className="w-4 h-4 mr-2" />
         Edit profile
@@ -128,39 +150,39 @@ export default function Profile() {
     </div>
 
     <div className="space-y-6">
-      {profile.about_me && (
+      {profile?.about_me && (
         <div>
           <h3 className="font-semibold mb-2">About me</h3>
-          <p className="text-muted-foreground">{profile.about_me}</p>
+          <p className="text-muted-foreground">{profile?.about_me}</p>
         </div>
       )}
 
-      {profile.description_as_host && (
+      {profile?.description_as_host && (
         <div>
           <h3 className="font-semibold mb-2">As a host</h3>
-          <p className="text-muted-foreground">{profile.description_as_host}</p>
+          <p className="text-muted-foreground">{profile?.description_as_host}</p>
         </div>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {profile.gender && (
+        {profile?.gender && (
           <div>
             <h3 className="font-semibold mb-1">Gender</h3>
-            <p className="text-muted-foreground capitalize">{profile.gender}</p>
+            <p className="text-muted-foreground capitalize">{profile?.gender}</p>
           </div>
         )}
-        {profile.date_of_birth && (
+        {profile?.date_of_birth && (
           <div>
             <h3 className="font-semibold mb-1">Date of birth</h3>
             <p className="text-muted-foreground">
-              {new Date(profile.date_of_birth).toLocaleDateString()}
+              {new Date(profile?.date_of_birth).toLocaleDateString()}
             </p>
           </div>
         )}
-        {profile.address && (
+        {profile?.address && (
           <div>
             <h3 className="font-semibold mb-1">Address</h3>
-            <p className="text-muted-foreground">{profile.address}</p>
+            <p className="text-muted-foreground">{profile?.address}</p>
           </div>
         )}
       </div>

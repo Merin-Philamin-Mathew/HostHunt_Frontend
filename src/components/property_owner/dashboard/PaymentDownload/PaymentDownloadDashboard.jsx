@@ -3,9 +3,9 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Download, Filter, Calendar, Search } from 'lucide-react';
-import { getPaymentRecord_service } from '@/features/Booking/BookingService';
+import { getPaymentRecord_Adminservice, getPaymentRecord_service } from '@/features/Booking/BookingService';
 
-const PaymentDownloadDashboard = () => {
+const PaymentDownloadDashboard = ({admin=false}) => {
   const [payments, setPayments] = useState([]);
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
   const [paymentType, setPaymentType] = useState('all');
@@ -20,9 +20,10 @@ const PaymentDownloadDashboard = () => {
         end_date: dateRange.end || undefined,
         payment_type: paymentType !== 'all' ? paymentType : undefined,
         search: searchTerm || undefined
-      };
-      
-      const response = await getPaymentRecord_service(params);
+      }
+      const response = admin ? await getPaymentRecord_Adminservice(params)
+      : await getPaymentRecord_service(params)
+
       setPayments(response.data.results);
       console.log(response.data,'payment-record')
     } catch (error) {

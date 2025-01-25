@@ -6,6 +6,12 @@ const URLS = {
         'google-login':'/auth/google-login/'     
     },
 
+    PROFILE: {
+        'user_profile':'auth/profile-details/',
+        'identity_verification':'auth/identity-verification/',
+        'profile_pic_upload':'auth/profile/upload-pic/',
+    },
+
     NEWLISTING: {
         'property_details':'property/new-listing/property-details/',
         'documents':'property/new-listing/documents/',
