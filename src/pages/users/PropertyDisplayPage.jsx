@@ -13,6 +13,7 @@ import { DialogContent } from '@radix-ui/react-dialog'
 import PropertyDisplayImageSection from '@/components/properties/PropertyDisplayImageSection'
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
 import PropertyMap from '@/components/utils/map/PropertyMap'
+import PD_PoliciesViewModal from '@/components/user/PropertyDisplayPage/PD_PoliciesViewModal'
 
 
 export default function PropertyDisplayPage(
@@ -33,6 +34,7 @@ export default function PropertyDisplayPage(
     // Create refs for each section
     const photosRef = useRef(null)
     const overviewRef = useRef(null)
+    const rulesRef = useRef(null)
     const roomsRef = useRef(null)
 
   
@@ -45,6 +47,7 @@ export default function PropertyDisplayPage(
   const tabs = [
     { id: 'photos', label: 'Photos', ref: photosRef },
     { id: 'overview', label: 'Overview', ref: overviewRef },
+    { id: 'rules', label: 'Rules', ref: rulesRef },
     { id: 'rooms', label: 'Rooms', ref: roomsRef },
   ]
 
@@ -113,10 +116,10 @@ export default function PropertyDisplayPage(
           </div>
         </div>
 
-             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Content - Left Side (Scrollable) */}
                <div className="lg:col-span-2">
-                  <div className="space-y-8" >
+                  <div className="space-y-12" >
                     
                     <section ref={overviewRef}>
                       <h2 className="text-xl font-semibold mb-4">Overview</h2>
@@ -124,6 +127,12 @@ export default function PropertyDisplayPage(
                         {propertyDetails?.property_details?.description}
                       </p>
                     </section>
+
+
+                    <section ref={rulesRef}>
+                      <h2 className="text-xl font-semibold mb-4" >Property Rules</h2>
+                        <PD_PoliciesViewModal policies={propertyDetails?.policies_and_services}/>
+                      </section>
 
                     <section >
                       <h2 className="text-xl font-semibold mb-4">Top facilities</h2>
@@ -137,6 +146,7 @@ export default function PropertyDisplayPage(
                       </div>
                     </section>
 
+                    
 
                     <section >
                       <h2 className="text-xl font-semibold mb-4"  ref={roomsRef}>Available rooms</h2>
@@ -147,30 +157,31 @@ export default function PropertyDisplayPage(
                       </div>
                     </section>
 
-                    <section className="my-6">
-                    <h2 className="text-xl font-semibold mb-4">Location</h2>
-                    
-                    <div className="bg-white rounded-lg shadow-lg p-6">
-                      <PropertyMap 
-                        lat={propertyDetails?.property_details?.lat}
-                        lng={propertyDetails?.property_details?.lng}
-                      />
-                      <div className="space-y-3 mt-4">
-                        {property?.nearbyPlaces?.map((place, index) => (
-                          <div key={index} className="flex items-center justify-between">
-                            <span className="text-gray-600">{place.name}</span>
-                            <span className="text-gray-500 text-sm">{place.distance}</span>
-                          </div>
-                        ))}
-
-                      </div>
-                    </div>
-                  </section>
-
                   </div>
-              
                </div>
 
+                 {/* Location - Right Side (Sticky) */}
+  <div className="lg:col-span-1">
+    <div className="sticky top-24 space-y-6">
+      <section>
+        <h2 className="text-xl font-semibold mb-4">Location</h2>
+        <div className="bg-white rounded-lg shadow-lg p-6">
+          <PropertyMap 
+            lat={propertyDetails?.property_details?.lat}
+            lng={propertyDetails?.property_details?.lng}
+          />
+          <div className="space-y-3 mt-4">
+            {property?.nearbyPlaces?.map((place, index) => (
+              <div key={index} className="flex items-center justify-between">
+                <span className="text-gray-600">{place.name}</span>
+                <span className="text-gray-500 text-sm">{place.distance}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
             </div>
           </div>
         </div>

@@ -92,7 +92,7 @@ export const updateReviewByBookingId = async(data,review_id) => {
 export const getAllReviewsForHomeCarosal = async () => {
     try {
       // Fetch reviews with a page size of 3
-      const response = await getAllReviewsByPublicApi_service('?page_size=3')
+      const response = await getAllReviewsByPublicApi_service('?page_size=100')
       
       if (response.status === 200) {
         // Return the reviews data if the response is successful

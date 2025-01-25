@@ -43,10 +43,12 @@ function HostReviewDisplay() {
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {reviews.map((review) => (
+        
           <ReviewCard
             key={review.id}
             review={review}
-            isHost={userId === review.host.id}
+            isHost={userId === review.host}
+            isShowReplay={true}
           />
         ))}
       </div>
