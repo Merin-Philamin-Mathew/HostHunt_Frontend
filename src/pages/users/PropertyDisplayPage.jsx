@@ -76,7 +76,7 @@ export default function PropertyDisplayPage(
     <>
       <SearchHeader />
       <Container>
-        <div className="min-h-screen  mb-4">
+        <div className="min-h-screen  mb-20">
           {/* Photos Section */}
           <div ref={photosRef}>
             <PropertyDisplayImageSection propertyDetails={propertyDetails}/>
@@ -161,27 +161,27 @@ export default function PropertyDisplayPage(
                </div>
 
                  {/* Location - Right Side (Sticky) */}
-  <div className="lg:col-span-1">
-    <div className="sticky top-24 space-y-6">
-      <section>
-        <h2 className="text-xl font-semibold mb-4">Location</h2>
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <PropertyMap 
-            lat={propertyDetails?.property_details?.lat}
-            lng={propertyDetails?.property_details?.lng}
-          />
-          <div className="space-y-3 mt-4">
-            {property?.nearbyPlaces?.map((place, index) => (
-              <div key={index} className="flex items-center justify-between">
-                <span className="text-gray-600">{place.name}</span>
-                <span className="text-gray-500 text-sm">{place.distance}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
-  </div>
+                <div className="lg:col-span-1">
+                  <div className="sticky top-24 space-y-6">
+                    <section>
+                      <h2 className="text-xl font-semibold mb-4">Location</h2>
+                      <div className="bg-white rounded-lg shadow-lg p-6">
+                        <PropertyMap 
+                          lat={propertyDetails?.property_details?.lat}
+                          lng={propertyDetails?.property_details?.lng}
+                        />
+                        <div className="space-y-3 mt-4">
+                          {property?.nearbyPlaces?.map((place, index) => (
+                            <div key={index} className="flex items-center justify-between">
+                              <span className="text-gray-600">{place.name}</span>
+                              <span className="text-gray-500 text-sm">{place.distance}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </div>
             </div>
           </div>
         </div>
