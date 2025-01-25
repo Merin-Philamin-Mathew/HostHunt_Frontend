@@ -63,7 +63,7 @@ const HUserBookingCard = ({ booking }) => {
             </span>
           </div>
 
-              <Button variant='ghost' color='danger' size='md'>Canel </Button>
+              {/* <Button variant='ghost' color='danger' size='md'>Canel </Button> */}
         </div>
       </div>
     </div>
