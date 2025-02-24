@@ -3,8 +3,7 @@
 A modern React-based frontend for the HostHunt long-term stay booking platform, deployed on Vercel.
 
 ## 🌟 Live Demo
-[HostHunt Platform](#) <!-- Add your Vercel deployment link -->
-
+[HostHunt Platform](#) https://merinphilamin.site/
 ## 🚀 Features
 
 ### User Features
