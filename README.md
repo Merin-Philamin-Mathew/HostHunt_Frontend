@@ -80,11 +80,6 @@ Fully responsive for:
 - Tablet (768px to 1023px)
 - Mobile (below 768px)
 
-## 🧪 Testing
-
-```bash
-npm run test
-```
 
 ## 📦 Build
 
@@ -100,6 +95,4 @@ npm run build
 4. Push to branch (`git push origin feature/YourFeature`)
 5. Open a Pull Request
 
-## 📄 License
 
-MIT License
