@@ -20,7 +20,7 @@ export const adminApproveOrRejectProperties = (property_id, status) => {
     const csrfToken = Cookies.get('csrftoken');
     console.log(csrfToken);
     
-    return admin_api.patch(
+    return admin_api.put(
         `${URLS.ADMINMANAGEMENT.approve_reject_property}/${property_id}/${status}/`,
     );
 };

@@ -68,6 +68,7 @@ const URLS = {
         // host
         'host_booking_details':'booking/hostbookings',
         'host_rent_instance_creation':'booking/rent/',
+        'host_rent_instance_payment_confirmation':'booking/rent_payment_success/',
     },
 
     REVIEWS: {

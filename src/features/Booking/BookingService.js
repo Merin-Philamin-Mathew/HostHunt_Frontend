@@ -16,7 +16,7 @@ export const getHostBooking_Service =() =>{
 
 export const updateBookingStatus_Service =(booking_id,update_status) =>{
   
-    return api.patch(`${URLS.BOOKING.update_booking_status}/${booking_id}/`, {
+    return api.put(`${URLS.BOOKING.update_booking_status}/${booking_id}/`, {
       booking_status: update_status,
       })
   }
@@ -33,6 +33,9 @@ export const getUpcomingRent_Servie =(booking_id) =>{
   }
 export const getPaid_Overdue_Servie =(booking_id) =>{
     return api.get(`${URLS.BOOKING.rent_paid_overdue_by_booking_id}${booking_id}/`)
+  }
+export const paymentConfirmation_by_owner =(rent_id) =>{
+    return api.put(`${URLS.BOOKING.host_rent_instance_payment_confirmation}${rent_id}/`)
   }
 
   // ===================== REVIEWS ============================
@@ -52,7 +55,7 @@ export const getPaid_Overdue_Servie =(booking_id) =>{
     return api.get(`${URLS.REVIEWS.all_reviews_public_api}${params}`)
   }
   export const hostReplayToReviews_service = (review_id,replyText) => {
-    return api.patch(`${URLS.REVIEWS.host_replay_to_reviews}${review_id}/`,  {
+    return api.put(`${URLS.REVIEWS.host_replay_to_reviews}${review_id}/`,  {
       review_reply: replyText,
     })
   }

@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { createRentInstance_Service, createReviewByBookingID_Service, getAllReviewsByPublicApi_service, getbookingDetailsByIdService, getDashboardSummary_service, getHostBooking_Service, getPaid_Overdue_Servie, getUpcomingRent_Servie, getUserBookingByUserID_Service, hostReplayToReviews_service, updateBookingStatus_Service, updateReviewByBookingID_Service } from "./BookingService";
+import { createRentInstance_Service, createReviewByBookingID_Service, getAllReviewsByPublicApi_service, getbookingDetailsByIdService, getDashboardSummary_service, getHostBooking_Service, getPaid_Overdue_Servie, getUpcomingRent_Servie, getUserBookingByUserID_Service, hostReplayToReviews_service, paymentConfirmation_by_owner, updateBookingStatus_Service, updateReviewByBookingID_Service } from "./BookingService";
 
 
 export const fetchBookingDetialsByID = async(booking_id, navigate) => {
@@ -21,6 +21,17 @@ export const createRentInstance = async(rentDetails) => {
     }
     catch(error){
         console.error(error)
+    }
+}
+export const ownerPaymentConfirmationAction = async(rent_id) => {
+    try {        
+        const response = await paymentConfirmation_by_owner(rent_id)
+        // toast.success('payment confirmation completed successfully!')
+        return response.statusText
+
+    }
+    catch(error){
+        console.error('simple error',error)
     }
 }
 
